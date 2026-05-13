@@ -1,0 +1,49 @@
+# Manuscript-ready analysis scaffold
+
+## Central claim
+
+Resting cardiovascular normality is treated as an observational equivalence class, not as proof of reserve equivalence. Under real Antarctic environmental forcing, baseline-matched systems can separate into reserve-limiting trajectories before overt collapse.
+
+## Real data fused directly
+
+- AntAWS 3-hourly station meteorology: cold load and pressure-derived oxygen-limitation proxy.
+
+- NMDB South Pole neutron-monitor count rate: environmental cosmic-ray proxy.
+
+- Workload and sleep remain protocol-defined scaffolds in this version; BIDMC/EPHNOGRAM are not yet fused here.
+
+## New metrics
+
+- Reserve margin: RM(t)=min(PR, VAR, ODR, EPR, MET).
+
+- Reserve anisotropy: max_j R_j(t)-min_j R_j(t), a hidden within-system divergence measure.
+
+- Trajectory separability: between-class centroid distance / within-class scatter.
+
+- Observability Collapse Index: reserve anisotropy × normalized observation degradation.
+
+## False-stability calibration
+
+Mode used: `paper`. Presets are screening, paper, severe. The paper mode uses stricter false-stability criteria to avoid turning observation failure into confetti.
+
+## Station summary
+
+| station      | mode   |   n_systems |   false_stability_cases |   false_stability_rate |   min_margin_overall |   median_min_margin |   q05_min_margin |   q95_min_margin |   peak_mean_reserve_anisotropy |   median_peak_system_anisotropy |   peak_observability_collapse_index |   peak_separability_index |   time_peak_separability_h | dominant_limiting_axis   | limiting_axis_counts_json                                                                                                | latent_class_counts_json                                                                                                                                                           |   cold_mean |   cold_min |   cold_max |   hypoxia_mean |   hypoxia_min |   hypoxia_max |   radiation_mean |   radiation_min |   radiation_max |   workload_mean |   workload_min |   workload_max |   sleep_mean |   sleep_min |   sleep_max |
+|:-------------|:-------|------------:|------------------------:|-----------------------:|---------------------:|--------------------:|-----------------:|-----------------:|-------------------------------:|--------------------------------:|------------------------------------:|--------------------------:|---------------------------:|:-------------------------|:-------------------------------------------------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------:|-----------:|-----------:|---------------:|--------------:|--------------:|-----------------:|----------------:|----------------:|----------------:|---------------:|---------------:|-------------:|------------:|------------:|
+| Byrd         | paper  |       10000 |                       0 |                 0      |             0.67131  |            0.86832  |         0.792277 |         0.947276 |                       0.111856 |                       0.109537  |                           0.0599494 |                   2.04968 |                      72    | vascular_autonomic       | {"vascular_autonomic": 2375, "pump": 1989, "electrophysiology": 1897, "oxygen_delivery": 1896, "mito_endothelial": 1843} | {"pump_limited": 1667, "vascular_limited": 1667, "oxygen_delivery_limited": 1667, "electrophysiology_limited": 1667, "mito_endothelial_limited": 1666, "balanced_resilient": 1666} |    0.440918 |   0.37575  |   0.524646 |       0        |        0      |        0      |        0.0922462 |            0.05 |        0.161706 |        0.319166 |           0.12 |       0.868633 |      0.40299 |    0.142637 |    0.598009 |
+| Cape Denison | paper  |       10000 |                       0 |                 0      |             0.73129  |            0.890275 |         0.827055 |         0.952701 |                       0.097934 |                       0.0962285 |                           0.0506569 |                   1.76777 |                      72    | vascular_autonomic       | {"vascular_autonomic": 2217, "pump": 2060, "electrophysiology": 1943, "oxygen_delivery": 1938, "mito_endothelial": 1842} | {"pump_limited": 1667, "vascular_limited": 1667, "oxygen_delivery_limited": 1667, "electrophysiology_limited": 1667, "mito_endothelial_limited": 1666, "balanced_resilient": 1666} |    0.213398 |   0.125272 |   0.271405 |       0        |        0      |        0      |        0.0922462 |            0.05 |        0.161706 |        0.319166 |           0.12 |       0.868633 |      0.40299 |    0.142637 |    0.598009 |
+| Clean Air    | paper  |       10000 |                     166 |                 0.0166 |             0.475709 |            0.790013 |         0.682163 |         0.929286 |                       0.159817 |                       0.161797  |                           0.0795008 |                   2.82626 |                      72    | oxygen_delivery          | {"oxygen_delivery": 2143, "vascular_autonomic": 2014, "pump": 1976, "electrophysiology": 1957, "mito_endothelial": 1910} | {"pump_limited": 1667, "vascular_limited": 1667, "oxygen_delivery_limited": 1667, "electrophysiology_limited": 1667, "mito_endothelial_limited": 1666, "balanced_resilient": 1666} |    0.509469 |   0.502532 |   0.516405 |       0.4478   |        0.444  |        0.4516 |        0.0922462 |            0.05 |        0.161706 |        0.319166 |           0.12 |       0.868633 |      0.40299 |    0.142637 |    0.598009 |
+| Concordia    | paper  |       10000 |                     990 |                 0.099  |             0.358007 |            0.742427 |         0.608241 |         0.917026 |                       0.19088  |                       0.19429   |                           0.0954551 |                   3.14497 |                      69.3  | oxygen_delivery          | {"oxygen_delivery": 2164, "vascular_autonomic": 1997, "pump": 1970, "electrophysiology": 1956, "mito_endothelial": 1913} | {"pump_limited": 1667, "vascular_limited": 1667, "oxygen_delivery_limited": 1667, "electrophysiology_limited": 1667, "mito_endothelial_limited": 1666, "balanced_resilient": 1666} |    0.654095 |   0.563743 |   0.721028 |       0.643256 |        0.6168 |        0.6644 |        0.0922462 |            0.05 |        0.161706 |        0.319166 |           0.12 |       0.868633 |      0.40299 |    0.142637 |    0.598009 |
+| Dome C       | paper  |       10000 |                     427 |                 0.0427 |             0.413546 |            0.771141 |         0.648039 |         0.924153 |                       0.172758 |                       0.174624  |                           0.0880087 |                   2.97839 |                      72    | oxygen_delivery          | {"oxygen_delivery": 2195, "pump": 1978, "electrophysiology": 1976, "vascular_autonomic": 1928, "mito_endothelial": 1923} | {"pump_limited": 1667, "vascular_limited": 1667, "oxygen_delivery_limited": 1667, "electrophysiology_limited": 1667, "mito_endothelial_limited": 1666, "balanced_resilient": 1666} |    0.444848 |   0.385714 |   0.562857 |       0.616689 |        0.6012 |        0.6236 |        0.0922462 |            0.05 |        0.161706 |        0.319166 |           0.12 |       0.868633 |      0.40299 |    0.142637 |    0.598009 |
+| Dome Fuji    | paper  |       10000 |                    1536 |                 0.1536 |             0.300475 |            0.725622 |         0.576429 |         0.912566 |                       0.203    |                       0.205769  |                           0.0999433 |                   3.24555 |                      69.15 | oxygen_delivery          | {"oxygen_delivery": 2230, "pump": 1962, "electrophysiology": 1959, "vascular_autonomic": 1940, "mito_endothelial": 1909} | {"pump_limited": 1667, "vascular_limited": 1667, "oxygen_delivery_limited": 1667, "electrophysiology_limited": 1667, "mito_endothelial_limited": 1666, "balanced_resilient": 1666} |    0.61066  |   0.539808 |   0.681454 |       0.796091 |        0.7864 |        0.808  |        0.0922462 |            0.05 |        0.161706 |        0.319166 |           0.12 |       0.868633 |      0.40299 |    0.142637 |    0.598009 |
+| Dome_A       | paper  |       10000 |                    2260 |                 0.226  |             0.244381 |            0.704897 |         0.541857 |         0.907375 |                       0.21765  |                       0.220622  |                           0.10839   |                   3.34837 |                      68.8  | oxygen_delivery          | {"oxygen_delivery": 2260, "pump": 1961, "electrophysiology": 1956, "vascular_autonomic": 1924, "mito_endothelial": 1899} | {"pump_limited": 1667, "vascular_limited": 1667, "oxygen_delivery_limited": 1667, "electrophysiology_limited": 1667, "mito_endothelial_limited": 1666, "balanced_resilient": 1666} |    0.663381 |   0.588352 |   0.71354  |       0.896547 |        0.8888 |        0.9024 |        0.0922462 |            0.05 |        0.161706 |        0.319166 |           0.12 |       0.868633 |      0.40299 |    0.142637 |    0.598009 |
+
+## Strongest preliminary signals
+
+- Highest trajectory separability: Dome_A (peak SI=3.348 at 68.80 h).
+
+- Highest false-stability rate: Dome_A (22.6%). Treat as calibration-sensitive, not final biology.
+
+## Non-negotiable limitations
+
+This is not individual absorbed dose, not organ-specific dose, not SpO2, not clinical diagnosis, and not patient-specific prediction. Pressure is a hypoxia-like proxy, NMDB is a cosmic-ray environmental proxy. The point is observability and reserve topology, not fake clinical omniscience.

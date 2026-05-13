@@ -1,0 +1,12 @@
+model,endpoint,early_window,late_window,n_subjects,n_high_endpoint,auc,label_permutation_p
+IRIS_balanced,end_late_sympathetic_state,E0,L6_9,25,9,0.9236111111111112,0.0003999200159968006
+IRIS_hybrid,end_late_sympathetic_state,E0,L6_9,25,9,0.9236111111111112,0.0001999600079984003
+IRIS_vagal_sympathetic,end_late_sympathetic_state,E0,L6_9,25,9,0.9027777777777778,0.0001999600079984003
+best_single_marker_in_sample__mean_hfnu_early,end_late_sympathetic_state,E0,L6_9,25,9,0.8680555555555556,0.0003999200159968006
+LOOCV_logistic_ridge_lam_0.1,end_late_sympathetic_state,E0,L6_9,25,9,0.8472222222222222,0.0021995600879824036
+LOOCV_logistic_ridge_lam_10.0,end_late_sympathetic_state,E0,L6_9,25,9,0.8472222222222222,0.0027994401119776045
+LOOCV_logistic_ridge_lam_1.0,end_late_sympathetic_state,E0,L6_9,25,9,0.8402777777777778,0.002599480103979204
+LOOCV_linear_ridge_lam_10.0,end_late_sympathetic_state,E0,L6_9,25,9,0.8263888888888888,0.0033993201359728054
+LOOCV_linear_ridge_lam_1.0,end_late_sympathetic_state,E0,L6_9,25,9,0.7916666666666666,0.008398320335932814
+LOOCV_linear_ridge_lam_0.1,end_late_sympathetic_state,E0,L6_9,25,9,0.7847222222222222,0.010397920415916816
+HR_only,end_late_sympathetic_state,E0,L6_9,25,9,0.6388888888888888,0.14297140571885622

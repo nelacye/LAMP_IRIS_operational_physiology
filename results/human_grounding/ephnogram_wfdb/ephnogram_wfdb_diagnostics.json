@@ -1,0 +1,29 @@
+{
+  "python_executable": "C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+  "python_version": "3.13.7 (tags/v3.13.7:bcee1c3, Aug 14 2025, 14:15:11) [MSC v.1944 64 bit (AMD64)]",
+  "eph_root": "C:\\Users\\User\\Downloads\\real_data\\physionet\\ephnogram-1.0.0",
+  "eph_root_exists": true,
+  "sys_path_head": [
+    "C:\\Users\\User\\Downloads",
+    "C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python313\\python313.zip",
+    "C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python313\\DLLs",
+    "C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python313\\Lib",
+    "C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python313"
+  ],
+  "wfdb_import_ok": true,
+  "wfdb_version": "4.3.1",
+  "hea_count": 5,
+  "first_hea_files": [
+    "C:\\Users\\User\\Downloads\\real_data\\physionet\\ephnogram-1.0.0\\WFDB\\ECGPCG0001.hea",
+    "C:\\Users\\User\\Downloads\\real_data\\physionet\\ephnogram-1.0.0\\WFDB\\ECGPCG0002.hea",
+    "C:\\Users\\User\\Downloads\\real_data\\physionet\\ephnogram-1.0.0\\WFDB\\ECGPCG0003.hea",
+    "C:\\Users\\User\\Downloads\\real_data\\physionet\\ephnogram-1.0.0\\WFDB\\ECGPCG0004.hea",
+    "C:\\Users\\User\\Downloads\\real_data\\physionet\\ephnogram-1.0.0\\WFDB\\ECGPCG0005.hea"
+  ],
+  "spreadsheet_path": "C:\\Users\\User\\Downloads\\real_data\\physionet\\ephnogram-1.0.0\\ECGPCGSpreadsheet.csv",
+  "activity_labels_count": 69,
+  "records_attempted": 5,
+  "records_read_ok": 5,
+  "output_features": "C:\\Users\\User\\Downloads\\human_grounding_eph_only_fixed\\ephnogram_wfdb_features.csv",
+  "output_priors": "C:\\Users\\User\\Downloads\\human_grounding_eph_only_fixed\\ephnogram_wfdb_priors.json"
+}

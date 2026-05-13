@@ -1,0 +1,32 @@
+{
+  "pipeline": "antarctic_cv_bashmak_pipeline.py",
+  "mode": "paper",
+  "mode_preset": {
+    "critical_reserve": 0.22,
+    "false_stability_drop": 0.3,
+    "false_stability_observed_slope_abs": 0.006
+  },
+  "base_model": "C:\\Users\\User\\Downloads\\antarctic_cv_reserve_model_realdata_v2.py",
+  "real_data": "C:\\Users\\User\\Downloads\\real_data",
+  "stations_requested": [
+    "Concordia",
+    "Dome C",
+    "Dome Fuji",
+    "Dome_A",
+    "Byrd",
+    "Clean Air",
+    "Cape Denison"
+  ],
+  "stations_completed": [
+    "Byrd",
+    "Cape Denison",
+    "Clean Air",
+    "Concordia",
+    "Dome C",
+    "Dome Fuji",
+    "Dome_A"
+  ],
+  "failures": [],
+  "claim_status": "real environmental forcing + topology analysis; human signal priors not yet fused",
+  "disclaimer": "Hypothesis-generating computational physiology model. Not diagnosis, not patient-specific prediction, not absorbed dose, not organ dose."
+}

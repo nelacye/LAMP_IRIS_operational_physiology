@@ -1,0 +1,9 @@
+dataset,label,auc,n_pos,n_neg,audit_state,order,ci_low,ci_high
+IRIS / Neumayer III,HR-only comparator,0.638889,9,16,Observed-state / conventional,1,0.4039247150239432,0.8738532849760569
+IRIS / Neumayer III,Regularized HRV model,0.847222,9,16,Observed-state / conventional,2,0.6715222418060309,1.0
+IRIS / Neumayer III,IRIS balanced score,0.923611,9,16,Latent audited signal,3,0.7951319512120323,1.0
+PhysioNet Sepsis,Noise control,0.516082,280,4589,Null / negative controls,1,0.480942153092445,0.5512218469075552
+PhysioNet Sepsis,Score permutation,0.474066,280,4589,Null / negative controls,2,0.43982680970499266,0.5083051902950073
+PhysioNet Sepsis,Valid early-warning score,0.641621,280,4589,Latent audited signal,3,0.6057870331779683,0.6774549668220317
+PhysioNet Sepsis,Future-physiology sentinel,0.630712,280,4589,Sentinel / contamination ceiling,4,0.5948123683232733,0.6666116316767268
+PhysioNet Sepsis,Oracle-label sentinel,1.0,280,4589,Sentinel / contamination ceiling,5,1.0,1.0

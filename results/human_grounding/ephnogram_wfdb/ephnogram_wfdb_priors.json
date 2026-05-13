@@ -1,0 +1,16 @@
+{
+  "electrophysiology_workload": {
+    "grounded": true,
+    "activity_labels_available": true,
+    "records_read": 5,
+    "ecg_signal_quality": {
+      "median_segment_seconds": 30.0,
+      "median_ecg_iqr": 0.043942272579545257,
+      "median_ecg_missing_rate": 0.0
+    },
+    "pcg_signal_quality": {
+      "median_pcg_iqr": 0.11279109113815389,
+      "median_pcg_missing_rate": 0.0
+    }
+  }
+}

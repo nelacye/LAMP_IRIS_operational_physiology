@@ -1,0 +1,29 @@
+arm,source_csv,status,station,median_min_margin
+rad0,radiation_ablation_runs\rad0\manuscript_assets\station_comparison.csv,ok,Byrd,0.8658162043865807
+rad0,radiation_ablation_runs\rad0\manuscript_assets\station_comparison.csv,ok,Cape Denison,0.8886582473343558
+rad0,radiation_ablation_runs\rad0\manuscript_assets\station_comparison.csv,ok,Clean Air,0.7869706943709861
+rad0,radiation_ablation_runs\rad0\manuscript_assets\station_comparison.csv,ok,Concordia,0.7392888439594669
+rad0,radiation_ablation_runs\rad0\manuscript_assets\station_comparison.csv,ok,Dome C,0.7702734822093747
+rad0,radiation_ablation_runs\rad0\manuscript_assets\station_comparison.csv,ok,Dome Fuji,0.7260477178976885
+rad0,radiation_ablation_runs\rad0\manuscript_assets\station_comparison.csv,ok,Dome_A,0.705796073074682
+rad05,radiation_ablation_runs\rad05\manuscript_assets\station_comparison.csv,ok,Byrd,0.8658162043865807
+rad05,radiation_ablation_runs\rad05\manuscript_assets\station_comparison.csv,ok,Cape Denison,0.8886582473343558
+rad05,radiation_ablation_runs\rad05\manuscript_assets\station_comparison.csv,ok,Clean Air,0.7869706943709861
+rad05,radiation_ablation_runs\rad05\manuscript_assets\station_comparison.csv,ok,Concordia,0.7392888439594669
+rad05,radiation_ablation_runs\rad05\manuscript_assets\station_comparison.csv,ok,Dome C,0.7702734822093747
+rad05,radiation_ablation_runs\rad05\manuscript_assets\station_comparison.csv,ok,Dome Fuji,0.7260477178976885
+rad05,radiation_ablation_runs\rad05\manuscript_assets\station_comparison.csv,ok,Dome_A,0.705796073074682
+rad1,radiation_ablation_runs\rad1\manuscript_assets\station_comparison.csv,ok,Byrd,0.8658162043865807
+rad1,radiation_ablation_runs\rad1\manuscript_assets\station_comparison.csv,ok,Cape Denison,0.8886582473343558
+rad1,radiation_ablation_runs\rad1\manuscript_assets\station_comparison.csv,ok,Clean Air,0.7869706943709861
+rad1,radiation_ablation_runs\rad1\manuscript_assets\station_comparison.csv,ok,Concordia,0.7392888439594669
+rad1,radiation_ablation_runs\rad1\manuscript_assets\station_comparison.csv,ok,Dome C,0.7702734822093747
+rad1,radiation_ablation_runs\rad1\manuscript_assets\station_comparison.csv,ok,Dome Fuji,0.7260477178976885
+rad1,radiation_ablation_runs\rad1\manuscript_assets\station_comparison.csv,ok,Dome_A,0.705796073074682
+radshuffle,radiation_ablation_runs\radshuffle\manuscript_assets\station_comparison.csv,ok,Byrd,0.8658162043865807
+radshuffle,radiation_ablation_runs\radshuffle\manuscript_assets\station_comparison.csv,ok,Cape Denison,0.8886582473343558
+radshuffle,radiation_ablation_runs\radshuffle\manuscript_assets\station_comparison.csv,ok,Clean Air,0.7869706943709861
+radshuffle,radiation_ablation_runs\radshuffle\manuscript_assets\station_comparison.csv,ok,Concordia,0.7392888439594669
+radshuffle,radiation_ablation_runs\radshuffle\manuscript_assets\station_comparison.csv,ok,Dome C,0.7702734822093747
+radshuffle,radiation_ablation_runs\radshuffle\manuscript_assets\station_comparison.csv,ok,Dome Fuji,0.7260477178976885
+radshuffle,radiation_ablation_runs\radshuffle\manuscript_assets\station_comparison.csv,ok,Dome_A,0.705796073074682

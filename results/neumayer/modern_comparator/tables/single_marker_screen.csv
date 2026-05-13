@@ -1,0 +1,13 @@
+marker,auc,direction
+mean_hfnu_early,0.8680555555555556,inverse
+mean_lfnu_early,0.8680555555555556,positive
+mean_log_lfhf_early,0.8680555555555556,positive
+mean_log_hf_early,0.8194444444444444,inverse
+mean_hr_early,0.6388888888888888,positive
+mean_log_lf_early,0.5694444444444444,positive
+slope_hr_early,,positive
+slope_log_hf_early,,positive
+slope_lfnu_early,,positive
+slope_hfnu_early,,positive
+slope_log_lfhf_early,,positive
+slope_log_lf_early,,positive

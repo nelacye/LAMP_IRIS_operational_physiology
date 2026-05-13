@@ -1,0 +1,39 @@
+{
+  "run_root": ".\\iris_10k_strong",
+  "population_rows": 70000,
+  "population_columns": [
+    "station",
+    "source_file",
+    "system_id",
+    "latent_class",
+    "min_true_reserve_margin",
+    "time_of_min_margin_h",
+    "limiting_axis_at_min",
+    "final_true_reserve_margin",
+    "final_observed_reserve_margin",
+    "collapse_time_h",
+    "recovery_slope_final_12h",
+    "true_drop_from_early_to_late",
+    "observed_slope_final_6h",
+    "mean_observation_sigma",
+    "false_stability_flag"
+  ],
+  "latent_drop_column_detected": "true_drop_from_early_to_late",
+  "observed_slope_column_detected": "observed_slope_final_6h",
+  "false_stability_flag_column_detected": "false_stability_flag",
+  "drop_grid": [
+    0.12,
+    0.15,
+    0.18,
+    0.21,
+    0.24,
+    0.3
+  ],
+  "obs_grid": [
+    0.005,
+    0.01,
+    0.015,
+    0.02,
+    0.03
+  ]
+}

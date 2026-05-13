@@ -1,0 +1,42 @@
+﻿# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.ipynb_checkpoints/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Large/raw data
+real_data/
+data/
+*.psv
+*.edf
+*.dat
+*.hea
+*.pkl
+*.mat
+*.7z
+*.zip
+*.tar
+*.gz
+
+# Large/generated runs
+station_runs/
+radiation_ablation_runs*/
+iris_10k_strong/
+external_lamp_sepsis_audit*/
+human_grounding_run*/
+neumayer_transfer_atlas*/
+power_run/
+
+# OS/editor
+.DS_Store
+Thumbs.db
+*.tmp
+*.log
+
+# Keep manuscript-ready exported assets only

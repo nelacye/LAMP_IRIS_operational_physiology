@@ -1,0 +1,11 @@
+{
+  "data_root": "real_data\\physionet\\challenge-2019",
+  "n_psv_files_used": 5000,
+  "n_patient_horizon_rows": 14517,
+  "horizons": [
+    6,
+    12,
+    18
+  ],
+  "n_null": 1000
+}

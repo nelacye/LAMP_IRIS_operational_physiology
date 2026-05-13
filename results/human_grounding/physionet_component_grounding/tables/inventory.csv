@@ -1,0 +1,46 @@
+file,dataset_layer,suffix,size_mb
+real_data\physionet_component_layers\actes-cycloergometer-exercise\test_measure.csv,ACTES graded workload/autonomic,.csv,1.588131
+real_data\physionet_component_layers\actes-cycloergometer-exercise\medical_screening_questionnaire.pdf,ACTES graded workload/autonomic,.pdf,0.116505
+real_data\physionet_component_layers\actes-cycloergometer-exercise\LICENSE.txt,ACTES graded workload/autonomic,.txt,0.020402
+real_data\physionet_component_layers\actes-cycloergometer-exercise\subject-info.csv,ACTES graded workload/autonomic,.csv,0.00059
+real_data\physionet_component_layers\actes-cycloergometer-exercise\SHA256SUMS.txt,ACTES graded workload/autonomic,.txt,0.000342
+real_data\physionet_component_layers\ephnogram\WFDB\ECGPCG0017.dat,EPHNOGRAM electrophysiology/workload,.dat,144.0
+real_data\physionet_component_layers\ephnogram\WFDB\ECGPCG0001.dat,EPHNOGRAM electrophysiology/workload,.dat,57.6
+real_data\physionet_component_layers\ephnogram\WFDB\ECGPCG0002.dat,EPHNOGRAM electrophysiology/workload,.dat,57.6
+real_data\physionet_component_layers\ephnogram\WFDB\ECGPCG0010.dat,EPHNOGRAM electrophysiology/workload,.dat,57.6
+real_data\physionet_component_layers\ephnogram\WFDB\ECGPCG0011.dat,EPHNOGRAM electrophysiology/workload,.dat,57.6
+real_data\physionet_component_layers\ephnogram\WFDB\ECGPCG0012.dat,EPHNOGRAM electrophysiology/workload,.dat,57.6
+real_data\physionet_component_layers\ephnogram\WFDB\ECGPCG0013.dat,EPHNOGRAM electrophysiology/workload,.dat,57.6
+real_data\physionet_component_layers\ephnogram\WFDB\ECGPCG0014.dat,EPHNOGRAM electrophysiology/workload,.dat,57.6
+real_data\physionet_component_layers\ephnogram\WFDB\ECGPCG0015.dat,EPHNOGRAM electrophysiology/workload,.dat,57.6
+real_data\physionet_component_layers\ephnogram\WFDB\ECGPCG0016.dat,EPHNOGRAM electrophysiology/workload,.dat,57.6
+real_data\physionet_component_layers\ephnogram\WFDB\ECGPCG0004.dat,EPHNOGRAM electrophysiology/workload,.dat,2.4
+real_data\physionet_component_layers\ephnogram\WFDB\ECGPCG0005.dat,EPHNOGRAM electrophysiology/workload,.dat,2.4
+real_data\physionet_component_layers\ephnogram\WFDB\ECGPCG0006.dat,EPHNOGRAM electrophysiology/workload,.dat,2.4
+real_data\physionet_component_layers\ephnogram\WFDB\ECGPCG0007.dat,EPHNOGRAM electrophysiology/workload,.dat,2.4
+real_data\physionet_component_layers\ephnogram\WFDB\ECGPCG0008.dat,EPHNOGRAM electrophysiology/workload,.dat,2.4
+real_data\physionet_component_layers\ephnogram\WFDB\ECGPCG0009.dat,EPHNOGRAM electrophysiology/workload,.dat,2.4
+real_data\physionet_component_layers\ephnogram\WFDB\ECGPCG0003.dat,EPHNOGRAM electrophysiology/workload,.dat,0.96
+real_data\physionet_component_layers\ephnogram\LICENSE.txt,EPHNOGRAM electrophysiology/workload,.txt,0.020402
+real_data\physionet_component_layers\ephnogram\SHA256SUMS.txt,EPHNOGRAM electrophysiology/workload,.txt,0.01786
+real_data\physionet_component_layers\ephnogram\ECGPCGSpreadsheet.csv,EPHNOGRAM electrophysiology/workload,.csv,0.012418
+real_data\physionet_component_layers\ephnogram\RECORDS,EPHNOGRAM electrophysiology/workload,,0.001103
+real_data\physionet_component_layers\ephnogram\WFDB\ECGPCG0017.hea,EPHNOGRAM electrophysiology/workload,.hea,0.000412
+real_data\physionet_component_layers\ephnogram\WFDB\ECGPCG0007.hea,EPHNOGRAM electrophysiology/workload,.hea,0.000411
+real_data\physionet_component_layers\ephnogram\WFDB\ECGPCG0004.hea,EPHNOGRAM electrophysiology/workload,.hea,0.000407
+real_data\physionet_component_layers\ephnogram\WFDB\ECGPCG0005.hea,EPHNOGRAM electrophysiology/workload,.hea,0.000406
+real_data\physionet_component_layers\ephnogram\WFDB\ECGPCG0008.hea,EPHNOGRAM electrophysiology/workload,.hea,0.000405
+real_data\physionet_component_layers\ephnogram\WFDB\ECGPCG0006.hea,EPHNOGRAM electrophysiology/workload,.hea,0.000403
+real_data\physionet_component_layers\ephnogram\WFDB\ECGPCG0009.hea,EPHNOGRAM electrophysiology/workload,.hea,0.000403
+real_data\physionet_component_layers\ephnogram\WFDB\ECGPCG0016.hea,EPHNOGRAM electrophysiology/workload,.hea,0.000219
+real_data\physionet_component_layers\ephnogram\WFDB\ECGPCG0015.hea,EPHNOGRAM electrophysiology/workload,.hea,0.000216
+real_data\physionet_component_layers\ephnogram\WFDB\ECGPCG0001.hea,EPHNOGRAM electrophysiology/workload,.hea,0.000215
+real_data\physionet_component_layers\ephnogram\WFDB\ECGPCG0010.hea,EPHNOGRAM electrophysiology/workload,.hea,0.000214
+real_data\physionet_component_layers\ephnogram\WFDB\ECGPCG0011.hea,EPHNOGRAM electrophysiology/workload,.hea,0.000213
+real_data\physionet_component_layers\ephnogram\WFDB\ECGPCG0014.hea,EPHNOGRAM electrophysiology/workload,.hea,0.000213
+real_data\physionet_component_layers\ephnogram\WFDB\ECGPCG0003.hea,EPHNOGRAM electrophysiology/workload,.hea,0.000212
+real_data\physionet_component_layers\ephnogram\WFDB\ECGPCG0012.hea,EPHNOGRAM electrophysiology/workload,.hea,0.000212
+real_data\physionet_component_layers\ephnogram\WFDB\ECGPCG0013.hea,EPHNOGRAM electrophysiology/workload,.hea,0.000209
+real_data\physionet_component_layers\ephnogram\WFDB\ECGPCG0002.hea,EPHNOGRAM electrophysiology/workload,.hea,0.000208
+real_data\physionet_component_layers\download_log.csv,unknown,.csv,0.006279
+real_data\physionet_component_layers\download_manifest.csv,unknown,.csv,0.000502

@@ -1,0 +1,8 @@
+station,median_rank,best_rank,worst_rank,median_rate,min_rate,max_rate
+Dome A,1.0,1,1,0.665,0.2013,0.8312
+Dome Fuji,2.0,2,2,0.5971,0.1363,0.8238
+Concordia,3.0,3,3,0.5312,0.0863,0.817
+Dome C,4.0,4,4,0.39225,0.0376,0.7865
+Clean Air,5.0,5,5,0.30110000000000003,0.0153,0.7537
+Byrd,6.0,6,7,0.01515,0.0,0.3109
+Cape Denison,7.0,6,7,0.00135,0.0,0.1233
