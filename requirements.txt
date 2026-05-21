@@ -6,5 +6,6 @@ pydantic>=2.0
 PyYAML>=6.0
 scikit-learn>=1.4
 
-# Optional for raw-sequence LSTM/GRU/Transformer benchmarks:
+# Optional for raw-sequence LSTM/GRU/Transformer and XGBoost benchmarks:
 # torch>=2.3
+# xgboost>=3.0

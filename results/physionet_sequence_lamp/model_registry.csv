@@ -1,0 +1,41 @@
+name,score,family,type,leakage_level,feature_role,leakage_lambda,baseline
+MLP hand-crafted valid,mlp_probe_valid_score,MLP probe,valid,none,early,,
+mlp_probe oracle mix 1pct,mlp_probe_valid_score_oracle_mix_1pct,mlp_probe,low-dose leakage,1pct,oracle_mixture,0.01,mlp_probe_valid_score
+mlp_probe oracle mix 5pct,mlp_probe_valid_score_oracle_mix_5pct,mlp_probe,low-dose leakage,5pct,oracle_mixture,0.05,mlp_probe_valid_score
+mlp_probe oracle mix 10pct,mlp_probe_valid_score_oracle_mix_10pct,mlp_probe,low-dose leakage,10pct,oracle_mixture,0.1,mlp_probe_valid_score
+MLP hand-crafted leaky,mlp_probe_leaky_score,MLP probe,leaky,future+oracle,future_oracle,,mlp_probe_valid_score
+Oracle label leakage ceiling,oracle_leakage_ceiling_score,oracle,oracle,oracle,oracle_mixture,,
+Random Forest valid,rf_valid_score,Random Forest,valid,none,early,,
+Random Forest oracle mix 1pct,rf_valid_score_oracle_mix_1pct,Random Forest,low-dose leakage,1pct,oracle_mixture,0.01,rf_valid_score
+Random Forest oracle mix 5pct,rf_valid_score_oracle_mix_5pct,Random Forest,low-dose leakage,5pct,oracle_mixture,0.05,rf_valid_score
+Random Forest oracle mix 10pct,rf_valid_score_oracle_mix_10pct,Random Forest,low-dose leakage,10pct,oracle_mixture,0.1,rf_valid_score
+Random Forest future/oracle leaky,rf_future_leaky_score,Random Forest,leaky,future+oracle,future_oracle,,rf_valid_score
+HistGradientBoosting valid,histgb_valid_score,HistGradientBoosting,valid,none,early,,
+HistGradientBoosting oracle mix 1pct,histgb_valid_score_oracle_mix_1pct,HistGradientBoosting,low-dose leakage,1pct,oracle_mixture,0.01,histgb_valid_score
+HistGradientBoosting oracle mix 5pct,histgb_valid_score_oracle_mix_5pct,HistGradientBoosting,low-dose leakage,5pct,oracle_mixture,0.05,histgb_valid_score
+HistGradientBoosting oracle mix 10pct,histgb_valid_score_oracle_mix_10pct,HistGradientBoosting,low-dose leakage,10pct,oracle_mixture,0.1,histgb_valid_score
+HistGradientBoosting future/oracle leaky,histgb_future_leaky_score,HistGradientBoosting,leaky,future+oracle,future_oracle,,histgb_valid_score
+XGBoost valid,xgb_valid_score,XGBoost,valid,none,early,,
+XGBoost oracle mix 1pct,xgb_valid_score_oracle_mix_1pct,XGBoost,low-dose leakage,1pct,oracle_mixture,0.01,xgb_valid_score
+XGBoost oracle mix 5pct,xgb_valid_score_oracle_mix_5pct,XGBoost,low-dose leakage,5pct,oracle_mixture,0.05,xgb_valid_score
+XGBoost oracle mix 10pct,xgb_valid_score_oracle_mix_10pct,XGBoost,low-dose leakage,10pct,oracle_mixture,0.1,xgb_valid_score
+XGBoost future/oracle leaky,xgb_future_leaky_score,XGBoost,leaky,future+oracle,future_oracle,,xgb_valid_score
+LSTM valid sequence,lstm_valid_score,LSTM,valid,none,early,,
+LSTM future-window leaky sequence,lstm_future_leaky_score,LSTM,leaky,future,future_sequence,,lstm_valid_score
+LSTM oracle mix 1pct,lstm_valid_score_oracle_mix_1pct,LSTM,low-dose leakage,1pct,oracle_mixture,0.01,lstm_valid_score
+LSTM oracle mix 5pct,lstm_valid_score_oracle_mix_5pct,LSTM,low-dose leakage,5pct,oracle_mixture,0.05,lstm_valid_score
+LSTM oracle mix 10pct,lstm_valid_score_oracle_mix_10pct,LSTM,low-dose leakage,10pct,oracle_mixture,0.1,lstm_valid_score
+LSTM hidden-state probe,lstm_hidden_probe_score,LSTM hidden probe,hidden probe,none,early,,
+LSTM future hidden-state probe,lstm_future_hidden_probe_score,LSTM hidden probe,leaky hidden probe,future,future_sequence,,lstm_valid_score
+GRU valid sequence,gru_valid_score,GRU,valid,none,early,,
+GRU future-window leaky sequence,gru_future_leaky_score,GRU,leaky,future,future_sequence,,gru_valid_score
+GRU oracle mix 1pct,gru_valid_score_oracle_mix_1pct,GRU,low-dose leakage,1pct,oracle_mixture,0.01,gru_valid_score
+GRU oracle mix 5pct,gru_valid_score_oracle_mix_5pct,GRU,low-dose leakage,5pct,oracle_mixture,0.05,gru_valid_score
+GRU oracle mix 10pct,gru_valid_score_oracle_mix_10pct,GRU,low-dose leakage,10pct,oracle_mixture,0.1,gru_valid_score
+TRANSFORMER valid sequence,transformer_valid_score,TRANSFORMER,valid,none,early,,
+TRANSFORMER future-window leaky sequence,transformer_future_leaky_score,TRANSFORMER,leaky,future,future_sequence,,transformer_valid_score
+TRANSFORMER oracle mix 1pct,transformer_valid_score_oracle_mix_1pct,TRANSFORMER,low-dose leakage,1pct,oracle_mixture,0.01,transformer_valid_score
+TRANSFORMER oracle mix 5pct,transformer_valid_score_oracle_mix_5pct,TRANSFORMER,low-dose leakage,5pct,oracle_mixture,0.05,transformer_valid_score
+TRANSFORMER oracle mix 10pct,transformer_valid_score_oracle_mix_10pct,TRANSFORMER,low-dose leakage,10pct,oracle_mixture,0.1,transformer_valid_score
+TRANSFORMER hidden-state probe,transformer_hidden_probe_score,TRANSFORMER hidden probe,hidden probe,none,early,,
+TRANSFORMER future hidden-state probe,transformer_future_hidden_probe_score,TRANSFORMER hidden probe,leaky hidden probe,future,future_sequence,,transformer_valid_score

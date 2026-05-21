@@ -20,6 +20,8 @@ import numpy as np
 import pandas as pd
 import yaml
 from sklearn.impute import SimpleImputer
+from sklearn.ensemble import HistGradientBoostingClassifier, RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import roc_auc_score
 from sklearn.model_selection import train_test_split
 from sklearn.neural_network import MLPClassifier
@@ -64,7 +66,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--epochs", type=int, default=4)
     parser.add_argument("--batch-size", type=int, default=128)
     parser.add_argument("--hidden-dim", type=int, default=32)
+    parser.add_argument("--leakage-lambdas", default="0.01,0.05,0.10")
     parser.add_argument("--skip-neural", action="store_true")
+    parser.add_argument("--skip-xgboost", action="store_true")
     parser.add_argument("--force", action="store_true")
     return parser.parse_args()
 
@@ -104,6 +108,10 @@ def main() -> int:
     metrics = []
     monitor_specs = []
     torch_status = torch_import_status()
+    xgboost_status = xgboost_import_status(skip=args.skip_xgboost)
+    leakage_lambdas = tuple(
+        float(x.strip()) for x in args.leakage_lambdas.split(",") if x.strip()
+    )
 
     for horizon in horizons:
         horizon_table = table[table["horizon_h"] == horizon].reset_index(drop=True)
@@ -139,6 +147,9 @@ def main() -> int:
             {
                 "name": "MLP hand-crafted valid",
                 "score": "mlp_probe_valid_score",
+                "family": "MLP probe",
+                "type": "valid",
+                "leakage_level": "none",
                 "feature_role": "early",
             }
         )
@@ -160,23 +171,61 @@ def main() -> int:
             leakage_lambda=0.05,
         )
         metrics.append(metric_row(horizon, "mlp_probe_leaky_score", y_test, prediction_frame))
-        metrics.append(metric_row(horizon, "mlp_lowdose_oracle_score", y_test, prediction_frame))
+        add_oracle_mixtures(
+            prediction_frame=prediction_frame,
+            metrics=metrics,
+            monitor_specs=monitor_specs,
+            horizon=horizon,
+            y_test=y_test,
+            base_score="mlp_probe_valid_score",
+            family="mlp_probe",
+            leakage_lambdas=leakage_lambdas,
+        )
+        prediction_frame["oracle_leakage_ceiling_score"] = prediction_frame[
+            "oracle_label_sentinel_score"
+        ]
+        metrics.append(
+            metric_row(horizon, "oracle_leakage_ceiling_score", y_test, prediction_frame)
+        )
         monitor_specs.extend(
             [
                 {
                     "name": "MLP hand-crafted leaky",
                     "score": "mlp_probe_leaky_score",
+                    "family": "MLP probe",
+                    "type": "leaky",
+                    "leakage_level": "future+oracle",
                     "feature_role": "future_oracle",
                     "baseline": "mlp_probe_valid_score",
                 },
                 {
-                    "name": "MLP low-dose oracle mix",
-                    "score": "mlp_lowdose_oracle_score",
+                    "name": "Oracle label leakage ceiling",
+                    "score": "oracle_leakage_ceiling_score",
+                    "family": "oracle",
+                    "type": "oracle",
+                    "leakage_level": "oracle",
                     "feature_role": "oracle_mixture",
-                    "baseline": "mlp_probe_valid_score",
                 },
             ]
         )
+
+        classic_rows = run_classical_family(
+            horizon=horizon,
+            horizon_table=horizon_table,
+            train_mask=train_mask,
+            test_mask=test_mask,
+            early_cols=early_cols_h,
+            leaky_cols=leaky_cols,
+            y_train=y_train,
+            y_test=y_test,
+            sample_weight=weights,
+            prediction_frame=prediction_frame,
+            leakage_lambdas=leakage_lambdas,
+            xgboost_status=xgboost_status,
+            seed=SEED + horizon,
+        )
+        metrics.extend(classic_rows["metrics"])
+        monitor_specs.extend(classic_rows["monitor_specs"])
 
         if not args.skip_neural and torch_status["available"]:
             neural_rows = run_neural_family(
@@ -191,6 +240,7 @@ def main() -> int:
                 epochs=args.epochs,
                 batch_size=args.batch_size,
                 hidden_dim=args.hidden_dim,
+                leakage_lambdas=leakage_lambdas,
                 seed=SEED + horizon,
             )
             metrics.extend(neural_rows["metrics"])
@@ -217,6 +267,7 @@ def main() -> int:
         metrics=metrics,
         lamp_rows=lamp_rows,
         torch_status=torch_status,
+        xgboost_status=xgboost_status,
     )
     (args.out / "physionet_sequence_metrics.csv").write_text(
         pd.DataFrame(metrics).to_csv(index=False, lineterminator="\n"),
@@ -224,6 +275,10 @@ def main() -> int:
     )
     (args.out / "physionet_sequence_lamp_summary.csv").write_text(
         pd.DataFrame(lamp_rows).to_csv(index=False, lineterminator="\n"),
+        encoding="utf-8",
+    )
+    (args.out / "model_registry.csv").write_text(
+        pd.DataFrame(monitor_specs).to_csv(index=False, lineterminator="\n"),
         encoding="utf-8",
     )
     print(json.dumps({"out": str(args.out), "n_predictions": len(predictions)}, indent=2))
@@ -365,6 +420,183 @@ def mix_scores(valid: np.ndarray, oracle: np.ndarray, leakage_lambda: float) -> 
     return np.clip(mixed, 0.0, 1.0)
 
 
+def add_oracle_mixtures(
+    prediction_frame: pd.DataFrame,
+    metrics: list[dict[str, Any]],
+    monitor_specs: list[dict[str, Any]],
+    horizon: int,
+    y_test: np.ndarray,
+    base_score: str,
+    family: str,
+    leakage_lambdas: tuple[float, ...],
+) -> None:
+    for leakage_lambda in leakage_lambdas:
+        label = leakage_label(leakage_lambda)
+        column = f"{base_score}_oracle_mix_{label}"
+        prediction_frame[column] = mix_scores(
+            prediction_frame[base_score].to_numpy(),
+            prediction_frame["oracle_label_sentinel_score"].to_numpy(),
+            leakage_lambda=leakage_lambda,
+        )
+        metrics.append(metric_row(horizon, column, y_test, prediction_frame))
+        monitor_specs.append(
+            {
+                "name": f"{family} oracle mix {label}",
+                "score": column,
+                "family": family,
+                "type": "low-dose leakage",
+                "leakage_level": label,
+                "leakage_lambda": leakage_lambda,
+                "feature_role": "oracle_mixture",
+                "baseline": base_score,
+            }
+        )
+
+
+def leakage_label(value: float) -> str:
+    pct = value * 100
+    if pct < 1:
+        return f"{pct:.1f}pct".replace(".", "p")
+    return f"{pct:.0f}pct"
+
+
+def run_classical_family(
+    horizon: int,
+    horizon_table: pd.DataFrame,
+    train_mask: np.ndarray,
+    test_mask: np.ndarray,
+    early_cols: list[str],
+    leaky_cols: list[str],
+    y_train: np.ndarray,
+    y_test: np.ndarray,
+    sample_weight: np.ndarray,
+    prediction_frame: pd.DataFrame,
+    leakage_lambdas: tuple[float, ...],
+    xgboost_status: dict[str, Any],
+    seed: int,
+) -> dict[str, list[dict[str, Any]]]:
+    metrics: list[dict[str, Any]] = []
+    monitor_specs: list[dict[str, Any]] = []
+
+    families: list[tuple[str, Any, str]] = [
+        (
+            "rf",
+            RandomForestClassifier(
+                n_estimators=180,
+                min_samples_leaf=8,
+                max_features="sqrt",
+                class_weight="balanced_subsample",
+                n_jobs=-1,
+                random_state=seed,
+            ),
+            "Random Forest",
+        ),
+        (
+            "histgb",
+            HistGradientBoostingClassifier(
+                max_iter=180,
+                learning_rate=0.04,
+                l2_regularization=0.01,
+                max_leaf_nodes=24,
+                random_state=seed,
+            ),
+            "HistGradientBoosting",
+        ),
+    ]
+    if xgboost_status["available"]:
+        families.append(("xgb", make_xgboost_classifier(y_train, seed), "XGBoost"))
+
+    for prefix, estimator, display in families:
+        valid_col = f"{prefix}_valid_score"
+        leaky_col = f"{prefix}_future_leaky_score"
+
+        valid_model = make_feature_pipeline(estimator)
+        fit_feature_model(valid_model, horizon_table.loc[train_mask, early_cols], y_train, sample_weight)
+        prediction_frame[valid_col] = predict_proba(valid_model, horizon_table.loc[test_mask, early_cols])
+        metrics.append(metric_row(horizon, valid_col, y_test, prediction_frame))
+        monitor_specs.append(
+            {
+                "name": f"{display} valid",
+                "score": valid_col,
+                "family": display,
+                "type": "valid",
+                "leakage_level": "none",
+                "feature_role": "early",
+            }
+        )
+        add_oracle_mixtures(
+            prediction_frame=prediction_frame,
+            metrics=metrics,
+            monitor_specs=monitor_specs,
+            horizon=horizon,
+            y_test=y_test,
+            base_score=valid_col,
+            family=display,
+            leakage_lambdas=leakage_lambdas,
+        )
+
+        leaky_model = make_feature_pipeline(clone_estimator(estimator, seed + 17))
+        fit_feature_model(leaky_model, horizon_table.loc[train_mask, leaky_cols], y_train, sample_weight)
+        prediction_frame[leaky_col] = predict_proba(leaky_model, horizon_table.loc[test_mask, leaky_cols])
+        metrics.append(metric_row(horizon, leaky_col, y_test, prediction_frame))
+        monitor_specs.append(
+            {
+                "name": f"{display} future/oracle leaky",
+                "score": leaky_col,
+                "family": display,
+                "type": "leaky",
+                "leakage_level": "future+oracle",
+                "feature_role": "future_oracle",
+                "baseline": valid_col,
+            }
+        )
+
+    return {"metrics": metrics, "monitor_specs": monitor_specs}
+
+
+def make_feature_pipeline(estimator: Any):
+    return make_pipeline(SimpleImputer(strategy="median"), estimator)
+
+
+def fit_feature_model(model: Any, x_train: pd.DataFrame, y_train: np.ndarray, sample_weight: np.ndarray) -> None:
+    last_step = list(model.named_steps)[-1]
+    try:
+        model.fit(x_train, y_train, **{f"{last_step}__sample_weight": sample_weight})
+    except TypeError:
+        model.fit(x_train, y_train)
+
+
+def clone_estimator(estimator: Any, seed: int) -> Any:
+    from sklearn.base import clone
+
+    cloned = clone(estimator)
+    if hasattr(cloned, "random_state"):
+        cloned.set_params(random_state=seed)
+    return cloned
+
+
+def make_xgboost_classifier(y_train: np.ndarray, seed: int) -> Any:
+    from xgboost import XGBClassifier
+
+    n_pos = max(float(y_train.sum()), 1.0)
+    n_neg = max(float(len(y_train) - y_train.sum()), 1.0)
+    return XGBClassifier(
+        n_estimators=180,
+        max_depth=3,
+        learning_rate=0.04,
+        subsample=0.9,
+        colsample_bytree=0.85,
+        min_child_weight=3,
+        reg_lambda=2.0,
+        objective="binary:logistic",
+        eval_metric="logloss",
+        tree_method="hist",
+        scale_pos_weight=n_neg / n_pos,
+        random_state=seed,
+        n_jobs=2,
+    )
+
+
 def run_neural_family(
     horizon: int,
     valid_sequences: np.ndarray,
@@ -377,6 +609,7 @@ def run_neural_family(
     epochs: int,
     batch_size: int,
     hidden_dim: int,
+    leakage_lambdas: tuple[float, ...],
     seed: int,
 ) -> dict[str, list[dict[str, Any]]]:
     metrics: list[dict[str, Any]] = []
@@ -385,7 +618,7 @@ def run_neural_family(
         valid_score = f"{model_type}_valid_score"
         leaky_score = f"{model_type}_future_leaky_score"
 
-        prediction_frame[valid_score] = fit_torch_sequence_model(
+        valid_fit = fit_torch_sequence_model(
             model_type=model_type,
             x_train=valid_sequences[train_mask],
             y_train=y_train,
@@ -395,7 +628,7 @@ def run_neural_family(
             hidden_dim=hidden_dim,
             seed=seed,
         )
-        prediction_frame[leaky_score] = fit_torch_sequence_model(
+        leaky_fit = fit_torch_sequence_model(
             model_type=model_type,
             x_train=leaky_sequences[train_mask],
             y_train=y_train,
@@ -405,19 +638,69 @@ def run_neural_family(
             hidden_dim=hidden_dim,
             seed=seed + 17,
         )
+        prediction_frame[valid_score] = valid_fit["scores"]
+        prediction_frame[leaky_score] = leaky_fit["scores"]
         metrics.append(metric_row(horizon, valid_score, y_test, prediction_frame))
         metrics.append(metric_row(horizon, leaky_score, y_test, prediction_frame))
         monitor_specs.extend(
             [
-                {"name": f"{model_type.upper()} valid sequence", "score": valid_score, "feature_role": "early"},
+                {
+                    "name": f"{model_type.upper()} valid sequence",
+                    "score": valid_score,
+                    "family": model_type.upper(),
+                    "type": "valid",
+                    "leakage_level": "none",
+                    "feature_role": "early",
+                },
                 {
                     "name": f"{model_type.upper()} future-window leaky sequence",
                     "score": leaky_score,
+                    "family": model_type.upper(),
+                    "type": "leaky",
+                    "leakage_level": "future",
                     "feature_role": "future_sequence",
                     "baseline": valid_score,
                 },
             ]
         )
+        add_oracle_mixtures(
+            prediction_frame=prediction_frame,
+            metrics=metrics,
+            monitor_specs=monitor_specs,
+            horizon=horizon,
+            y_test=y_test,
+            base_score=valid_score,
+            family=model_type.upper(),
+            leakage_lambdas=leakage_lambdas,
+        )
+        if model_type in {"lstm", "transformer"}:
+            add_hidden_probe(
+                prediction_frame=prediction_frame,
+                metrics=metrics,
+                monitor_specs=monitor_specs,
+                horizon=horizon,
+                y_train=y_train,
+                y_test=y_test,
+                train_repr=valid_fit["train_repr"],
+                test_repr=valid_fit["test_repr"],
+                family=model_type.upper(),
+                prefix=f"{model_type}_hidden_probe_score",
+                feature_role="early",
+            )
+            add_hidden_probe(
+                prediction_frame=prediction_frame,
+                metrics=metrics,
+                monitor_specs=monitor_specs,
+                horizon=horizon,
+                y_train=y_train,
+                y_test=y_test,
+                train_repr=leaky_fit["train_repr"],
+                test_repr=leaky_fit["test_repr"],
+                family=model_type.upper(),
+                prefix=f"{model_type}_future_hidden_probe_score",
+                feature_role="future_sequence",
+                baseline=valid_score,
+            )
     return {"metrics": metrics, "monitor_specs": monitor_specs}
 
 
@@ -430,6 +713,53 @@ def torch_import_status() -> dict[str, Any]:
         return {"available": False, "reason": str(exc)}
 
 
+def xgboost_import_status(skip: bool = False) -> dict[str, Any]:
+    if skip:
+        return {"available": False, "reason": "disabled by --skip-xgboost"}
+    try:
+        import xgboost  # noqa: F401
+
+        return {"available": True, "reason": None}
+    except Exception as exc:  # pragma: no cover - depends on local environment
+        return {"available": False, "reason": str(exc)}
+
+
+def add_hidden_probe(
+    prediction_frame: pd.DataFrame,
+    metrics: list[dict[str, Any]],
+    monitor_specs: list[dict[str, Any]],
+    horizon: int,
+    y_train: np.ndarray,
+    y_test: np.ndarray,
+    train_repr: np.ndarray,
+    test_repr: np.ndarray,
+    family: str,
+    prefix: str,
+    feature_role: str,
+    baseline: str | None = None,
+) -> None:
+    probe = make_pipeline(
+        StandardScaler(),
+        LogisticRegression(max_iter=500, class_weight="balanced", random_state=SEED + horizon),
+    )
+    probe.fit(train_repr, y_train)
+    prediction_frame[prefix] = probe.predict_proba(test_repr)[:, 1]
+    metrics.append(metric_row(horizon, prefix, y_test, prediction_frame))
+    monitor_specs.append(
+        {
+            "name": f"{family} hidden-state probe"
+            if feature_role == "early"
+            else f"{family} future hidden-state probe",
+            "score": prefix,
+            "family": f"{family} hidden probe",
+            "type": "hidden probe" if feature_role == "early" else "leaky hidden probe",
+            "leakage_level": "none" if feature_role == "early" else "future",
+            "feature_role": feature_role,
+            "baseline": baseline,
+        }
+    )
+
+
 def fit_torch_sequence_model(
     model_type: str,
     x_train: np.ndarray,
@@ -439,7 +769,7 @@ def fit_torch_sequence_model(
     batch_size: int,
     hidden_dim: int,
     seed: int,
-) -> np.ndarray:
+) -> dict[str, np.ndarray]:
     import torch
     from torch import nn
     from torch.utils.data import DataLoader, TensorDataset
@@ -478,8 +808,14 @@ def fit_torch_sequence_model(
 
     model.eval()
     with torch.no_grad():
-        scores = torch.sigmoid(model(test_tensor)).squeeze(1).cpu().numpy()
-    return scores
+        train_logits, train_repr = model(train_tensor, return_repr=True)
+        test_logits, test_repr = model(test_tensor, return_repr=True)
+        scores = torch.sigmoid(test_logits).squeeze(1).cpu().numpy()
+    return {
+        "scores": scores,
+        "train_repr": train_repr.cpu().numpy(),
+        "test_repr": test_repr.cpu().numpy(),
+    }
 
 
 class SequenceClassifier:  # constructed only when torch is available
@@ -513,7 +849,7 @@ class SequenceClassifier:  # constructed only when torch is available
                     nn.Linear(hidden_dim, 1),
                 )
 
-            def forward(self, x):
+            def encode(self, x):
                 z = self.input_proj(x)
                 if self.model_type in {"lstm", "gru"}:
                     out, _ = self.encoder(z)
@@ -522,7 +858,14 @@ class SequenceClassifier:  # constructed only when torch is available
                     z = z + self.position[:, : z.shape[1], :]
                     out = self.encoder(z)
                     pooled = out.mean(dim=1)
-                return self.head(pooled)
+                return pooled
+
+            def forward(self, x, return_repr: bool = False):
+                pooled = self.encode(x)
+                logits = self.head(pooled)
+                if return_repr:
+                    return logits, pooled
+                return logits
 
         return _Model()
 
@@ -707,6 +1050,7 @@ def write_report(
     metrics: list[dict[str, Any]],
     lamp_rows: list[dict[str, Any]],
     torch_status: dict[str, Any],
+    xgboost_status: dict[str, Any],
 ) -> None:
     lines = [
         "# PhysioNet/CinC 2019 Raw Sequence LAMP Benchmark",
@@ -720,10 +1064,14 @@ def write_report(
         f"- Max patients: {args.max_patients}",
         f"- Horizons: {args.horizons}",
         f"- Early window: {args.early_window} hours",
+        f"- Leakage lambdas: {args.leakage_lambdas}",
         f"- PyTorch available: {torch_status['available']}",
+        f"- XGBoost available: {xgboost_status['available']}",
     ]
     if not torch_status["available"]:
         lines.append(f"- Neural LSTM/GRU/Transformer skipped: `{torch_status['reason']}`")
+    if not xgboost_status["available"]:
+        lines.append(f"- XGBoost skipped: `{xgboost_status['reason']}`")
     lines.extend(["", "## LAMP Diagnoses", ""])
     lines.append("| monitor | score | auc | audit_pass | temporal | forbidden | oracle proximity | output_classes |")
     lines.append("|---|---|---:|:---:|:---:|:---:|:---:|---|")

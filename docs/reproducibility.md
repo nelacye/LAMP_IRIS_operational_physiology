@@ -121,12 +121,14 @@ The raw pipeline performs:
 - visible-state matching feature export
 - valid and leaky prediction-table generation for LAMP
 
-The hand-crafted MLP probe runs with the base dependencies. For LSTM, GRU, and
-Transformer sequence monitors, install the optional neural dependency:
+The hand-crafted MLP probe runs with the base dependencies. For LSTM, GRU,
+Transformer, and XGBoost sequence/classical monitors, install the optional
+benchmark dependencies:
 
 ```powershell
-python -m pip install -e ".[neural]"
-python scripts\run_physionet_sequence_lamp_bench.py --max-patients 3000 --epochs 4
+python -m pip install -e ".[benchmarks]"
+python scripts\run_physionet_sequence_lamp_bench.py --max-patients 8000 --horizons 6,12,18 --early-window 12 --epochs 4
+python scripts\build_cinc2019_lamp_neural_notebook.py
 ```
 
 Outputs are written to:
@@ -135,3 +137,4 @@ Outputs are written to:
 - `results/physionet_sequence_lamp/lamp_prediction_table.csv`
 - `results/physionet_sequence_lamp/physionet_sequence_lamp_summary.csv`
 - `results/physionet_sequence_lamp/physionet_sequence_lamp_report.md`
+- `notebooks/cinc2019_lamp_neural_audit.ipynb`

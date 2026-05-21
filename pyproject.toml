@@ -26,6 +26,10 @@ dependencies = [
 neural = [
   "torch>=2.3"
 ]
+benchmarks = [
+  "torch>=2.3",
+  "xgboost>=3.0"
+]
 keywords = [
   "ai-alignment",
   "ai-safety",

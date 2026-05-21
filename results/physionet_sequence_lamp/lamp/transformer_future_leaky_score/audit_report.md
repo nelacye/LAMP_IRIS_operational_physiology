@@ -3,9 +3,9 @@
 ## Executive summary
 
 - Primary score: `transformer_future_leaky_score`
-- Primary AUC: `0.5916`
+- Primary AUC: `0.6917`
 - Audit-pass candidate: `False`
-- Output classes: `forbidden_feature_contamination`, `leakage_contaminated_candidate`, `oracle_label_leakage_sentinel`, `oracle_leakage_proximity_shift`, `temporal_isolation_incomplete`
+- Output classes: `forbidden_feature_contamination`, `leakage_contaminated_candidate`, `oracle_label_leakage_sentinel`, `oracle_leakage_proximity_shift`, `temporal_isolation_incomplete`, `valid_early_hidden_state_signal`
 
 Passing LAMP does not establish clinical validity. It means the score survived
 the configured failure-mode audit and earned prospective testing.
@@ -29,25 +29,25 @@ Temporal violations:
 
 ## Negative controls
 
-- noise_auc_mean: `0.4982`
-- score_permutation_auc_mean: `0.4942`
-- label_permutation_auc_mean: `0.5056`
+- noise_auc_mean: `0.4997`
+- score_permutation_auc_mean: `0.4977`
+- label_permutation_auc_mean: `0.4993`
 
 ## Sentinels
 
-- `future_physiology` (future_window_invalid_comparator): column `future_physiology_sentinel_score`, AUC `0.5450`, expected `higher_auc_than_valid_if_future_physiology_is_informative`
+- `future_physiology` (future_window_invalid_comparator): column `future_physiology_sentinel_score`, AUC `0.5499`, expected `higher_auc_than_valid_if_future_physiology_is_informative`
 - `oracle_label` (oracle_label_leakage): column `oracle_label_sentinel_score`, AUC `1.0000`, expected `ceiling_auc_or_high_proximity`
 
 ## Sentinel relations
 
-- `future_physiology`: gap `-0.0466`, proximity `-0.2352`, Pearson `0.1312`, alert `False`
-- `oracle_label`: gap `0.4084`, proximity `0.0212`, Pearson `0.0721`, alert `True`
+- `future_physiology`: gap `-0.1418`, proximity `-0.4307`, Pearson `0.1731`, alert `False`
+- `oracle_label`: gap `0.3083`, proximity `0.1217`, Pearson `0.1439`, alert `True`
 
 ## Visible-state matching
 
 - Evaluated: `True`
-- Matched observed-state delta: `0.0119`
-- Matched rows: `2518`
+- Matched observed-state delta: `0.0506`
+- Matched rows: `6837`
 - Matched strata: `81`
 
 ## Early-window sensitivity
@@ -57,10 +57,10 @@ Temporal violations:
 ## Threshold sensitivity
 
 - Fragile: `False`
-- threshold `0.2000`: selected `0.7552`, enrichment `0.0040`
-- threshold `0.4000`: selected `0.3926`, enrichment `0.0144`
-- threshold `0.6000`: selected `0.1609`, enrichment `0.0448`
-- threshold `0.8000`: selected `0.0225`, enrichment `0.0718`
+- threshold `0.2000`: selected `0.9942`, enrichment `0.0003`
+- threshold `0.4000`: selected `0.6644`, enrichment `0.0187`
+- threshold `0.6000`: selected `0.2322`, enrichment `0.0528`
+- threshold `0.8000`: selected `0.0233`, enrichment `0.0648`
 
 ## Interpretation boundary
 

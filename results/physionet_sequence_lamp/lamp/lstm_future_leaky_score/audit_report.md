@@ -3,7 +3,7 @@
 ## Executive summary
 
 - Primary score: `lstm_future_leaky_score`
-- Primary AUC: `0.6180`
+- Primary AUC: `0.6864`
 - Audit-pass candidate: `False`
 - Output classes: `forbidden_feature_contamination`, `leakage_contaminated_candidate`, `oracle_label_leakage_sentinel`, `oracle_leakage_proximity_shift`, `temporal_isolation_incomplete`, `valid_early_hidden_state_signal`
 
@@ -29,25 +29,25 @@ Temporal violations:
 
 ## Negative controls
 
-- noise_auc_mean: `0.4982`
-- score_permutation_auc_mean: `0.4991`
-- label_permutation_auc_mean: `0.5047`
+- noise_auc_mean: `0.4997`
+- score_permutation_auc_mean: `0.4978`
+- label_permutation_auc_mean: `0.4998`
 
 ## Sentinels
 
-- `future_physiology` (future_window_invalid_comparator): column `future_physiology_sentinel_score`, AUC `0.5450`, expected `higher_auc_than_valid_if_future_physiology_is_informative`
+- `future_physiology` (future_window_invalid_comparator): column `future_physiology_sentinel_score`, AUC `0.5499`, expected `higher_auc_than_valid_if_future_physiology_is_informative`
 - `oracle_label` (oracle_label_leakage): column `oracle_label_sentinel_score`, AUC `1.0000`, expected `ceiling_auc_or_high_proximity`
 
 ## Sentinel relations
 
-- `future_physiology`: gap `-0.0730`, proximity `-1.3651`, Pearson `0.1247`, alert `False`
-- `oracle_label`: gap `0.3820`, proximity `0.0993`, Pearson `0.0898`, alert `True`
+- `future_physiology`: gap `-0.1365`, proximity `-0.2262`, Pearson `0.1015`, alert `False`
+- `oracle_label`: gap `0.3136`, proximity `0.0743`, Pearson `0.1415`, alert `True`
 
 ## Visible-state matching
 
 - Evaluated: `True`
-- Matched observed-state delta: `0.0262`
-- Matched rows: `2518`
+- Matched observed-state delta: `0.0500`
+- Matched rows: `6837`
 - Matched strata: `81`
 
 ## Early-window sensitivity
@@ -57,10 +57,10 @@ Temporal violations:
 ## Threshold sensitivity
 
 - Fragile: `False`
-- threshold `0.2000`: selected `0.6414`, enrichment `0.0088`
-- threshold `0.4000`: selected `0.3523`, enrichment `0.0264`
-- threshold `0.6000`: selected `0.1720`, enrichment `0.0547`
-- threshold `0.8000`: selected `0.0308`, enrichment `0.1285`
+- threshold `0.2000`: selected `0.9866`, enrichment `0.0007`
+- threshold `0.4000`: selected `0.5381`, enrichment `0.0246`
+- threshold `0.6000`: selected `0.2236`, enrichment `0.0543`
+- threshold `0.8000`: selected `0.0165`, enrichment `0.0522`
 
 ## Interpretation boundary
 

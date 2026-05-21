@@ -3,9 +3,9 @@
 ## Executive summary
 
 - Primary score: `lstm_valid_score`
-- Primary AUC: `0.5759`
-- Audit-pass candidate: `False`
-- Output classes: `null_or_destroyed_signal`, `oracle_label_leakage_sentinel`
+- Primary AUC: `0.6612`
+- Audit-pass candidate: `True`
+- Output classes: `audit_pass_candidate`, `oracle_label_leakage_sentinel`, `valid_early_hidden_state_signal`
 
 Passing LAMP does not establish clinical validity. It means the score survived
 the configured failure-mode audit and earned prospective testing.
@@ -26,25 +26,25 @@ the configured failure-mode audit and earned prospective testing.
 
 ## Negative controls
 
-- noise_auc_mean: `0.4982`
-- score_permutation_auc_mean: `0.4895`
-- label_permutation_auc_mean: `0.5014`
+- noise_auc_mean: `0.4997`
+- score_permutation_auc_mean: `0.4981`
+- label_permutation_auc_mean: `0.4986`
 
 ## Sentinels
 
-- `future_physiology` (future_window_invalid_comparator): column `future_physiology_sentinel_score`, AUC `0.5450`, expected `higher_auc_than_valid_if_future_physiology_is_informative`
+- `future_physiology` (future_window_invalid_comparator): column `future_physiology_sentinel_score`, AUC `0.5499`, expected `higher_auc_than_valid_if_future_physiology_is_informative`
 - `oracle_label` (oracle_label_leakage): column `oracle_label_sentinel_score`, AUC `1.0000`, expected `ceiling_auc_or_high_proximity`
 
 ## Sentinel relations
 
-- `future_physiology`: gap `-0.0309`, proximity `NA`, Pearson `0.1922`, alert `False`
-- `oracle_label`: gap `0.4241`, proximity `NA`, Pearson `0.0792`, alert `False`
+- `future_physiology`: gap `-0.1113`, proximity `NA`, Pearson `0.0747`, alert `False`
+- `oracle_label`: gap `0.3388`, proximity `NA`, Pearson `0.1177`, alert `False`
 
 ## Visible-state matching
 
 - Evaluated: `True`
-- Matched observed-state delta: `0.0134`
-- Matched rows: `2518`
+- Matched observed-state delta: `0.0360`
+- Matched rows: `6837`
 - Matched strata: `81`
 
 ## Early-window sensitivity
@@ -54,10 +54,10 @@ the configured failure-mode audit and earned prospective testing.
 ## Threshold sensitivity
 
 - Fragile: `False`
-- threshold `0.2000`: selected `0.9727`, enrichment `0.0006`
-- threshold `0.4000`: selected `0.4670`, enrichment `0.0133`
-- threshold `0.6000`: selected `0.1423`, enrichment `0.0379`
-- threshold `0.8000`: selected `0.0032`, enrichment `0.0740`
+- threshold `0.2000`: selected `0.9974`, enrichment `0.0001`
+- threshold `0.4000`: selected `0.5993`, enrichment `0.0161`
+- threshold `0.6000`: selected `0.1186`, enrichment `0.0617`
+- threshold `0.8000`: selected `0.0083`, enrichment `0.1039`
 
 ## Interpretation boundary
 

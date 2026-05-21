@@ -1,0 +1,70 @@
+schema_version: lamp.audit_config/v1
+dataset:
+  name: PhysioNet/CinC 2019 raw PSV sequence bench
+  task: HistGradientBoosting future/oracle leaky
+  role: real_clinical_sequence_benchmark
+columns:
+  subject_id: patient_id
+  label: label_future_sepsis
+  positive_value: 1
+  score: histgb_future_leaky_score
+  anchor_time: anchor_idx
+temporal_isolation:
+  anchor: anchor_idx
+  valid_features_must_be: at_or_before_anchor
+  frozen_before_holdout:
+  - patient split
+  - horizon definitions
+  - feature roles
+  valid_score_features:
+  - name: early_sequence_or_features
+    latest_offset_h: 0
+  - name: future_sequence_window
+    latest_offset_h: 1
+  - name: oracle_label_sentinel_score
+    latest_offset_h: 1
+forbidden_features:
+  columns:
+  - future_sequence_window
+  - future_engineered_features
+  - oracle_label_sentinel_score
+  allowed_metadata_columns: []
+  valid_score_features:
+  - early_sequence_or_features
+  - future_sequence_window
+  - oracle_label_sentinel_score
+sentinels:
+  future_physiology:
+    column: future_physiology_sentinel_score
+    role: future_window_invalid_comparator
+    expected_signature: higher_auc_than_valid_if_future_physiology_is_informative
+  oracle_label:
+    column: oracle_label_sentinel_score
+    role: oracle_label_leakage
+    expected_signature: ceiling_auc_or_high_proximity
+negative_controls:
+  n_permutations: 30
+  seed: 2026
+visible_state_matching:
+  columns:
+  - Age
+  - HR_early_last
+  - O2Sat_early_last
+  - early_missing_rate
+  n_bins: 3
+  min_bin_size: 4
+thresholds:
+  null_auc_max: 0.58
+  valid_auc_min: 0.6
+  oracle_auc_min: 0.95
+  leakage_auc_gap: 0.1
+  matched_delta_min: 0.005
+  matched_collapse_max: 0.002
+  score_thresholds:
+  - 0.2
+  - 0.4
+  - 0.6
+  - 0.8
+leakage_proximity:
+  baseline_score: histgb_valid_score
+  oracle_proximity_alert_min: 0.01

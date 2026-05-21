@@ -43,6 +43,27 @@ sentinels, early-window sensitivity, and threshold robustness.
   engineered trend/missingness features, MLP probes, and optional
   LSTM/GRU/Transformer monitors.
 
+## Results Snapshot
+
+The raw PhysioNet/CinC 2019 neural audit was run on 8,000 patients, producing
+6,856 held-out prediction rows across 6h, 12h, and 18h horizons with a 12h early
+window.
+
+- Valid early monitors passed across classical and neural families: MLP probe
+  AUC 0.779, Random Forest 0.819, HistGradientBoosting 0.862, XGBoost 0.841,
+  LSTM 0.661, GRU 0.646, and Transformer 0.649.
+- Future/oracle-contaminated variants often improved AUC but failed the audit:
+  MLP leaky AUC 0.984, Random Forest leaky 0.999, XGBoost leaky 1.000, LSTM
+  future-window leaky 0.686, and Transformer future-window leaky 0.692.
+- Low-dose oracle mixtures at 1%, 5%, and 10% show graded AUC lift while LAMP
+  flags forbidden/oracle-adjacent information contracts.
+- Internal representation probes are auditable: LSTM hidden probe AUC 0.649
+  passed, while LSTM future hidden probe AUC 0.680 failed; Transformer hidden
+  probe AUC 0.672 passed, while Transformer future hidden probe AUC 0.706 failed.
+
+See `notebooks/cinc2019_lamp_neural_audit.ipynb` for tables, ROC curves,
+leakage-dose ablations, horizon/architecture ablations, and timeline examples.
+
 ## Alignment Relevance
 
 LAMP is directly transferable to auditing:
@@ -74,15 +95,19 @@ python scripts/run_sepsis_ml_lamp_bench.py
 # Raw PSV sequence benchmark (MLP probe always runs; neural models need torch)
 python scripts/run_physionet_sequence_lamp_bench.py --max-patients 3000
 
-# Optional neural sequence models
-pip install -e ".[neural]"
-python scripts/run_physionet_sequence_lamp_bench.py --max-patients 3000 --epochs 4
+# Optional neural/classical benchmark models
+pip install -e ".[benchmarks]"
+python scripts/run_physionet_sequence_lamp_bench.py --max-patients 8000 --horizons 6,12,18 --early-window 12 --epochs 4
+
+# Build the CinC 2019 neural audit notebook and figures
+python scripts/build_cinc2019_lamp_neural_notebook.py
 
 # Run a custom audit
 lamp audit --config configs/iris_antarctic.yaml --data results/predictions.csv --output audit_results/
 ```
 
-See `notebooks/synthetic_deception_demo.ipynb` for a full walkthrough.
+See `notebooks/synthetic_deception_demo.ipynb` and
+`notebooks/cinc2019_lamp_neural_audit.ipynb` for full walkthroughs.
 
 Sepsis ML results are written to `results/sepsis_ml_lamp/sepsis_ml_lamp_report.md`.
 Raw PSV sequence results are written to

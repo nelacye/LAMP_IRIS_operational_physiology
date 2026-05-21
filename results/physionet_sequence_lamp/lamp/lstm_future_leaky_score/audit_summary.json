@@ -1,5 +1,5 @@
 {
-  "created_at_utc": "2026-05-21T16:20:44.940109+00:00",
+  "created_at_utc": "2026-05-21T16:34:43.834619+00:00",
   "dataset": {
     "name": "PhysioNet/CinC 2019 raw PSV sequence bench",
     "role": "real_clinical_sequence_benchmark",
@@ -56,89 +56,120 @@
       "future_physiology_sentinel_score",
       "gru_future_leaky_score",
       "gru_valid_score",
+      "gru_valid_score_oracle_mix_10pct",
+      "gru_valid_score_oracle_mix_1pct",
+      "gru_valid_score_oracle_mix_5pct",
+      "histgb_future_leaky_score",
+      "histgb_valid_score",
+      "histgb_valid_score_oracle_mix_10pct",
+      "histgb_valid_score_oracle_mix_1pct",
+      "histgb_valid_score_oracle_mix_5pct",
       "horizon_h",
       "hours_to_onset",
       "label_future_sepsis",
+      "lstm_future_hidden_probe_score",
       "lstm_future_leaky_score",
+      "lstm_hidden_probe_score",
       "lstm_valid_score",
-      "mlp_lowdose_oracle_score",
+      "lstm_valid_score_oracle_mix_10pct",
+      "lstm_valid_score_oracle_mix_1pct",
+      "lstm_valid_score_oracle_mix_5pct",
       "mlp_probe_leaky_score",
       "mlp_probe_valid_score",
+      "mlp_probe_valid_score_oracle_mix_10pct",
+      "mlp_probe_valid_score_oracle_mix_1pct",
+      "mlp_probe_valid_score_oracle_mix_5pct",
       "oracle_label_sentinel_score",
+      "oracle_leakage_ceiling_score",
       "patient_id",
+      "rf_future_leaky_score",
+      "rf_valid_score",
+      "rf_valid_score_oracle_mix_10pct",
+      "rf_valid_score_oracle_mix_1pct",
+      "rf_valid_score_oracle_mix_5pct",
       "sepsis_onset_idx",
       "source_set",
+      "transformer_future_hidden_probe_score",
       "transformer_future_leaky_score",
-      "transformer_valid_score"
+      "transformer_hidden_probe_score",
+      "transformer_valid_score",
+      "transformer_valid_score_oracle_mix_10pct",
+      "transformer_valid_score_oracle_mix_1pct",
+      "transformer_valid_score_oracle_mix_5pct",
+      "xgb_future_leaky_score",
+      "xgb_valid_score",
+      "xgb_valid_score_oracle_mix_10pct",
+      "xgb_valid_score_oracle_mix_1pct",
+      "xgb_valid_score_oracle_mix_5pct"
     ],
     "config_path": "C:\\Users\\User\\Downloads\\LAMP_IRIS_operational_physiology\\results\\physionet_sequence_lamp\\configs\\lstm_future_leaky_score.yaml",
     "input_path": "C:\\Users\\User\\Downloads\\LAMP_IRIS_operational_physiology\\results\\physionet_sequence_lamp\\lamp_prediction_table.csv",
-    "n_rows": 2529,
-    "n_subjects": 946
+    "n_rows": 6856,
+    "n_subjects": 2522
   },
   "negative_controls": {
-    "label_permutation_auc_mean": 0.5046906761412575,
-    "label_permutation_auc_sd": 0.02664271685927438,
-    "n": 2529,
+    "label_permutation_auc_mean": 0.49976396146377644,
+    "label_permutation_auc_sd": 0.014813561723550752,
+    "n": 6856,
     "n_permutations": 30,
-    "noise_auc_mean": 0.4982124246339363,
-    "noise_auc_sd": 0.024829806991524615,
-    "score_permutation_auc_mean": 0.4990928079242033,
-    "score_permutation_auc_sd": 0.02338570900517134
+    "noise_auc_mean": 0.4997196178602284,
+    "noise_auc_sd": 0.015401978085304188,
+    "score_permutation_auc_mean": 0.49781117611598646,
+    "score_permutation_auc_sd": 0.016527850373467833
   },
   "outputs": {
     "report_md": "C:\\Users\\User\\Downloads\\LAMP_IRIS_operational_physiology\\results\\physionet_sequence_lamp\\lamp\\lstm_future_leaky_score\\audit_report.md",
     "summary_json": "C:\\Users\\User\\Downloads\\LAMP_IRIS_operational_physiology\\results\\physionet_sequence_lamp\\lamp\\lstm_future_leaky_score\\audit_summary.json"
   },
   "primary_score": {
-    "auc": 0.6180264857881137,
+    "auc": 0.6863564767357552,
     "column": "lstm_future_leaky_score",
-    "n": 2529,
-    "n_negative": 2400,
-    "n_positive": 129
+    "n": 6856,
+    "n_negative": 6486,
+    "n_positive": 370
   },
   "schema_version": "lamp.audit_summary/v1",
   "sentinel_relations": {
     "future_physiology": {
-      "auc_leakage_proximity": -1.3651491365777035,
-      "baseline_auc": 0.5758947028423773,
+      "auc_leakage_proximity": -0.2262035138955192,
+      "baseline_auc": 0.6611816719587302,
       "baseline_score_column": "lstm_valid_score",
       "column": "future_physiology_sentinel_score",
-      "n": 2529,
+      "n": 6856,
       "oracle_proximity_alert": false,
       "oracle_proximity_alert_min": 0.01,
-      "primary_auc": 0.6180264857881137,
-      "primary_sentinel_pearson": 0.12466801878352113,
-      "primary_sentinel_spearman": 0.1443709656101436,
+      "primary_auc": 0.6863564767357552,
+      "primary_sentinel_pearson": 0.10147452079577465,
+      "primary_sentinel_spearman": 0.12742296363619585,
       "role": "future_window_invalid_comparator",
-      "sentinel_auc": 0.545032299741602,
-      "sentinel_minus_primary_auc": -0.07299418604651164
+      "sentinel_auc": 0.5498889500045837,
+      "sentinel_minus_primary_auc": -0.13646752673117146
     },
     "oracle_label": {
-      "auc_leakage_proximity": 0.09934274159767854,
-      "baseline_auc": 0.5758947028423773,
+      "auc_leakage_proximity": 0.07430177972532384,
+      "baseline_auc": 0.6611816719587302,
       "baseline_score_column": "lstm_valid_score",
       "column": "oracle_label_sentinel_score",
-      "n": 2529,
+      "n": 6856,
       "oracle_proximity_alert": true,
       "oracle_proximity_alert_min": 0.01,
-      "primary_auc": 0.6180264857881137,
-      "primary_sentinel_pearson": 0.0897808288146586,
-      "primary_sentinel_spearman": 0.0891322464391598,
+      "primary_auc": 0.6863564767357552,
+      "primary_sentinel_pearson": 0.14153703674238494,
+      "primary_sentinel_spearman": 0.1459044873078371,
       "role": "oracle_label_leakage",
       "sentinel_auc": 1.0,
-      "sentinel_minus_primary_auc": 0.3819735142118863
+      "sentinel_minus_primary_auc": 0.31364352326424483
     }
   },
   "sentinels": {
     "future_physiology": {
-      "auc": 0.545032299741602,
+      "auc": 0.5498889500045837,
       "column": "future_physiology_sentinel_score",
       "evaluated": true,
       "expected_signature": "higher_auc_than_valid_if_future_physiology_is_informative",
-      "n": 2529,
-      "n_negative": 2400,
-      "n_positive": 129,
+      "n": 6856,
+      "n_negative": 6486,
+      "n_positive": 370,
       "role": "future_window_invalid_comparator"
     },
     "oracle_label": {
@@ -146,9 +177,9 @@
       "column": "oracle_label_sentinel_score",
       "evaluated": true,
       "expected_signature": "ceiling_auc_or_high_proximity",
-      "n": 2529,
-      "n_negative": 2400,
-      "n_positive": 129,
+      "n": 6856,
+      "n_negative": 6486,
+      "n_positive": 370,
       "role": "oracle_label_leakage"
     }
   },
@@ -180,38 +211,38 @@
     ]
   },
   "threshold_sensitivity": {
-    "baseline_positive_rate": 0.051008303677342826,
+    "baseline_positive_rate": 0.05396732788798133,
     "evaluated": true,
     "fragile": false,
     "thresholds": [
       {
-        "enrichment_over_baseline": 0.00879440902302709,
-        "positive_rate": 0.059802712700369916,
-        "selected_fraction": 0.6413602214313958,
+        "enrichment_over_baseline": 0.000734032253946526,
+        "positive_rate": 0.054701360141927856,
+        "selected_fraction": 0.9865810968494749,
         "threshold": 0.2
       },
       {
-        "enrichment_over_baseline": 0.02643277376373461,
-        "positive_rate": 0.07744107744107744,
-        "selected_fraction": 0.35231316725978645,
+        "enrichment_over_baseline": 0.024644762109307904,
+        "positive_rate": 0.07861208999728923,
+        "selected_fraction": 0.5380688448074679,
         "threshold": 0.4
       },
       {
-        "enrichment_over_baseline": 0.05473882275943878,
-        "positive_rate": 0.10574712643678161,
-        "selected_fraction": 0.17200474495848161,
+        "enrichment_over_baseline": 0.05431708176629133,
+        "positive_rate": 0.10828440965427266,
+        "selected_fraction": 0.22359976662777128,
         "threshold": 0.6
       },
       {
-        "enrichment_over_baseline": 0.12847887580983666,
-        "positive_rate": 0.1794871794871795,
-        "selected_fraction": 0.03084223013048636,
+        "enrichment_over_baseline": 0.052227362377505394,
+        "positive_rate": 0.10619469026548672,
+        "selected_fraction": 0.01648191365227538,
         "threshold": 0.8
       }
     ]
   },
   "visible_state_matching": {
-    "absolute_matched_observed_state_delta": 0.026168730951505903,
+    "absolute_matched_observed_state_delta": 0.050027401102763006,
     "candidate_strata": 81,
     "evaluated": true,
     "match_columns": [
@@ -220,8 +251,8 @@
       "O2Sat_early_last",
       "early_missing_rate"
     ],
-    "matched_observed_state_delta": 0.026168730951505903,
-    "matched_rows": 2518,
+    "matched_observed_state_delta": 0.050027401102763006,
+    "matched_rows": 6837,
     "matched_strata": 81,
     "min_bin_size": 4,
     "n_bins": 3

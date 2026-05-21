@@ -3,9 +3,9 @@
 ## Executive summary
 
 - Primary score: `transformer_valid_score`
-- Primary AUC: `0.5827`
-- Audit-pass candidate: `False`
-- Output classes: `oracle_label_leakage_sentinel`
+- Primary AUC: `0.6490`
+- Audit-pass candidate: `True`
+- Output classes: `audit_pass_candidate`, `oracle_label_leakage_sentinel`, `valid_early_hidden_state_signal`
 
 Passing LAMP does not establish clinical validity. It means the score survived
 the configured failure-mode audit and earned prospective testing.
@@ -26,25 +26,25 @@ the configured failure-mode audit and earned prospective testing.
 
 ## Negative controls
 
-- noise_auc_mean: `0.4982`
-- score_permutation_auc_mean: `0.4932`
-- label_permutation_auc_mean: `0.5024`
+- noise_auc_mean: `0.4997`
+- score_permutation_auc_mean: `0.4988`
+- label_permutation_auc_mean: `0.4997`
 
 ## Sentinels
 
-- `future_physiology` (future_window_invalid_comparator): column `future_physiology_sentinel_score`, AUC `0.5450`, expected `higher_auc_than_valid_if_future_physiology_is_informative`
+- `future_physiology` (future_window_invalid_comparator): column `future_physiology_sentinel_score`, AUC `0.5499`, expected `higher_auc_than_valid_if_future_physiology_is_informative`
 - `oracle_label` (oracle_label_leakage): column `oracle_label_sentinel_score`, AUC `1.0000`, expected `ceiling_auc_or_high_proximity`
 
 ## Sentinel relations
 
-- `future_physiology`: gap `-0.0377`, proximity `NA`, Pearson `0.2089`, alert `False`
-- `oracle_label`: gap `0.4173`, proximity `NA`, Pearson `0.0852`, alert `False`
+- `future_physiology`: gap `-0.0991`, proximity `NA`, Pearson `0.0560`, alert `False`
+- `oracle_label`: gap `0.3510`, proximity `NA`, Pearson `0.1031`, alert `False`
 
 ## Visible-state matching
 
 - Evaluated: `True`
-- Matched observed-state delta: `0.0023`
-- Matched rows: `2518`
+- Matched observed-state delta: `0.0313`
+- Matched rows: `6837`
 - Matched strata: `81`
 
 ## Early-window sensitivity
@@ -54,10 +54,10 @@ the configured failure-mode audit and earned prospective testing.
 ## Threshold sensitivity
 
 - Fragile: `False`
-- threshold `0.2000`: selected `0.9775`, enrichment `0.0008`
-- threshold `0.4000`: selected `0.5085`, enrichment `0.0089`
-- threshold `0.6000`: selected `0.1546`, enrichment `0.0411`
-- threshold `0.8000`: selected `0.0047`, enrichment `0.1157`
+- threshold `0.2000`: selected `0.9985`, enrichment `0.0001`
+- threshold `0.4000`: selected `0.5429`, enrichment `0.0186`
+- threshold `0.6000`: selected `0.1069`, enrichment `0.0675`
+- threshold `0.8000`: selected `0.0101`, enrichment `0.0620`
 
 ## Interpretation boundary
 
