@@ -39,6 +39,9 @@ sentinels, early-window sensitivity, and threshold robustness.
 - Real clinical ML audit on PhysioNet/CinC 2019 sepsis feature tables, including
   early-window MLP/gradient-boosted models, contaminated future-window variants,
   and hidden-activation probes.
+- Raw PhysioNet/CinC 2019 `.psv` sequence pipeline with early/future splits,
+  engineered trend/missingness features, MLP probes, and optional
+  LSTM/GRU/Transformer monitors.
 
 ## Alignment Relevance
 
@@ -68,6 +71,13 @@ python scripts/run_synthetic_deception_experiment.py
 # Real clinical ML benchmark on exported sepsis feature tables
 python scripts/run_sepsis_ml_lamp_bench.py
 
+# Raw PSV sequence benchmark (MLP probe always runs; neural models need torch)
+python scripts/run_physionet_sequence_lamp_bench.py --max-patients 3000
+
+# Optional neural sequence models
+pip install -e ".[neural]"
+python scripts/run_physionet_sequence_lamp_bench.py --max-patients 3000 --epochs 4
+
 # Run a custom audit
 lamp audit --config configs/iris_antarctic.yaml --data results/predictions.csv --output audit_results/
 ```
@@ -75,6 +85,8 @@ lamp audit --config configs/iris_antarctic.yaml --data results/predictions.csv -
 See `notebooks/synthetic_deception_demo.ipynb` for a full walkthrough.
 
 Sepsis ML results are written to `results/sepsis_ml_lamp/sepsis_ml_lamp_report.md`.
+Raw PSV sequence results are written to
+`results/physionet_sequence_lamp/physionet_sequence_lamp_report.md`.
 
 If the `lamp` entry point is not on `PATH`, use:
 

@@ -1,0 +1,229 @@
+{
+  "created_at_utc": "2026-05-21T16:20:44.527005+00:00",
+  "dataset": {
+    "name": "PhysioNet/CinC 2019 raw PSV sequence bench",
+    "role": "real_clinical_sequence_benchmark",
+    "task": "MLP low-dose oracle mix"
+  },
+  "early_window_sensitivity": {
+    "evaluated": false,
+    "reason": "no early-window sensitivity score columns configured"
+  },
+  "failure_mode_dossier": {
+    "audit_pass_candidate": false,
+    "controls_near_null": true,
+    "notes": [],
+    "output_classes": [
+      "forbidden_feature_contamination",
+      "leakage_contaminated_candidate",
+      "oracle_label_leakage_sentinel",
+      "oracle_leakage_proximity_shift",
+      "temporal_isolation_incomplete",
+      "valid_early_hidden_state_signal"
+    ],
+    "thresholds": {
+      "leakage_auc_gap": 0.1,
+      "matched_collapse_max": 0.002,
+      "matched_delta_min": 0.005,
+      "null_auc_max": 0.58,
+      "oracle_auc_min": 0.95,
+      "valid_auc_min": 0.6
+    }
+  },
+  "forbidden_feature_screen": {
+    "declared_sentinel_columns_present": [
+      "oracle_label_sentinel_score"
+    ],
+    "forbidden_columns_declared": [
+      "future_engineered_features",
+      "future_sequence_window",
+      "oracle_label_sentinel_score"
+    ],
+    "interpretation": "Declared sentinel columns are audit comparators, not leakage in the valid model unless they appear in valid_score_features.",
+    "passed": false,
+    "unexpected_forbidden_columns_present": [],
+    "valid_score_feature_violations": [
+      "oracle_label_sentinel_score"
+    ]
+  },
+  "input": {
+    "columns": [
+      "Age",
+      "HR_early_last",
+      "O2Sat_early_last",
+      "anchor_idx",
+      "early_missing_rate",
+      "future_physiology_sentinel_score",
+      "gru_future_leaky_score",
+      "gru_valid_score",
+      "horizon_h",
+      "hours_to_onset",
+      "label_future_sepsis",
+      "lstm_future_leaky_score",
+      "lstm_valid_score",
+      "mlp_lowdose_oracle_score",
+      "mlp_probe_leaky_score",
+      "mlp_probe_valid_score",
+      "oracle_label_sentinel_score",
+      "patient_id",
+      "sepsis_onset_idx",
+      "source_set",
+      "transformer_future_leaky_score",
+      "transformer_valid_score"
+    ],
+    "config_path": "C:\\Users\\User\\Downloads\\LAMP_IRIS_operational_physiology\\results\\physionet_sequence_lamp\\configs\\mlp_lowdose_oracle_score.yaml",
+    "input_path": "C:\\Users\\User\\Downloads\\LAMP_IRIS_operational_physiology\\results\\physionet_sequence_lamp\\lamp_prediction_table.csv",
+    "n_rows": 2529,
+    "n_subjects": 946
+  },
+  "negative_controls": {
+    "label_permutation_auc_mean": 0.5080048449612403,
+    "label_permutation_auc_sd": 0.02387832108479367,
+    "n": 2529,
+    "n_permutations": 30,
+    "noise_auc_mean": 0.4982124246339363,
+    "noise_auc_sd": 0.024829806991524615,
+    "score_permutation_auc_mean": 0.5010010766580534,
+    "score_permutation_auc_sd": 0.02427959136592694
+  },
+  "outputs": {
+    "report_md": "C:\\Users\\User\\Downloads\\LAMP_IRIS_operational_physiology\\results\\physionet_sequence_lamp\\lamp\\mlp_lowdose_oracle_score\\audit_report.md",
+    "summary_json": "C:\\Users\\User\\Downloads\\LAMP_IRIS_operational_physiology\\results\\physionet_sequence_lamp\\lamp\\mlp_lowdose_oracle_score\\audit_summary.json"
+  },
+  "primary_score": {
+    "auc": 0.6824450904392765,
+    "column": "mlp_lowdose_oracle_score",
+    "n": 2529,
+    "n_negative": 2400,
+    "n_positive": 129
+  },
+  "schema_version": "lamp.audit_summary/v1",
+  "sentinel_relations": {
+    "future_physiology": {
+      "auc_leakage_proximity": -0.05775733465937336,
+      "baseline_auc": 0.6749418604651163,
+      "baseline_score_column": "mlp_probe_valid_score",
+      "column": "future_physiology_sentinel_score",
+      "n": 2529,
+      "oracle_proximity_alert": false,
+      "oracle_proximity_alert_min": 0.01,
+      "primary_auc": 0.6824450904392765,
+      "primary_sentinel_pearson": -0.03332436411975137,
+      "primary_sentinel_spearman": -0.05188817757979271,
+      "role": "future_window_invalid_comparator",
+      "sentinel_auc": 0.545032299741602,
+      "sentinel_minus_primary_auc": -0.13741279069767443
+    },
+    "oracle_label": {
+      "auc_leakage_proximity": 0.023082732168763262,
+      "baseline_auc": 0.6749418604651163,
+      "baseline_score_column": "mlp_probe_valid_score",
+      "column": "oracle_label_sentinel_score",
+      "n": 2529,
+      "oracle_proximity_alert": true,
+      "oracle_proximity_alert_min": 0.01,
+      "primary_auc": 0.6824450904392765,
+      "primary_sentinel_pearson": 0.10066556247497409,
+      "primary_sentinel_spearman": 0.13565440121716082,
+      "role": "oracle_label_leakage",
+      "sentinel_auc": 1.0,
+      "sentinel_minus_primary_auc": 0.3175549095607235
+    }
+  },
+  "sentinels": {
+    "future_physiology": {
+      "auc": 0.545032299741602,
+      "column": "future_physiology_sentinel_score",
+      "evaluated": true,
+      "expected_signature": "higher_auc_than_valid_if_future_physiology_is_informative",
+      "n": 2529,
+      "n_negative": 2400,
+      "n_positive": 129,
+      "role": "future_window_invalid_comparator"
+    },
+    "oracle_label": {
+      "auc": 1.0,
+      "column": "oracle_label_sentinel_score",
+      "evaluated": true,
+      "expected_signature": "ceiling_auc_or_high_proximity",
+      "n": 2529,
+      "n_negative": 2400,
+      "n_positive": 129,
+      "role": "oracle_label_leakage"
+    }
+  },
+  "temporal_isolation": {
+    "anchor": "anchor_idx",
+    "declared": true,
+    "frozen_before_holdout": [
+      "patient split",
+      "horizon definitions",
+      "feature roles"
+    ],
+    "passed": false,
+    "valid_features_must_be": "at_or_before_anchor",
+    "valid_score_features": [
+      {
+        "latest_offset_h": 0.0,
+        "name": "early_sequence_or_features"
+      },
+      {
+        "latest_offset_h": 1.0,
+        "name": "oracle_label_sentinel_score"
+      }
+    ],
+    "violations": [
+      {
+        "latest_offset_h": 1.0,
+        "name": "oracle_label_sentinel_score"
+      }
+    ]
+  },
+  "threshold_sensitivity": {
+    "baseline_positive_rate": 0.051008303677342826,
+    "evaluated": true,
+    "fragile": false,
+    "thresholds": [
+      {
+        "enrichment_over_baseline": 0.009967306078754734,
+        "positive_rate": 0.06097560975609756,
+        "selected_fraction": 0.6484776591538157,
+        "threshold": 0.2
+      },
+      {
+        "enrichment_over_baseline": 0.04700658466012615,
+        "positive_rate": 0.09801488833746898,
+        "selected_fraction": 0.31870304468169236,
+        "threshold": 0.4
+      },
+      {
+        "enrichment_over_baseline": 0.1323978098597751,
+        "positive_rate": 0.18340611353711792,
+        "selected_fraction": 0.09054962435745353,
+        "threshold": 0.6
+      },
+      {
+        "enrichment_over_baseline": 0.2750786528443963,
+        "positive_rate": 0.32608695652173914,
+        "selected_fraction": 0.01818900751285093,
+        "threshold": 0.8
+      }
+    ]
+  },
+  "visible_state_matching": {
+    "absolute_matched_observed_state_delta": 0.04047063021151495,
+    "candidate_strata": 81,
+    "evaluated": true,
+    "match_columns": [
+      "Age",
+      "HR_early_last",
+      "O2Sat_early_last",
+      "early_missing_rate"
+    ],
+    "matched_observed_state_delta": 0.04047063021151495,
+    "matched_rows": 2518,
+    "matched_strata": 81,
+    "min_bin_size": 4,
+    "n_bins": 3
+  }
+}

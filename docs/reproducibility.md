@@ -95,6 +95,43 @@ Outputs are written to:
 - `results/sepsis_ml_lamp/sepsis_ml_lamp_summary.csv`
 - `results/sepsis_ml_lamp/sepsis_ml_lamp_report.md`
 
-Raw hourly PhysioNet `.psv` trajectories are not stored in this checkout. The
-current run is therefore a real clinical feature-table ML benchmark, not a raw
-LSTM/TFT trajectory run.
+This exported-table run is separate from the raw sequence benchmark below.
+
+## Raw PSV Sequence Audit
+
+Download the open PhysioNet benchmarks:
+
+```powershell
+.\scripts\download_open_physionet_benchmarks.ps1
+```
+
+Build early-window examples directly from raw `.psv` files and run the LAMP
+sequence audit:
+
+```powershell
+python scripts\run_physionet_sequence_lamp_bench.py --max-patients 3000
+```
+
+The raw pipeline performs:
+
+- patient-level `.psv` parsing
+- native hourly resampling, with support for alternate aggregate frequencies
+- early-window and post-anchor future-window extraction
+- trend, variability, slope, and missingness feature engineering
+- visible-state matching feature export
+- valid and leaky prediction-table generation for LAMP
+
+The hand-crafted MLP probe runs with the base dependencies. For LSTM, GRU, and
+Transformer sequence monitors, install the optional neural dependency:
+
+```powershell
+python -m pip install -e ".[neural]"
+python scripts\run_physionet_sequence_lamp_bench.py --max-patients 3000 --epochs 4
+```
+
+Outputs are written to:
+
+- `results/physionet_sequence_lamp/physionet_sequence_predictions.csv`
+- `results/physionet_sequence_lamp/lamp_prediction_table.csv`
+- `results/physionet_sequence_lamp/physionet_sequence_lamp_summary.csv`
+- `results/physionet_sequence_lamp/physionet_sequence_lamp_report.md`

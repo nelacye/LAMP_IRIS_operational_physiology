@@ -21,6 +21,11 @@ dependencies = [
   "PyYAML>=6.0",
   "scikit-learn>=1.4"
 ]
+
+[project.optional-dependencies]
+neural = [
+  "torch>=2.3"
+]
 keywords = [
   "ai-alignment",
   "ai-safety",
