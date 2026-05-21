@@ -97,6 +97,30 @@ Outputs are written to:
 
 This exported-table run is separate from the raw sequence benchmark below.
 
+## LLM-Safety Toy Audit Battery
+
+Run the alignment-native toy battery:
+
+```powershell
+python scripts\run_llm_safety_lamp_bench.py
+```
+
+This creates matched visible-behavior LLM-like episodes and audits monitors for:
+
+- latent knowledge
+- hidden-state probes
+- deceptive behavior toy tasks
+- chain-of-thought leakage
+- evaluation routing signals
+- low-dose oracle contamination
+
+Outputs are written to:
+
+- `results/llm_safety_lamp/llm_safety_prediction_table.csv`
+- `results/llm_safety_lamp/llm_safety_lamp_summary.csv`
+- `results/llm_safety_lamp/llm_safety_lamp_report.md`
+- `notebooks/llm_safety_lamp_audit.ipynb`
+
 ## Raw PSV Sequence Audit
 
 Download the open PhysioNet benchmarks:

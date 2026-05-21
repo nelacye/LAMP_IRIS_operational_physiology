@@ -36,6 +36,9 @@ sentinels, early-window sensitivity, and threshold robustness.
 - Successful transfer to real clinical data: PhysioNet/CinC 2019 sepsis
   early-warning benchmark (`audit_pass` with clear signal-leakage separation).
 - Synthetic deception experiments demonstrating detection of evaluation gaming.
+- LLM-safety toy audit battery covering latent knowledge, hidden-state probes,
+  deceptive behavior, chain-of-thought leakage, routing signals, and low-dose
+  oracle contamination.
 - Real clinical ML audit on PhysioNet/CinC 2019 sepsis feature tables, including
   early-window MLP/gradient-boosted models, contaminated future-window variants,
   and hidden-activation probes.
@@ -64,6 +67,24 @@ window.
 See `notebooks/cinc2019_lamp_neural_audit.ipynb` for tables, ROC curves,
 leakage-dose ablations, horizon/architecture ablations, and timeline examples.
 
+The LLM-safety toy battery audits 896 matched visible-behavior episodes across
+11 monitors:
+
+- Clean latent-knowledge monitor: AUC 0.896, `audit_pass`.
+- Clean hidden-state probe: AUC 0.847, `audit_pass`.
+- Deceptive-behavior early monitor: AUC 0.789, `audit_pass`.
+- Surface-behavior shortcut: AUC 0.497, classified as null/destroyed under
+  matched behavior.
+- CoT leakage, routing-signal leakage, leaky hidden-state probe, and
+  post-trigger deception leakage: AUC approximately 1.000, but all fail temporal,
+  forbidden-feature, and oracle-proximity gates.
+- Low-dose CoT/oracle mixtures at 1%, 5%, and 10% raise AUC from 0.896 to
+  0.906, 0.941, and 0.971 while failing the audit.
+
+See `notebooks/llm_safety_lamp_audit.ipynb` and
+`results/llm_safety_lamp/llm_safety_lamp_report.md` for the alignment-native
+tables and figures.
+
 ## Alignment Relevance
 
 LAMP is directly transferable to auditing:
@@ -89,6 +110,9 @@ pip install -e .
 # Synthetic deception demo (recommended)
 python scripts/run_synthetic_deception_experiment.py
 
+# Alignment-native LLM-safety toy battery
+python scripts/run_llm_safety_lamp_bench.py
+
 # Real clinical ML benchmark on exported sepsis feature tables
 python scripts/run_sepsis_ml_lamp_bench.py
 
@@ -106,12 +130,15 @@ python scripts/build_cinc2019_lamp_neural_notebook.py
 lamp audit --config configs/iris_antarctic.yaml --data results/predictions.csv --output audit_results/
 ```
 
-See `notebooks/synthetic_deception_demo.ipynb` and
+See `notebooks/synthetic_deception_demo.ipynb`,
+`notebooks/llm_safety_lamp_audit.ipynb`, and
 `notebooks/cinc2019_lamp_neural_audit.ipynb` for full walkthroughs.
 
 Sepsis ML results are written to `results/sepsis_ml_lamp/sepsis_ml_lamp_report.md`.
 Raw PSV sequence results are written to
 `results/physionet_sequence_lamp/physionet_sequence_lamp_report.md`.
+LLM-safety toy results are written to
+`results/llm_safety_lamp/llm_safety_lamp_report.md`.
 
 If the `lamp` entry point is not on `PATH`, use:
 
