@@ -1,0 +1,211 @@
+{
+  "created_at_utc": "2026-05-21T10:51:19.747343+00:00",
+  "dataset": {
+    "name": "Linear probe on MLP hidden activation",
+    "role": "real clinical ML LAMP benchmark",
+    "source": "C:\\Users\\User\\Downloads\\LAMP_IRIS_operational_physiology\\results\\sepsis_external\\v3_5k\\tables\\sepsis_patient_scores.csv",
+    "task": "PhysioNet/CinC 2019 sepsis ML prediction audit"
+  },
+  "early_window_sensitivity": {
+    "evaluated": false,
+    "reason": "no early-window sensitivity score columns configured"
+  },
+  "failure_mode_dossier": {
+    "audit_pass_candidate": true,
+    "controls_near_null": true,
+    "notes": [],
+    "output_classes": [
+      "audit_pass_candidate",
+      "oracle_label_leakage_sentinel",
+      "valid_early_hidden_state_signal"
+    ],
+    "thresholds": {
+      "leakage_auc_gap": 0.1,
+      "matched_collapse_max": 0.005,
+      "matched_delta_min": 0.01,
+      "null_auc_max": 0.58,
+      "oracle_auc_min": 0.95,
+      "valid_auc_min": 0.6
+    }
+  },
+  "forbidden_feature_screen": {
+    "declared_sentinel_columns_present": [
+      "future_physiology_sentinel_score",
+      "oracle_label_sentinel_score"
+    ],
+    "forbidden_columns_declared": [
+      "future_physiology_sentinel_score",
+      "oracle_label_sentinel_score"
+    ],
+    "interpretation": "Declared sentinel columns are audit comparators, not leakage in the valid model unless they appear in valid_score_features.",
+    "passed": true,
+    "unexpected_forbidden_columns_present": [],
+    "valid_score_feature_violations": []
+  },
+  "input": {
+    "columns": [
+      "Age",
+      "HR_recent_mean",
+      "ICULOS",
+      "O2Sat_recent_mean",
+      "existing_valid_early_warning_score",
+      "future_physiology_sentinel_score",
+      "gb_early_score",
+      "gb_future_leak_score",
+      "horizon_h",
+      "label_future_sepsis",
+      "linear_sequence_score",
+      "mlp_early_score",
+      "mlp_future_leak_score",
+      "mlp_hidden_oracle_probe_score",
+      "mlp_hidden_probe_score",
+      "mlp_oracle_mix_score",
+      "oracle_label_sentinel_score",
+      "patient_id",
+      "row_id",
+      "vital_missing_rate"
+    ],
+    "config_path": "C:\\Users\\User\\Downloads\\LAMP_IRIS_operational_physiology\\results\\sepsis_ml_lamp\\configs\\mlp_hidden_probe.yaml",
+    "input_path": "C:\\Users\\User\\Downloads\\LAMP_IRIS_operational_physiology\\results\\sepsis_ml_lamp\\sepsis_ml_predictions.csv",
+    "n_rows": 5075,
+    "n_subjects": 5075
+  },
+  "negative_controls": {
+    "label_permutation_auc_mean": 0.5000536628627706,
+    "label_permutation_auc_sd": 0.019802452561576082,
+    "n": 5075,
+    "n_permutations": 250,
+    "noise_auc_mean": 0.499993166380027,
+    "noise_auc_sd": 0.019552559644367022,
+    "score_permutation_auc_mean": 0.5010517829639684,
+    "score_permutation_auc_sd": 0.017128096880524215
+  },
+  "outputs": {
+    "report_md": "C:\\Users\\User\\Downloads\\LAMP_IRIS_operational_physiology\\results\\sepsis_ml_lamp\\lamp\\mlp_hidden_probe\\audit_report.md",
+    "summary_json": "C:\\Users\\User\\Downloads\\LAMP_IRIS_operational_physiology\\results\\sepsis_ml_lamp\\lamp\\mlp_hidden_probe\\audit_summary.json"
+  },
+  "primary_score": {
+    "auc": 0.8631544734568415,
+    "column": "mlp_hidden_probe_score",
+    "n": 5075,
+    "n_negative": 4821,
+    "n_positive": 254
+  },
+  "schema_version": "lamp.audit_summary/v1",
+  "sentinel_relations": {
+    "future_physiology": {
+      "column": "future_physiology_sentinel_score",
+      "n": 5075,
+      "oracle_proximity_alert": false,
+      "primary_auc": 0.8631544734568415,
+      "primary_sentinel_pearson": 0.15330798562362732,
+      "primary_sentinel_spearman": 0.08664380012905555,
+      "role": "future_physiology",
+      "sentinel_auc": 0.6846073690073121,
+      "sentinel_minus_primary_auc": -0.17854710444952937
+    },
+    "oracle_label": {
+      "column": "oracle_label_sentinel_score",
+      "n": 5075,
+      "oracle_proximity_alert": false,
+      "primary_auc": 0.8631544734568415,
+      "primary_sentinel_pearson": 0.4871764551247885,
+      "primary_sentinel_spearman": 0.2741125950678994,
+      "role": "oracle_label",
+      "sentinel_auc": 1.0,
+      "sentinel_minus_primary_auc": 0.1368455265431585
+    }
+  },
+  "sentinels": {
+    "future_physiology": {
+      "auc": 0.6846073690073121,
+      "column": "future_physiology_sentinel_score",
+      "evaluated": true,
+      "expected_signature": "post-anchor physiology comparator",
+      "n": 5075,
+      "n_negative": 4821,
+      "n_positive": 254,
+      "role": "future_physiology"
+    },
+    "oracle_label": {
+      "auc": 1.0,
+      "column": "oracle_label_sentinel_score",
+      "evaluated": true,
+      "expected_signature": "ceiling label leakage comparator",
+      "n": 5075,
+      "n_negative": 4821,
+      "n_positive": 254,
+      "role": "oracle_label"
+    }
+  },
+  "temporal_isolation": {
+    "anchor": "horizon_h",
+    "declared": true,
+    "frozen_before_holdout": [
+      "patient-level split",
+      "horizon list",
+      "model family",
+      "feature groups",
+      "contamination definitions",
+      "LAMP thresholds",
+      "random seed"
+    ],
+    "passed": true,
+    "valid_features_must_be": "early-window summaries only",
+    "valid_score_features": [
+      {
+        "latest_offset_h": 0.0,
+        "name": "mlp_hidden_activation_probe"
+      }
+    ],
+    "violations": []
+  },
+  "threshold_sensitivity": {
+    "baseline_positive_rate": 0.05004926108374384,
+    "evaluated": true,
+    "fragile": false,
+    "thresholds": [
+      {
+        "enrichment_over_baseline": 0.17356882936851747,
+        "positive_rate": 0.2236180904522613,
+        "selected_fraction": 0.1568472906403941,
+        "threshold": 0.2
+      },
+      {
+        "enrichment_over_baseline": 0.26658400544932226,
+        "positive_rate": 0.3166332665330661,
+        "selected_fraction": 0.09832512315270936,
+        "threshold": 0.4
+      },
+      {
+        "enrichment_over_baseline": 0.37603769543799526,
+        "positive_rate": 0.4260869565217391,
+        "selected_fraction": 0.06798029556650247,
+        "threshold": 0.6
+      },
+      {
+        "enrichment_over_baseline": 0.5022519941463817,
+        "positive_rate": 0.5523012552301255,
+        "selected_fraction": 0.0470935960591133,
+        "threshold": 0.8
+      }
+    ]
+  },
+  "visible_state_matching": {
+    "absolute_matched_observed_state_delta": 0.07731132687454022,
+    "candidate_strata": 242,
+    "evaluated": true,
+    "match_columns": [
+      "Age",
+      "HR_recent_mean",
+      "O2Sat_recent_mean",
+      "ICULOS",
+      "vital_missing_rate"
+    ],
+    "matched_observed_state_delta": 0.07731132687454022,
+    "matched_rows": 4958,
+    "matched_strata": 234,
+    "min_bin_size": 8,
+    "n_bins": 3
+  }
+}

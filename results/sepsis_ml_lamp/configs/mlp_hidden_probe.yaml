@@ -1,0 +1,68 @@
+schema_version: lamp.audit_config/v1
+dataset:
+  name: Linear probe on MLP hidden activation
+  task: PhysioNet/CinC 2019 sepsis ML prediction audit
+  role: real clinical ML LAMP benchmark
+  source: C:\Users\User\Downloads\LAMP_IRIS_operational_physiology\results\sepsis_external\v3_5k\tables\sepsis_patient_scores.csv
+columns:
+  subject_id: row_id
+  label: label_future_sepsis
+  positive_value: 1
+  score: mlp_hidden_probe_score
+  anchor_time: horizon_h
+temporal_isolation:
+  anchor: horizon_h
+  valid_features_must_be: early-window summaries only
+  frozen_before_holdout:
+  - patient-level split
+  - horizon list
+  - model family
+  - feature groups
+  - contamination definitions
+  - LAMP thresholds
+  - random seed
+  valid_score_features:
+  - name: mlp_hidden_activation_probe
+    latest_offset_h: 0
+forbidden_features:
+  columns:
+  - future_physiology_sentinel_score
+  - oracle_label_sentinel_score
+  allowed_metadata_columns:
+  - future_physiology_sentinel_score
+  - oracle_label_sentinel_score
+  valid_score_features:
+  - mlp_hidden_activation_probe
+sentinels:
+  future_physiology:
+    column: future_physiology_sentinel_score
+    role: future_physiology
+    expected_signature: post-anchor physiology comparator
+  oracle_label:
+    column: oracle_label_sentinel_score
+    role: oracle_label
+    expected_signature: ceiling label leakage comparator
+negative_controls:
+  n_permutations: 250
+  seed: 2026
+visible_state_matching:
+  columns:
+  - Age
+  - HR_recent_mean
+  - O2Sat_recent_mean
+  - ICULOS
+  - vital_missing_rate
+  n_bins: 3
+  min_bin_size: 8
+thresholds:
+  null_auc_max: 0.58
+  valid_auc_min: 0.6
+  oracle_auc_min: 0.95
+  leakage_auc_gap: 0.1
+  matched_delta_min: 0.01
+  matched_collapse_max: 0.005
+  score_thresholds:
+  - 0.2
+  - 0.4
+  - 0.6
+  - 0.8

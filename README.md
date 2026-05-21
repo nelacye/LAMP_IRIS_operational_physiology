@@ -36,6 +36,9 @@ sentinels, early-window sensitivity, and threshold robustness.
 - Successful transfer to real clinical data: PhysioNet/CinC 2019 sepsis
   early-warning benchmark (`audit_pass` with clear signal-leakage separation).
 - Synthetic deception experiments demonstrating detection of evaluation gaming.
+- Real clinical ML audit on PhysioNet/CinC 2019 sepsis feature tables, including
+  early-window MLP/gradient-boosted models, contaminated future-window variants,
+  and hidden-activation probes.
 
 ## Alignment Relevance
 
@@ -62,11 +65,16 @@ pip install -e .
 # Synthetic deception demo (recommended)
 python scripts/run_synthetic_deception_experiment.py
 
+# Real clinical ML benchmark on exported sepsis feature tables
+python scripts/run_sepsis_ml_lamp_bench.py
+
 # Run a custom audit
 lamp audit --config configs/iris_antarctic.yaml --data results/predictions.csv --output audit_results/
 ```
 
 See `notebooks/synthetic_deception_demo.ipynb` for a full walkthrough.
+
+Sepsis ML results are written to `results/sepsis_ml_lamp/sepsis_ml_lamp_report.md`.
 
 If the `lamp` entry point is not on `PATH`, use:
 

@@ -71,3 +71,30 @@ powershell -ExecutionPolicy Bypass -File scripts\download_clinical_trajectory_fl
 
 Then rerun the battery wrapper. The cardiac-arrest-risk cohort uses 1h, 2h, 4h,
 and 6h early windows. The GIB cohort uses 6h, 12h, and 24h early windows.
+
+## Sepsis ML Prediction Audit
+
+Run the ML audit over the exported PhysioNet/CinC 2019 sepsis v3_5k feature
+table:
+
+```powershell
+python scripts\run_sepsis_ml_lamp_bench.py
+```
+
+This trains early-window MLP, gradient-boosted, and linear sequential-feature
+models on a patient-level split, then audits their held-out predictions with
+LAMP. It also builds deliberate contaminated variants:
+
+- future-window feature leakage
+- low-dose oracle mixtures
+- oracle-contaminated hidden-activation probes
+
+Outputs are written to:
+
+- `results/sepsis_ml_lamp/sepsis_ml_predictions.csv`
+- `results/sepsis_ml_lamp/sepsis_ml_lamp_summary.csv`
+- `results/sepsis_ml_lamp/sepsis_ml_lamp_report.md`
+
+Raw hourly PhysioNet `.psv` trajectories are not stored in this checkout. The
+current run is therefore a real clinical feature-table ML benchmark, not a raw
+LSTM/TFT trajectory run.

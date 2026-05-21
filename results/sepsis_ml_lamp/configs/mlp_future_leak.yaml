@@ -1,0 +1,396 @@
+schema_version: lamp.audit_config/v1
+dataset:
+  name: MLP future-window contaminated model
+  task: PhysioNet/CinC 2019 sepsis ML prediction audit
+  role: real clinical ML LAMP benchmark
+  source: C:\Users\User\Downloads\LAMP_IRIS_operational_physiology\results\sepsis_external\v3_5k\tables\sepsis_patient_scores.csv
+columns:
+  subject_id: row_id
+  label: label_future_sepsis
+  positive_value: 1
+  score: mlp_future_leak_score
+  anchor_time: horizon_h
+temporal_isolation:
+  anchor: horizon_h
+  valid_features_must_be: early-window summaries only
+  frozen_before_holdout:
+  - patient-level split
+  - horizon list
+  - model family
+  - feature groups
+  - contamination definitions
+  - LAMP thresholds
+  - random seed
+  valid_score_features:
+  - name: horizon_h
+    latest_offset_h: 0
+  - name: n_rows
+    latest_offset_h: 0
+  - name: HR_last
+    latest_offset_h: 0
+  - name: HR_recent_mean
+    latest_offset_h: 0
+  - name: HR_recent_slope
+    latest_offset_h: 0
+  - name: O2Sat_last
+    latest_offset_h: 0
+  - name: O2Sat_recent_mean
+    latest_offset_h: 0
+  - name: O2Sat_recent_slope
+    latest_offset_h: 0
+  - name: Temp_last
+    latest_offset_h: 0
+  - name: Temp_recent_mean
+    latest_offset_h: 0
+  - name: Temp_recent_slope
+    latest_offset_h: 0
+  - name: SBP_last
+    latest_offset_h: 0
+  - name: SBP_recent_mean
+    latest_offset_h: 0
+  - name: SBP_recent_slope
+    latest_offset_h: 0
+  - name: MAP_last
+    latest_offset_h: 0
+  - name: MAP_recent_mean
+    latest_offset_h: 0
+  - name: MAP_recent_slope
+    latest_offset_h: 0
+  - name: DBP_last
+    latest_offset_h: 0
+  - name: DBP_recent_mean
+    latest_offset_h: 0
+  - name: DBP_recent_slope
+    latest_offset_h: 0
+  - name: Resp_last
+    latest_offset_h: 0
+  - name: Resp_recent_mean
+    latest_offset_h: 0
+  - name: Resp_recent_slope
+    latest_offset_h: 0
+  - name: Lactate_last
+    latest_offset_h: 0
+  - name: Lactate_recent_mean
+    latest_offset_h: 0
+  - name: Lactate_recent_slope
+    latest_offset_h: 0
+  - name: WBC_last
+    latest_offset_h: 0
+  - name: WBC_recent_mean
+    latest_offset_h: 0
+  - name: WBC_recent_slope
+    latest_offset_h: 0
+  - name: Creatinine_last
+    latest_offset_h: 0
+  - name: Creatinine_recent_mean
+    latest_offset_h: 0
+  - name: Creatinine_recent_slope
+    latest_offset_h: 0
+  - name: BUN_last
+    latest_offset_h: 0
+  - name: BUN_recent_mean
+    latest_offset_h: 0
+  - name: BUN_recent_slope
+    latest_offset_h: 0
+  - name: Platelets_last
+    latest_offset_h: 0
+  - name: Platelets_recent_mean
+    latest_offset_h: 0
+  - name: Platelets_recent_slope
+    latest_offset_h: 0
+  - name: Bilirubin_total_last
+    latest_offset_h: 0
+  - name: Bilirubin_total_recent_mean
+    latest_offset_h: 0
+  - name: Bilirubin_total_recent_slope
+    latest_offset_h: 0
+  - name: Age
+    latest_offset_h: 0
+  - name: Gender
+    latest_offset_h: 0
+  - name: HospAdmTime
+    latest_offset_h: 0
+  - name: ICULOS
+    latest_offset_h: 0
+  - name: vital_missing_rate
+    latest_offset_h: 0
+  - name: lab_missing_rate
+    latest_offset_h: 0
+  - name: n_hours_used
+    latest_offset_h: 0
+  - name: future_HR_last
+    latest_offset_h: 1
+  - name: future_HR_recent_mean
+    latest_offset_h: 1
+  - name: future_HR_recent_slope
+    latest_offset_h: 1
+  - name: future_O2Sat_last
+    latest_offset_h: 1
+  - name: future_O2Sat_recent_mean
+    latest_offset_h: 1
+  - name: future_O2Sat_recent_slope
+    latest_offset_h: 1
+  - name: future_Temp_last
+    latest_offset_h: 1
+  - name: future_Temp_recent_mean
+    latest_offset_h: 1
+  - name: future_Temp_recent_slope
+    latest_offset_h: 1
+  - name: future_SBP_last
+    latest_offset_h: 1
+  - name: future_SBP_recent_mean
+    latest_offset_h: 1
+  - name: future_SBP_recent_slope
+    latest_offset_h: 1
+  - name: future_MAP_last
+    latest_offset_h: 1
+  - name: future_MAP_recent_mean
+    latest_offset_h: 1
+  - name: future_MAP_recent_slope
+    latest_offset_h: 1
+  - name: future_DBP_last
+    latest_offset_h: 1
+  - name: future_DBP_recent_mean
+    latest_offset_h: 1
+  - name: future_DBP_recent_slope
+    latest_offset_h: 1
+  - name: future_Resp_last
+    latest_offset_h: 1
+  - name: future_Resp_recent_mean
+    latest_offset_h: 1
+  - name: future_Resp_recent_slope
+    latest_offset_h: 1
+  - name: future_Lactate_last
+    latest_offset_h: 1
+  - name: future_Lactate_recent_mean
+    latest_offset_h: 1
+  - name: future_Lactate_recent_slope
+    latest_offset_h: 1
+  - name: future_WBC_last
+    latest_offset_h: 1
+  - name: future_WBC_recent_mean
+    latest_offset_h: 1
+  - name: future_WBC_recent_slope
+    latest_offset_h: 1
+  - name: future_Creatinine_last
+    latest_offset_h: 1
+  - name: future_Creatinine_recent_mean
+    latest_offset_h: 1
+  - name: future_Creatinine_recent_slope
+    latest_offset_h: 1
+  - name: future_BUN_last
+    latest_offset_h: 1
+  - name: future_BUN_recent_mean
+    latest_offset_h: 1
+  - name: future_BUN_recent_slope
+    latest_offset_h: 1
+  - name: future_Platelets_last
+    latest_offset_h: 1
+  - name: future_Platelets_recent_mean
+    latest_offset_h: 1
+  - name: future_Platelets_recent_slope
+    latest_offset_h: 1
+  - name: future_Bilirubin_total_last
+    latest_offset_h: 1
+  - name: future_Bilirubin_total_recent_mean
+    latest_offset_h: 1
+  - name: future_Bilirubin_total_recent_slope
+    latest_offset_h: 1
+  - name: future_Age
+    latest_offset_h: 1
+  - name: future_Gender
+    latest_offset_h: 1
+  - name: future_HospAdmTime
+    latest_offset_h: 1
+  - name: future_ICULOS
+    latest_offset_h: 1
+  - name: future_vital_missing_rate
+    latest_offset_h: 1
+  - name: future_lab_missing_rate
+    latest_offset_h: 1
+  - name: future_n_hours_used
+    latest_offset_h: 1
+forbidden_features:
+  columns:
+  - future_Age
+  - future_BUN_last
+  - future_BUN_recent_mean
+  - future_BUN_recent_slope
+  - future_Bilirubin_total_last
+  - future_Bilirubin_total_recent_mean
+  - future_Bilirubin_total_recent_slope
+  - future_Creatinine_last
+  - future_Creatinine_recent_mean
+  - future_Creatinine_recent_slope
+  - future_DBP_last
+  - future_DBP_recent_mean
+  - future_DBP_recent_slope
+  - future_Gender
+  - future_HR_last
+  - future_HR_recent_mean
+  - future_HR_recent_slope
+  - future_HospAdmTime
+  - future_ICULOS
+  - future_Lactate_last
+  - future_Lactate_recent_mean
+  - future_Lactate_recent_slope
+  - future_MAP_last
+  - future_MAP_recent_mean
+  - future_MAP_recent_slope
+  - future_O2Sat_last
+  - future_O2Sat_recent_mean
+  - future_O2Sat_recent_slope
+  - future_Platelets_last
+  - future_Platelets_recent_mean
+  - future_Platelets_recent_slope
+  - future_Resp_last
+  - future_Resp_recent_mean
+  - future_Resp_recent_slope
+  - future_SBP_last
+  - future_SBP_recent_mean
+  - future_SBP_recent_slope
+  - future_Temp_last
+  - future_Temp_recent_mean
+  - future_Temp_recent_slope
+  - future_WBC_last
+  - future_WBC_recent_mean
+  - future_WBC_recent_slope
+  - future_lab_missing_rate
+  - future_n_hours_used
+  - future_physiology_sentinel_score
+  - future_vital_missing_rate
+  - oracle_label_sentinel_score
+  allowed_metadata_columns:
+  - future_physiology_sentinel_score
+  - oracle_label_sentinel_score
+  valid_score_features:
+  - horizon_h
+  - n_rows
+  - HR_last
+  - HR_recent_mean
+  - HR_recent_slope
+  - O2Sat_last
+  - O2Sat_recent_mean
+  - O2Sat_recent_slope
+  - Temp_last
+  - Temp_recent_mean
+  - Temp_recent_slope
+  - SBP_last
+  - SBP_recent_mean
+  - SBP_recent_slope
+  - MAP_last
+  - MAP_recent_mean
+  - MAP_recent_slope
+  - DBP_last
+  - DBP_recent_mean
+  - DBP_recent_slope
+  - Resp_last
+  - Resp_recent_mean
+  - Resp_recent_slope
+  - Lactate_last
+  - Lactate_recent_mean
+  - Lactate_recent_slope
+  - WBC_last
+  - WBC_recent_mean
+  - WBC_recent_slope
+  - Creatinine_last
+  - Creatinine_recent_mean
+  - Creatinine_recent_slope
+  - BUN_last
+  - BUN_recent_mean
+  - BUN_recent_slope
+  - Platelets_last
+  - Platelets_recent_mean
+  - Platelets_recent_slope
+  - Bilirubin_total_last
+  - Bilirubin_total_recent_mean
+  - Bilirubin_total_recent_slope
+  - Age
+  - Gender
+  - HospAdmTime
+  - ICULOS
+  - vital_missing_rate
+  - lab_missing_rate
+  - n_hours_used
+  - future_HR_last
+  - future_HR_recent_mean
+  - future_HR_recent_slope
+  - future_O2Sat_last
+  - future_O2Sat_recent_mean
+  - future_O2Sat_recent_slope
+  - future_Temp_last
+  - future_Temp_recent_mean
+  - future_Temp_recent_slope
+  - future_SBP_last
+  - future_SBP_recent_mean
+  - future_SBP_recent_slope
+  - future_MAP_last
+  - future_MAP_recent_mean
+  - future_MAP_recent_slope
+  - future_DBP_last
+  - future_DBP_recent_mean
+  - future_DBP_recent_slope
+  - future_Resp_last
+  - future_Resp_recent_mean
+  - future_Resp_recent_slope
+  - future_Lactate_last
+  - future_Lactate_recent_mean
+  - future_Lactate_recent_slope
+  - future_WBC_last
+  - future_WBC_recent_mean
+  - future_WBC_recent_slope
+  - future_Creatinine_last
+  - future_Creatinine_recent_mean
+  - future_Creatinine_recent_slope
+  - future_BUN_last
+  - future_BUN_recent_mean
+  - future_BUN_recent_slope
+  - future_Platelets_last
+  - future_Platelets_recent_mean
+  - future_Platelets_recent_slope
+  - future_Bilirubin_total_last
+  - future_Bilirubin_total_recent_mean
+  - future_Bilirubin_total_recent_slope
+  - future_Age
+  - future_Gender
+  - future_HospAdmTime
+  - future_ICULOS
+  - future_vital_missing_rate
+  - future_lab_missing_rate
+  - future_n_hours_used
+sentinels:
+  future_physiology:
+    column: future_physiology_sentinel_score
+    role: future_physiology
+    expected_signature: post-anchor physiology comparator
+  oracle_label:
+    column: oracle_label_sentinel_score
+    role: oracle_label
+    expected_signature: ceiling label leakage comparator
+negative_controls:
+  n_permutations: 250
+  seed: 2026
+visible_state_matching:
+  columns:
+  - Age
+  - HR_recent_mean
+  - O2Sat_recent_mean
+  - ICULOS
+  - vital_missing_rate
+  n_bins: 3
+  min_bin_size: 8
+thresholds:
+  null_auc_max: 0.58
+  valid_auc_min: 0.6
+  oracle_auc_min: 0.95
+  leakage_auc_gap: 0.1
+  matched_delta_min: 0.01
+  matched_collapse_max: 0.005
+  score_thresholds:
+  - 0.2
+  - 0.4
+  - 0.6
+  - 0.8
+leakage_proximity:
+  baseline_score: mlp_early_score
+  oracle_proximity_alert_min: 0.01

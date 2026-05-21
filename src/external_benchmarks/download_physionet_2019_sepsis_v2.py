@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
+r"""
 Download PhysioNet/CinC 2019 Challenge .psv files by crawling directory listings.
 
 Why v2 exists:
@@ -26,6 +26,7 @@ import csv
 import html.parser
 import json
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from urllib.parse import urljoin
 from urllib.request import Request, urlopen
@@ -57,6 +58,7 @@ def parse_args():
     p.add_argument("--max-files", type=int, default=0, help="0 = all files")
     p.add_argument("--sleep", type=float, default=0.01)
     p.add_argument("--timeout", type=int, default=60)
+    p.add_argument("--workers", type=int, default=1, help="Parallel download workers")
     return p.parse_args()
 
 
@@ -86,6 +88,26 @@ def download_one(url, dest, timeout=60):
     return "downloaded", len(data)
 
 
+def download_indexed_url(set_name, index, url, set_dir, timeout=60):
+    name = url.rstrip("/").split("/")[-1]
+    dest = set_dir / name
+    try:
+        status, nbytes = download_one(url, dest, timeout=timeout)
+        error = ""
+    except Exception as exc:
+        status, nbytes = "error", 0
+        error = str(exc)
+    return {
+        "set": set_name,
+        "index": index,
+        "url": url,
+        "dest": str(dest),
+        "status": status,
+        "bytes": nbytes,
+        "error": error,
+    }
+
+
 def main():
     args = parse_args()
     out = Path(args.out)
@@ -105,18 +127,30 @@ def main():
         set_dir.mkdir(parents=True, exist_ok=True)
 
         print(f"Set {s}: discovered/downloading {len(urls)} .psv files")
-        for i, url in enumerate(urls, 1):
-            name = url.rstrip("/").split("/")[-1]
-            dest = set_dir / name
-            try:
-                status, nbytes = download_one(url, dest, timeout=args.timeout)
-            except Exception as e:
-                status, nbytes = "error", 0
-                print(f"ERROR {name}: {e}")
-            rows.append({"set": s, "index": i, "url": url, "dest": str(dest), "status": status, "bytes": nbytes})
-            if i % 500 == 0:
-                print(f"  {i}/{len(urls)}")
-            time.sleep(args.sleep)
+        if args.workers <= 1:
+            for i, url in enumerate(urls, 1):
+                row = download_indexed_url(s, i, url, set_dir, args.timeout)
+                rows.append(row)
+                if row["status"] == "error":
+                    print(f"ERROR {Path(row['dest']).name}: {row['error']}")
+                if i % 500 == 0:
+                    print(f"  {i}/{len(urls)}")
+                time.sleep(args.sleep)
+        else:
+            completed = 0
+            with ThreadPoolExecutor(max_workers=args.workers) as pool:
+                futures = {
+                    pool.submit(download_indexed_url, s, i, url, set_dir, args.timeout): i
+                    for i, url in enumerate(urls, 1)
+                }
+                for future in as_completed(futures):
+                    row = future.result()
+                    rows.append(row)
+                    completed += 1
+                    if row["status"] == "error":
+                        print(f"ERROR {Path(row['dest']).name}: {row['error']}")
+                    if completed % 500 == 0:
+                        print(f"  {completed}/{len(urls)}")
 
         manifest.append({"set": s, "set_url": set_url, "n_files": len(urls), "set_dir": str(set_dir)})
 
@@ -125,6 +159,7 @@ def main():
 
     with (out / "download_log_v2.csv").open("w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=["set", "index", "url", "dest", "status", "bytes"])
+        rows = [{k: v for k, v in row.items() if k in w.fieldnames} for row in rows]
         w.writeheader()
         w.writerows(rows)
 
