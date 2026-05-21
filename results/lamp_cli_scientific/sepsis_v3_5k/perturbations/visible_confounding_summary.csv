@@ -1,0 +1,4 @@
+horizon_h,n,n_positive,visible_only_auc,baseline_valid_auc,auc_vs_valid_delta,matched_delta,temporal_passed,forbidden_passed,audit_pass_candidate,output_classes
+6,4869,280,0.5815848457491517,0.6416212682501634,-0.06003642250101171,-0.007235108136585952,True,True,False,oracle_label_leakage_sentinel
+12,4836,247,0.5776668022369987,0.6327633497811612,-0.05509654754416249,0.002152379329050982,True,True,False,null_or_destroyed_signal;oracle_label_leakage_sentinel
+18,4812,223,0.5623835316857332,0.6248750423854275,-0.062491510699694275,-0.0064792371174317446,True,True,False,null_or_destroyed_signal;oracle_label_leakage_sentinel;threshold_fragile_claim

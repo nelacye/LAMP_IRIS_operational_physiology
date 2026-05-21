@@ -1,0 +1,94 @@
+schema_version: lamp.audit_config/v1
+
+dataset:
+  name: PhysioNet/CinC 2019 sepsis locked benchmark
+  task: early sepsis warning
+  role: external locked benchmark
+
+columns:
+  subject_id: patient_id
+  label: sepsis_within_horizon
+  positive_value: 1
+  score: valid_early_warning_score
+  anchor_time: anchor_hour
+
+temporal_isolation:
+  anchor: anchor_hour
+  valid_features_must_be: at_or_before_anchor
+  frozen_before_holdout:
+    - cohort split
+    - horizons
+    - feature list
+    - score construction
+    - sentinel definitions
+    - visible-state matching variables
+    - forbidden-feature screen
+    - thresholds
+  valid_score_features:
+    - name: age
+      latest_offset_h: 0
+    - name: hours_in_icu
+      latest_offset_h: 0
+    - name: pre_anchor_hr_summary
+      latest_offset_h: 0
+    - name: pre_anchor_rr_summary
+      latest_offset_h: 0
+    - name: pre_anchor_spo2_summary
+      latest_offset_h: 0
+    - name: pre_anchor_sbp_summary
+      latest_offset_h: 0
+    - name: missingness_burden_pre_anchor
+      latest_offset_h: 0
+
+forbidden_features:
+  columns:
+    - future_physiology_sentinel_score
+    - oracle_label_sentinel_score
+    - onset_distance_hours
+    - post_anchor_hr
+    - post_anchor_rr
+    - post_anchor_spo2
+    - post_anchor_sbp
+    - post_anchor_temp
+    - post_anchor_lactate
+  valid_score_features:
+    - age
+    - hours_in_icu
+    - pre_anchor_hr_summary
+    - pre_anchor_rr_summary
+    - pre_anchor_spo2_summary
+    - pre_anchor_sbp_summary
+    - missingness_burden_pre_anchor
+
+sentinels:
+  future_physiology:
+    column: future_physiology_sentinel_score
+    role: future_physiology
+    expected_signature: invalid post-anchor physiology comparator
+  oracle_label:
+    column: oracle_label_sentinel_score
+    role: oracle_label
+    expected_signature: ceiling label-adjacent leakage comparator
+
+negative_controls:
+  n_permutations: 1000
+  seed: 2019
+
+visible_state_matching:
+  columns:
+    - age
+    - pre_anchor_hr_summary
+    - pre_anchor_rr_summary
+    - pre_anchor_spo2_summary
+    - pre_anchor_sbp_summary
+    - missingness_burden_pre_anchor
+  n_bins: 4
+  min_bin_size: 20
+
+thresholds:
+  null_auc_max: 0.58
+  valid_auc_min: 0.60
+  oracle_auc_min: 0.95
+  leakage_auc_gap: 0.10
+  matched_delta_min: 0.01
+  matched_collapse_max: 0.005

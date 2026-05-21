@@ -1,0 +1,384 @@
+{
+  "created_at_utc": "2026-05-14T00:10:08.409271+00:00",
+  "dataset": {
+    "horizon_h": 12,
+    "lambda": 0.05,
+    "name": "PhysioNet sepsis oracle mixture h12 lambda 0.05",
+    "role": "perturbation benchmark: undeclared oracle provenance",
+    "task": "low-dose oracle leakage sensitivity"
+  },
+  "failure_mode_dossier": {
+    "audit_pass_candidate": false,
+    "controls_near_null": true,
+    "notes": [],
+    "output_classes": [
+      "leakage_contaminated_candidate",
+      "oracle_label_leakage_sentinel",
+      "oracle_leakage_proximity_shift",
+      "valid_early_hidden_state_signal"
+    ],
+    "thresholds": {
+      "leakage_auc_gap": 0.1,
+      "matched_collapse_max": 0.005,
+      "matched_delta_min": 0.01,
+      "null_auc_max": 0.58,
+      "oracle_auc_min": 0.95,
+      "valid_auc_min": 0.6
+    }
+  },
+  "forbidden_feature_screen": {
+    "declared_sentinel_columns_present": [
+      "future_physiology_sentinel_score",
+      "oracle_label_sentinel_score"
+    ],
+    "forbidden_columns_declared": [
+      "future_BUN_last",
+      "future_BUN_recent_mean",
+      "future_BUN_recent_slope",
+      "future_Bilirubin_total_last",
+      "future_Bilirubin_total_recent_mean",
+      "future_Bilirubin_total_recent_slope",
+      "future_Creatinine_last",
+      "future_Creatinine_recent_mean",
+      "future_Creatinine_recent_slope",
+      "future_DBP_last",
+      "future_DBP_recent_mean",
+      "future_DBP_recent_slope",
+      "future_HR_last",
+      "future_HR_recent_mean",
+      "future_HR_recent_slope",
+      "future_ICULOS",
+      "future_Lactate_last",
+      "future_Lactate_recent_mean",
+      "future_Lactate_recent_slope",
+      "future_MAP_last",
+      "future_MAP_recent_mean",
+      "future_MAP_recent_slope",
+      "future_O2Sat_last",
+      "future_O2Sat_recent_mean",
+      "future_O2Sat_recent_slope",
+      "future_Platelets_last",
+      "future_Platelets_recent_mean",
+      "future_Platelets_recent_slope",
+      "future_Resp_last",
+      "future_Resp_recent_mean",
+      "future_Resp_recent_slope",
+      "future_SBP_last",
+      "future_SBP_recent_mean",
+      "future_SBP_recent_slope",
+      "future_Temp_last",
+      "future_Temp_recent_mean",
+      "future_Temp_recent_slope",
+      "future_WBC_last",
+      "future_WBC_recent_mean",
+      "future_WBC_recent_slope",
+      "future_lab_missing_rate",
+      "future_n_hours_used",
+      "future_physiology_sentinel_score",
+      "future_vital_missing_rate",
+      "oracle_label_sentinel_score",
+      "sepsis_onset_idx"
+    ],
+    "interpretation": "Declared sentinel columns are audit comparators, not leakage in the valid model unless they appear in valid_score_features.",
+    "passed": true,
+    "unexpected_forbidden_columns_present": [],
+    "valid_score_feature_violations": []
+  },
+  "input": {
+    "columns": [
+      "Age",
+      "BUN_last",
+      "BUN_recent_mean",
+      "BUN_recent_slope",
+      "Bilirubin_total_last",
+      "Bilirubin_total_recent_mean",
+      "Bilirubin_total_recent_slope",
+      "Creatinine_last",
+      "Creatinine_recent_mean",
+      "Creatinine_recent_slope",
+      "DBP_last",
+      "DBP_recent_mean",
+      "DBP_recent_slope",
+      "Gender",
+      "HR_last",
+      "HR_recent_mean",
+      "HR_recent_slope",
+      "HospAdmTime",
+      "ICULOS",
+      "Lactate_last",
+      "Lactate_recent_mean",
+      "Lactate_recent_slope",
+      "MAP_last",
+      "MAP_recent_mean",
+      "MAP_recent_slope",
+      "O2Sat_last",
+      "O2Sat_recent_mean",
+      "O2Sat_recent_slope",
+      "Platelets_last",
+      "Platelets_recent_mean",
+      "Platelets_recent_slope",
+      "Resp_last",
+      "Resp_recent_mean",
+      "Resp_recent_slope",
+      "SBP_last",
+      "SBP_recent_mean",
+      "SBP_recent_slope",
+      "Temp_last",
+      "Temp_recent_mean",
+      "Temp_recent_slope",
+      "WBC_last",
+      "WBC_recent_mean",
+      "WBC_recent_slope",
+      "anchor_idx",
+      "future_Age",
+      "future_BUN_last",
+      "future_BUN_recent_mean",
+      "future_BUN_recent_slope",
+      "future_Bilirubin_total_last",
+      "future_Bilirubin_total_recent_mean",
+      "future_Bilirubin_total_recent_slope",
+      "future_Creatinine_last",
+      "future_Creatinine_recent_mean",
+      "future_Creatinine_recent_slope",
+      "future_DBP_last",
+      "future_DBP_recent_mean",
+      "future_DBP_recent_slope",
+      "future_Gender",
+      "future_HR_last",
+      "future_HR_recent_mean",
+      "future_HR_recent_slope",
+      "future_HospAdmTime",
+      "future_ICULOS",
+      "future_Lactate_last",
+      "future_Lactate_recent_mean",
+      "future_Lactate_recent_slope",
+      "future_MAP_last",
+      "future_MAP_recent_mean",
+      "future_MAP_recent_slope",
+      "future_O2Sat_last",
+      "future_O2Sat_recent_mean",
+      "future_O2Sat_recent_slope",
+      "future_Platelets_last",
+      "future_Platelets_recent_mean",
+      "future_Platelets_recent_slope",
+      "future_Resp_last",
+      "future_Resp_recent_mean",
+      "future_Resp_recent_slope",
+      "future_SBP_last",
+      "future_SBP_recent_mean",
+      "future_SBP_recent_slope",
+      "future_Temp_last",
+      "future_Temp_recent_mean",
+      "future_Temp_recent_slope",
+      "future_WBC_last",
+      "future_WBC_recent_mean",
+      "future_WBC_recent_slope",
+      "future_lab_missing_rate",
+      "future_n_hours_used",
+      "future_physiology_sentinel_score",
+      "future_vital_missing_rate",
+      "horizon_h",
+      "lab_missing_rate",
+      "label_future_sepsis",
+      "mixed_score",
+      "n_hours_used",
+      "n_rows",
+      "oracle_label_sentinel_score",
+      "patient_id",
+      "sepsis_onset_idx",
+      "source_file",
+      "valid_early_warning_score",
+      "vital_missing_rate"
+    ],
+    "config_path": "C:\\Users\\User\\Downloads\\LAMP_IRIS_operational_physiology\\results\\lamp_perturbations\\sepsis_v3_5k\\oracle_mixture\\undeclared_h12_l0p05\\config.yaml",
+    "input_path": "C:\\Users\\User\\Downloads\\LAMP_IRIS_operational_physiology\\results\\lamp_perturbations\\sepsis_v3_5k\\tables\\oracle_h12_l0p05.csv",
+    "n_rows": 4836,
+    "n_subjects": 4836
+  },
+  "negative_controls": {
+    "label_permutation_auc_mean": 0.49820449667088085,
+    "label_permutation_auc_sd": 0.018095083999269745,
+    "n": 4836,
+    "n_permutations": 200,
+    "noise_auc_mean": 0.49793449923818883,
+    "noise_auc_sd": 0.020914740529993564,
+    "score_permutation_auc_mean": 0.5015965943026935,
+    "score_permutation_auc_sd": 0.019730272203332396
+  },
+  "outputs": {
+    "report_md": "C:\\Users\\User\\Downloads\\LAMP_IRIS_operational_physiology\\results\\lamp_perturbations\\sepsis_v3_5k\\oracle_mixture\\undeclared_h12_l0p05\\audit_report.md",
+    "summary_json": "C:\\Users\\User\\Downloads\\LAMP_IRIS_operational_physiology\\results\\lamp_perturbations\\sepsis_v3_5k\\oracle_mixture\\undeclared_h12_l0p05\\audit_summary.json"
+  },
+  "primary_score": {
+    "auc": 0.7873007358734097,
+    "column": "mixed_score",
+    "n": 4836,
+    "n_negative": 4589,
+    "n_positive": 247
+  },
+  "schema_version": "lamp.audit_summary/v1",
+  "sentinel_relations": {
+    "future_physiology": {
+      "auc_leakage_proximity": 13.005568548836116,
+      "baseline_auc": 0.6327633497811612,
+      "baseline_score_column": "valid_early_warning_score",
+      "column": "future_physiology_sentinel_score",
+      "n": 4836,
+      "oracle_proximity_alert": false,
+      "oracle_proximity_alert_min": 0.01,
+      "primary_auc": 0.7873007358734097,
+      "primary_sentinel_pearson": 0.5417278529343746,
+      "primary_sentinel_spearman": 0.4530605672601155,
+      "role": "future_physiology",
+      "sentinel_auc": 0.6446457511934454,
+      "sentinel_minus_primary_auc": -0.1426549846799643
+    },
+    "oracle_label": {
+      "auc_leakage_proximity": 0.42081144678821836,
+      "baseline_auc": 0.6327633497811612,
+      "baseline_score_column": "valid_early_warning_score",
+      "column": "oracle_label_sentinel_score",
+      "n": 4836,
+      "oracle_proximity_alert": true,
+      "oracle_proximity_alert_min": 0.01,
+      "primary_auc": 0.7873007358734097,
+      "primary_sentinel_pearson": 0.18407810499399407,
+      "primary_sentinel_spearman": 0.21910313433287684,
+      "role": "oracle_label",
+      "sentinel_auc": 1.0,
+      "sentinel_minus_primary_auc": 0.21269926412659035
+    }
+  },
+  "sentinels": {
+    "future_physiology": {
+      "auc": 0.6446457511934454,
+      "column": "future_physiology_sentinel_score",
+      "evaluated": true,
+      "expected_signature": "invalid post-anchor physiology comparator",
+      "n": 4836,
+      "n_negative": 4589,
+      "n_positive": 247,
+      "role": "future_physiology"
+    },
+    "oracle_label": {
+      "auc": 1.0,
+      "column": "oracle_label_sentinel_score",
+      "evaluated": true,
+      "expected_signature": "ceiling label-adjacent leakage comparator",
+      "n": 4836,
+      "n_negative": 4589,
+      "n_positive": 247,
+      "role": "oracle_label"
+    }
+  },
+  "temporal_isolation": {
+    "anchor": "anchor_idx",
+    "declared": true,
+    "frozen_before_holdout": [
+      "public PhysioNet training_setA source table",
+      "horizons 6, 12, and 18 hours",
+      "pre-anchor feature extraction",
+      "valid early-warning score formula",
+      "future-physiology sentinel formula",
+      "oracle-label sentinel formula",
+      "visible-state matching variables",
+      "null-control seed and permutation count",
+      "LAMP thresholds"
+    ],
+    "passed": true,
+    "valid_features_must_be": "at_or_before_anchor",
+    "valid_score_features": [
+      {
+        "latest_offset_h": 0,
+        "name": "HR_last"
+      },
+      {
+        "latest_offset_h": 0,
+        "name": "HR_recent_mean"
+      },
+      {
+        "latest_offset_h": 0,
+        "name": "O2Sat_last"
+      },
+      {
+        "latest_offset_h": 0,
+        "name": "Temp_last"
+      },
+      {
+        "latest_offset_h": 0,
+        "name": "SBP_last"
+      },
+      {
+        "latest_offset_h": 0,
+        "name": "MAP_last"
+      },
+      {
+        "latest_offset_h": 0,
+        "name": "Resp_last"
+      },
+      {
+        "latest_offset_h": 0,
+        "name": "Lactate_last"
+      },
+      {
+        "latest_offset_h": 0,
+        "name": "WBC_last"
+      },
+      {
+        "latest_offset_h": 0,
+        "name": "Creatinine_last"
+      },
+      {
+        "latest_offset_h": 0,
+        "name": "vital_missing_rate"
+      },
+      {
+        "latest_offset_h": 0,
+        "name": "lab_missing_rate"
+      }
+    ],
+    "violations": []
+  },
+  "threshold_sensitivity": {
+    "baseline_positive_rate": 0.051075268817204304,
+    "evaluated": true,
+    "fragile": false,
+    "thresholds": [
+      {
+        "enrichment_over_baseline": 0.06584015406836782,
+        "positive_rate": 0.11691542288557213,
+        "selected_fraction": 0.3325062034739454,
+        "threshold": 1.5
+      },
+      {
+        "enrichment_over_baseline": 0.09998856097002973,
+        "positive_rate": 0.15106382978723404,
+        "selected_fraction": 0.09718775847808106,
+        "threshold": 2.5
+      },
+      {
+        "enrichment_over_baseline": 0.11108689334495786,
+        "positive_rate": 0.16216216216216217,
+        "selected_fraction": 0.030603804797353185,
+        "threshold": 3.5
+      }
+    ]
+  },
+  "visible_state_matching": {
+    "absolute_matched_observed_state_delta": 0.07993313190955759,
+    "candidate_strata": 243,
+    "evaluated": true,
+    "match_columns": [
+      "HR_last",
+      "O2Sat_last",
+      "Temp_last",
+      "MAP_last",
+      "Resp_last"
+    ],
+    "matched_observed_state_delta": 0.07993313190955759,
+    "matched_rows": 4633,
+    "matched_strata": 231,
+    "min_bin_size": 8,
+    "n_bins": 3
+  }
+}

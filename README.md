@@ -1,30 +1,85 @@
-﻿# LAMP / IRIS operational physiology audit framework
+# LAMP: Latent-state Audit with Matched-cohort Protocol
 
-This repository contains code and manuscript assets for LAMP, a leakage-audited framework for evaluating latent-state inference systems in operational physiology.
+**A general, executable framework for auditing claims of hidden/latent state
+inference in complex systems, with direct applications to AI alignment and
+scalable oversight.**
 
-## Repository structure
+Many AI safety proposals depend on early-warning or latent monitoring systems
+that claim to detect deception, situational awareness, capability gain, or
+alignment drift *before* these phenomena become visible in behavior. Such claims
+are notoriously difficult to validate and are vulnerable to evaluation leakage,
+proxy gaming, temporal confounding, and hidden shortcuts.
 
-- src/lamp/ — shared LAMP audit logic
-- src/iris/ — IRIS Antarctic reserve-topology simulation and robustness scripts
-- src/external_benchmarks/ — external LAMP benchmark audits, including PhysioNet/CinC 2019 sepsis and WESAD
-- src/human_grounding/ — retrospective human-signal grounding scripts
-- src/figures/ — manuscript figure-generation scripts
-- esults/ — selected processed outputs and audit summaries
-- manuscript/ — manuscript-ready tables, figure exports and text scaffolds
-- data_manifest/ — dataset provenance and download notes
+LAMP provides a structured failure-mode audit protocol to rigorously stress-test
+these claims.
 
-## Evidence layers
+## Core Contribution
 
-1. IRIS Antarctic simulation and LAMP audit
-2. 10,000-system station sweep
-3. Threshold sensitivity and radiation-channel ablation
-4. External benchmark LAMP portability audit
-5. Human physiological component-grounding layer
+LAMP takes a time-series prediction table plus a YAML audit configuration and
+outputs a standardized machine-readable dossier that distinguishes:
 
-## Data note
+- Null / destroyed signal
+- Valid early latent signal
+- Future-window leakage
+- Label-adjacent contamination
 
-Raw datasets are not stored in this repository. They should be downloaded from their original sources and placed under eal_data/, which is excluded from version control.
+It implements eight audit components, including temporal isolation, forbidden
+feature screening, negative controls, matched observed-state cohorts, leaky
+sentinels, early-window sensitivity, and threshold robustness.
 
-## Current status
+## Evidence
 
-Pre-submission research repository. Not intended for clinical or operational deployment.
+- **IRIS**: mechanistic toy model of multi-axis reserve topology, analogous to
+  toy models in mechanistic interpretability.
+- Large-scale sweeps across 10,000+ systems under realistic Antarctic forcing
+  profiles.
+- Successful transfer to real clinical data: PhysioNet/CinC 2019 sepsis
+  early-warning benchmark (`audit_pass` with clear signal-leakage separation).
+- Synthetic deception experiments demonstrating detection of evaluation gaming.
+
+## Alignment Relevance
+
+LAMP is directly transferable to auditing:
+
+- Latent knowledge and situational awareness in LLMs
+- Deceptive alignment
+- Agent trajectories and hidden goals
+- Sudden capability jumps or safety property erosion ("reserve collapse")
+
+## Alignment Angles
+
+- Matched-behavior latent knowledge audits: same visible output, different
+  internals
+- Deceptive alignment early-warning benchmarks
+- Scalable oversight leakage atlas: controlled contamination experiments
+- Capability reserve-collapse monitoring in agent runs
+
+## Quick Start
+
+```bash
+pip install -e .
+
+# Synthetic deception demo (recommended)
+python scripts/run_synthetic_deception_experiment.py
+
+# Run a custom audit
+lamp audit --config configs/iris_antarctic.yaml --data results/predictions.csv --output audit_results/
+```
+
+See `notebooks/synthetic_deception_demo.ipynb` for a full walkthrough.
+
+If the `lamp` entry point is not on `PATH`, use:
+
+```bash
+python -m lamp.cli audit --config configs/iris_antarctic.yaml --data results/predictions.csv --output audit_results/
+```
+
+## Important Caveat
+
+Passing LAMP does not prove real-world validity or alignment safety. It means
+the system survived a configured set of failure-mode tests and earned the right
+to further, more expensive evaluation.
+
+## Status
+
+Active pre-submission research. Open to collaboration and extensions.

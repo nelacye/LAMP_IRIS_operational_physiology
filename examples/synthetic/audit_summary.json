@@ -1,0 +1,199 @@
+{
+  "created_at_utc": "2026-05-13T23:55:57.710168+00:00",
+  "dataset": {
+    "name": "Synthetic hidden-state demo",
+    "role": "synthetic demonstration",
+    "task": "controlled visible-state indistinguishability audit"
+  },
+  "failure_mode_dossier": {
+    "audit_pass_candidate": true,
+    "controls_near_null": true,
+    "notes": [],
+    "output_classes": [
+      "audit_pass_candidate",
+      "oracle_label_leakage_sentinel",
+      "valid_early_hidden_state_signal"
+    ],
+    "thresholds": {
+      "leakage_auc_gap": 0.1,
+      "matched_collapse_max": 0.02,
+      "matched_delta_min": 0.1,
+      "null_auc_max": 0.58,
+      "oracle_auc_min": 0.95,
+      "valid_auc_min": 0.7
+    }
+  },
+  "forbidden_feature_screen": {
+    "declared_sentinel_columns_present": [
+      "future_score",
+      "oracle_score"
+    ],
+    "forbidden_columns_declared": [
+      "future_score",
+      "onset_distance_hours",
+      "oracle_score",
+      "post_anchor_lactate"
+    ],
+    "interpretation": "Declared sentinel columns are audit comparators, not leakage in the valid model unless they appear in valid_score_features.",
+    "passed": true,
+    "unexpected_forbidden_columns_present": [],
+    "valid_score_feature_violations": []
+  },
+  "input": {
+    "columns": [
+      "age",
+      "anchor_time_h",
+      "baseline_hr",
+      "baseline_spo2",
+      "future_score",
+      "missingness_burden",
+      "oracle_score",
+      "outcome",
+      "subject_id",
+      "valid_score"
+    ],
+    "config_path": "examples\\synthetic\\config.yaml",
+    "input_path": "examples\\synthetic\\input.csv",
+    "n_rows": 40,
+    "n_subjects": 40
+  },
+  "negative_controls": {
+    "label_permutation_auc_mean": 0.4834375,
+    "label_permutation_auc_sd": 0.0889615683707573,
+    "n": 40,
+    "n_permutations": 200,
+    "noise_auc_mean": 0.4974375,
+    "noise_auc_sd": 0.09369288461182324,
+    "score_permutation_auc_mean": 0.509325,
+    "score_permutation_auc_sd": 0.09501775488675047
+  },
+  "outputs": {
+    "report_md": "examples\\synthetic\\audit_report.md",
+    "summary_json": "examples\\synthetic\\audit_summary.json"
+  },
+  "primary_score": {
+    "auc": 1.0,
+    "column": "valid_score",
+    "n": 40,
+    "n_negative": 20,
+    "n_positive": 20
+  },
+  "schema_version": "lamp.audit_summary/v1",
+  "sentinel_relations": {
+    "future_physiology": {
+      "column": "future_score",
+      "n": 40,
+      "oracle_proximity_alert": false,
+      "primary_auc": 1.0,
+      "primary_sentinel_pearson": 0.9687688017454336,
+      "primary_sentinel_spearman": 0.930154224024149,
+      "role": "future_physiology",
+      "sentinel_auc": 1.0,
+      "sentinel_minus_primary_auc": 0.0
+    },
+    "oracle_label": {
+      "column": "oracle_score",
+      "n": 40,
+      "oracle_proximity_alert": false,
+      "primary_auc": 1.0,
+      "primary_sentinel_pearson": 0.9542762397329396,
+      "primary_sentinel_spearman": 0.86629616364842,
+      "role": "oracle_label",
+      "sentinel_auc": 1.0,
+      "sentinel_minus_primary_auc": 0.0
+    }
+  },
+  "sentinels": {
+    "future_physiology": {
+      "auc": 1.0,
+      "column": "future_score",
+      "evaluated": true,
+      "expected_signature": "invalid post-anchor comparator",
+      "n": 40,
+      "n_negative": 20,
+      "n_positive": 20,
+      "role": "future_physiology"
+    },
+    "oracle_label": {
+      "auc": 1.0,
+      "column": "oracle_score",
+      "evaluated": true,
+      "expected_signature": "ceiling label-adjacent leakage",
+      "n": 40,
+      "n_negative": 20,
+      "n_positive": 20,
+      "role": "oracle_label"
+    }
+  },
+  "temporal_isolation": {
+    "anchor": "anchor_time_h",
+    "declared": true,
+    "frozen_before_holdout": [
+      "score definition",
+      "visible-state matching columns",
+      "sentinel columns",
+      "null-control seed",
+      "audit thresholds"
+    ],
+    "passed": true,
+    "valid_features_must_be": "at_or_before_anchor",
+    "valid_score_features": [
+      {
+        "latest_offset_h": 0,
+        "name": "baseline_hr"
+      },
+      {
+        "latest_offset_h": 0,
+        "name": "baseline_spo2"
+      },
+      {
+        "latest_offset_h": 0,
+        "name": "age"
+      },
+      {
+        "latest_offset_h": 0,
+        "name": "missingness_burden"
+      }
+    ],
+    "violations": []
+  },
+  "threshold_sensitivity": {
+    "baseline_positive_rate": 0.5,
+    "evaluated": true,
+    "fragile": false,
+    "thresholds": [
+      {
+        "enrichment_over_baseline": 0.40909090909090906,
+        "positive_rate": 0.9090909090909091,
+        "selected_fraction": 0.55,
+        "threshold": 0.4
+      },
+      {
+        "enrichment_over_baseline": 0.5,
+        "positive_rate": 1.0,
+        "selected_fraction": 0.5,
+        "threshold": 0.5
+      },
+      {
+        "enrichment_over_baseline": 0.5,
+        "positive_rate": 1.0,
+        "selected_fraction": 0.5,
+        "threshold": 0.6
+      }
+    ]
+  },
+  "visible_state_matching": {
+    "absolute_matched_observed_state_delta": 1.0,
+    "candidate_strata": 4,
+    "evaluated": true,
+    "match_columns": [
+      "age",
+      "baseline_hr"
+    ],
+    "matched_observed_state_delta": 1.0,
+    "matched_rows": 40,
+    "matched_strata": 4,
+    "min_bin_size": 4,
+    "n_bins": 2
+  }
+}

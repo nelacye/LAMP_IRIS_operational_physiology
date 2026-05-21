@@ -1,0 +1,84 @@
+schema_version: lamp.audit_config/v1
+
+dataset:
+  name: IRIS Antarctic reserve-topology audit
+  task: latent reserve-collapse early-warning audit
+  role: mechanistic testbed
+
+columns:
+  subject_id: system_id
+  label: collapse_label
+  positive_value: 1
+  score: valid_latent_score
+  anchor_time: anchor_time_h
+
+temporal_isolation:
+  anchor: anchor_time_h
+  valid_features_must_be: at_or_before_anchor
+  frozen_before_holdout:
+    - forcing profile
+    - reserve-collapse threshold
+    - score formula
+    - sentinel definitions
+    - matching variables
+    - audit thresholds
+  valid_score_features:
+    - name: reserve_margin_t0
+      latest_offset_h: 0
+    - name: reserve_slope_t0
+      latest_offset_h: 0
+    - name: visible_state_index_t0
+      latest_offset_h: 0
+
+forbidden_features:
+  columns:
+    - future_reserve_margin
+    - future_collapse_indicator
+    - oracle_collapse_score
+  allowed_metadata_columns:
+    - future_reserve_margin
+    - future_collapse_indicator
+    - oracle_collapse_score
+  valid_score_features:
+    - reserve_margin_t0
+    - reserve_slope_t0
+    - visible_state_index_t0
+
+sentinels:
+  future_reserve:
+    column: future_collapse_indicator
+    role: future_physiology
+    expected_signature: invalid post-anchor reserve comparator
+  oracle_collapse:
+    column: oracle_collapse_score
+    role: oracle_label
+    expected_signature: ceiling collapse-label sentinel
+
+negative_controls:
+  n_permutations: 500
+  seed: 2026
+
+visible_state_matching:
+  columns:
+    - visible_state_index_t0
+    - forcing_intensity_t0
+  n_bins: 4
+  min_bin_size: 8
+
+early_window_sensitivity:
+  score_columns:
+    - valid_latent_score
+    - early_window_score
+    - late_window_score
+
+thresholds:
+  null_auc_max: 0.58
+  valid_auc_min: 0.60
+  oracle_auc_min: 0.95
+  leakage_auc_gap: 0.10
+  matched_delta_min: 0.02
+  matched_collapse_max: 0.01
+  score_thresholds:
+    - 0.25
+    - 0.50
+    - 0.75

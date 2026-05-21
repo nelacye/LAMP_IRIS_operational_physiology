@@ -1,0 +1,87 @@
+columns:
+  anchor_time: early_minutes
+  label: label_later_sleep_instability
+  positive_value: 1
+  score: mixed_score
+  subject_id: subject_night
+dataset:
+  name: BIDSleep HR plus EEG-label wearable sleep benchmark
+  role: open wearable external benchmark
+  task: early-night wearable prediction of later-night sleep instability
+forbidden_features:
+  allowed_metadata_columns:
+  - later_wake_fraction
+  - later_rem_fraction
+  - later_deep_fraction
+  - later_transition_rate
+  - later_unknown_fraction
+  columns:
+  - future_hr_sentinel_score
+  - oracle_sleep_stage_sentinel_score
+  - later_wake_fraction
+  - later_rem_fraction
+  - later_deep_fraction
+  - later_transition_rate
+  - later_unknown_fraction
+  valid_score_features:
+  - early_hr_mean
+  - early_hr_sd
+  - early_hr_rmssd_proxy
+  - early_hr_fragmentation
+  - oracle_sleep_stage_sentinel_score
+negative_controls:
+  n_permutations: 200
+  seed: 2026
+schema_version: lamp.audit_config/v1
+sentinels:
+  future_physiology:
+    column: future_hr_sentinel_score
+    expected_signature: invalid later-night wearable HR comparator
+    role: future_physiology
+  oracle_label:
+    column: oracle_sleep_stage_sentinel_score
+    expected_signature: ceiling future EEG-label comparator
+    role: oracle_label
+temporal_isolation:
+  anchor: early_minutes
+  frozen_before_holdout:
+  - early window
+  - later-instability endpoint threshold
+  - valid HR-only score
+  - future HR sentinel
+  - oracle EEG-label sentinel
+  - visible-state matching variables
+  - LAMP thresholds
+  valid_features_must_be: first 90 minutes only
+  valid_score_features:
+  - latest_offset_h: 0
+    name: early_hr_mean
+  - latest_offset_h: 0
+    name: early_hr_sd
+  - latest_offset_h: 0
+    name: early_hr_rmssd_proxy
+  - latest_offset_h: 0
+    name: early_hr_fragmentation
+  - name: oracle_sleep_stage_sentinel_score
+    latest_offset_h: 1
+thresholds:
+  leakage_auc_gap: 0.1
+  matched_collapse_max: 0.005
+  matched_delta_min: 0.01
+  null_auc_max: 0.58
+  oracle_auc_min: 0.9
+  score_thresholds:
+  - 1.5
+  - 2.0
+  - 2.5
+  valid_auc_min: 0.6
+visible_state_matching:
+  columns:
+  - early_hr_mean
+  - early_hr_sd
+  - early_wake_fraction
+  min_bin_size: 5
+  n_bins: 3
+leakage_proximity:
+  baseline_score: valid_early_hr_score
+  oracle_proximity_alert_min: 0.01

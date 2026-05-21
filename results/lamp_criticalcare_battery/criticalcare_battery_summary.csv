@@ -1,0 +1,4 @@
+benchmark,window_h,n,n_positive,valid_auc,future_sentinel_auc,oracle_auc,matched_delta,temporal_passed,forbidden_passed,audit_pass_candidate,output_classes
+physionet_cinc_2019_sepsis,6,4869,280,0.6416212682501634,0.6307120287644367,1.0,0.02906591274983061,True,True,True,audit_pass_candidate;oracle_label_leakage_sentinel;valid_early_hidden_state_signal
+physionet_cinc_2019_sepsis,12,4836,247,0.6327633497811612,0.6446457511934454,1.0,0.02806232326883745,True,True,True,audit_pass_candidate;oracle_label_leakage_sentinel;valid_early_hidden_state_signal
+physionet_cinc_2019_sepsis,18,4812,223,0.6248750423854275,0.6569242886332788,1.0,0.024775953145408983,True,True,True,audit_pass_candidate;oracle_label_leakage_sentinel;valid_early_hidden_state_signal

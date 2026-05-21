@@ -1,0 +1,2 @@
+n,n_positive,valid_auc,future_hr_auc,oracle_auc,matched_delta,temporal_passed,forbidden_passed,audit_pass_candidate,output_classes
+252,77,0.5671243042671614,0.6112059369202226,1.0,0.04997108155002891,True,True,False,null_or_destroyed_signal;oracle_label_leakage_sentinel

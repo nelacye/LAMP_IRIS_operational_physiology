@@ -1,0 +1,228 @@
+{
+  "created_at_utc": "2026-05-14T00:54:56.087298+00:00",
+  "dataset": {
+    "name": "BIDSleep HR plus EEG-label wearable sleep benchmark",
+    "role": "open wearable external benchmark",
+    "task": "early-night wearable prediction of later-night sleep instability"
+  },
+  "failure_mode_dossier": {
+    "audit_pass_candidate": false,
+    "controls_near_null": true,
+    "notes": [],
+    "output_classes": [
+      "null_or_destroyed_signal",
+      "oracle_label_leakage_sentinel"
+    ],
+    "thresholds": {
+      "leakage_auc_gap": 0.1,
+      "matched_collapse_max": 0.005,
+      "matched_delta_min": 0.01,
+      "null_auc_max": 0.58,
+      "oracle_auc_min": 0.9,
+      "valid_auc_min": 0.6
+    }
+  },
+  "forbidden_feature_screen": {
+    "declared_sentinel_columns_present": [
+      "future_hr_sentinel_score",
+      "oracle_sleep_stage_sentinel_score"
+    ],
+    "forbidden_columns_declared": [
+      "future_hr_sentinel_score",
+      "later_deep_fraction",
+      "later_rem_fraction",
+      "later_transition_rate",
+      "later_unknown_fraction",
+      "later_wake_fraction",
+      "oracle_sleep_stage_sentinel_score"
+    ],
+    "interpretation": "Declared sentinel columns are audit comparators, not leakage in the valid model unless they appear in valid_score_features.",
+    "passed": true,
+    "unexpected_forbidden_columns_present": [],
+    "valid_score_feature_violations": []
+  },
+  "input": {
+    "columns": [
+      "duration_minutes",
+      "early_deep_fraction",
+      "early_hr_fragmentation",
+      "early_hr_mean",
+      "early_hr_n",
+      "early_hr_range",
+      "early_hr_rmssd_proxy",
+      "early_hr_sd",
+      "early_minutes",
+      "early_rem_fraction",
+      "early_transition_rate",
+      "early_unknown_fraction",
+      "early_wake_fraction",
+      "future_hr_fragmentation",
+      "future_hr_mean",
+      "future_hr_n",
+      "future_hr_range",
+      "future_hr_rmssd_proxy",
+      "future_hr_sd",
+      "future_hr_sentinel_score",
+      "label_later_sleep_instability",
+      "later_deep_fraction",
+      "later_instability_threshold",
+      "later_rem_fraction",
+      "later_transition_rate",
+      "later_unknown_fraction",
+      "later_wake_fraction",
+      "night_id",
+      "oracle_sleep_stage_sentinel_score",
+      "rec_start",
+      "subject_id",
+      "subject_night",
+      "valid_early_hr_score",
+      "visible_stage_shortcut_score"
+    ],
+    "config_path": "results\\bidsleep_lamp\\hr_labels\\bidsleep_config.yaml",
+    "input_path": "results\\bidsleep_lamp\\hr_labels\\tables\\bidsleep_hr_labels_score_table.csv",
+    "n_rows": 252,
+    "n_subjects": 252
+  },
+  "negative_controls": {
+    "label_permutation_auc_mean": 0.5003568089053804,
+    "label_permutation_auc_sd": 0.03888815209325264,
+    "n": 252,
+    "n_permutations": 500,
+    "noise_auc_mean": 0.5023499814471243,
+    "noise_auc_sd": 0.042414136005730775,
+    "score_permutation_auc_mean": 0.4985807792207792,
+    "score_permutation_auc_sd": 0.039457142666758115
+  },
+  "outputs": {
+    "report_md": "results\\bidsleep_lamp\\hr_labels\\main\\audit_report.md",
+    "summary_json": "results\\bidsleep_lamp\\hr_labels\\main\\audit_summary.json"
+  },
+  "primary_score": {
+    "auc": 0.5671243042671614,
+    "column": "valid_early_hr_score",
+    "n": 252,
+    "n_negative": 175,
+    "n_positive": 77
+  },
+  "schema_version": "lamp.audit_summary/v1",
+  "sentinel_relations": {
+    "future_physiology": {
+      "column": "future_hr_sentinel_score",
+      "n": 252,
+      "oracle_proximity_alert": false,
+      "primary_auc": 0.5671243042671614,
+      "primary_sentinel_pearson": 0.6608464437034894,
+      "primary_sentinel_spearman": 0.7308938535337287,
+      "role": "future_physiology",
+      "sentinel_auc": 0.6112059369202226,
+      "sentinel_minus_primary_auc": 0.0440816326530612
+    },
+    "oracle_label": {
+      "column": "oracle_sleep_stage_sentinel_score",
+      "n": 252,
+      "oracle_proximity_alert": false,
+      "primary_auc": 0.5671243042671614,
+      "primary_sentinel_pearson": 0.08598457004775434,
+      "primary_sentinel_spearman": 0.11812940221046922,
+      "role": "oracle_label",
+      "sentinel_auc": 1.0,
+      "sentinel_minus_primary_auc": 0.4328756957328386
+    }
+  },
+  "sentinels": {
+    "future_physiology": {
+      "auc": 0.6112059369202226,
+      "column": "future_hr_sentinel_score",
+      "evaluated": true,
+      "expected_signature": "invalid later-night wearable HR comparator",
+      "n": 252,
+      "n_negative": 175,
+      "n_positive": 77,
+      "role": "future_physiology"
+    },
+    "oracle_label": {
+      "auc": 1.0,
+      "column": "oracle_sleep_stage_sentinel_score",
+      "evaluated": true,
+      "expected_signature": "ceiling future EEG-label comparator",
+      "n": 252,
+      "n_negative": 175,
+      "n_positive": 77,
+      "role": "oracle_label"
+    }
+  },
+  "temporal_isolation": {
+    "anchor": "early_minutes",
+    "declared": true,
+    "frozen_before_holdout": [
+      "early window",
+      "later-instability endpoint threshold",
+      "valid HR-only score",
+      "future HR sentinel",
+      "oracle EEG-label sentinel",
+      "visible-state matching variables",
+      "LAMP thresholds"
+    ],
+    "passed": true,
+    "valid_features_must_be": "first 90 minutes only",
+    "valid_score_features": [
+      {
+        "latest_offset_h": 0,
+        "name": "early_hr_mean"
+      },
+      {
+        "latest_offset_h": 0,
+        "name": "early_hr_sd"
+      },
+      {
+        "latest_offset_h": 0,
+        "name": "early_hr_rmssd_proxy"
+      },
+      {
+        "latest_offset_h": 0,
+        "name": "early_hr_fragmentation"
+      }
+    ],
+    "violations": []
+  },
+  "threshold_sensitivity": {
+    "baseline_positive_rate": 0.3055555555555556,
+    "evaluated": true,
+    "fragile": false,
+    "thresholds": [
+      {
+        "enrichment_over_baseline": 0.0,
+        "positive_rate": 0.3055555555555556,
+        "selected_fraction": 1.0,
+        "threshold": 1.5
+      },
+      {
+        "enrichment_over_baseline": 0.052339181286549685,
+        "positive_rate": 0.35789473684210527,
+        "selected_fraction": 0.376984126984127,
+        "threshold": 2.0
+      },
+      {
+        "enrichment_over_baseline": 0.30982905982905984,
+        "positive_rate": 0.6153846153846154,
+        "selected_fraction": 0.051587301587301584,
+        "threshold": 2.5
+      }
+    ]
+  },
+  "visible_state_matching": {
+    "absolute_matched_observed_state_delta": 0.04997108155002891,
+    "candidate_strata": 27,
+    "evaluated": true,
+    "match_columns": [
+      "early_hr_mean",
+      "early_hr_sd",
+      "early_wake_fraction"
+    ],
+    "matched_observed_state_delta": 0.04997108155002891,
+    "matched_rows": 247,
+    "matched_strata": 25,
+    "min_bin_size": 5,
+    "n_bins": 3
+  }
+}

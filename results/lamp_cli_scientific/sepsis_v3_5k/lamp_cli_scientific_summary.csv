@@ -1,0 +1,4 @@
+horizon_h,n,n_positive,valid_auc,future_physiology_auc,oracle_auc,noise_auc_mean,score_permutation_auc_mean,label_permutation_auc_mean,matched_observed_state_delta,matched_rows,matched_strata,temporal_passed,forbidden_passed,audit_pass_candidate,output_classes
+6,4869,280,0.6416212682501634,0.6307120287644367,1.0,0.49996995610621675,0.5005184676867043,0.5009658309466738,0.02906591274983061,4681,234,True,True,True,audit_pass_candidate;oracle_label_leakage_sentinel;valid_early_hidden_state_signal
+12,4836,247,0.6327633497811612,0.6446457511934454,1.0,0.49975014270174317,0.5005877860541358,0.49818226475386046,0.02806232326883745,4633,231,True,True,True,audit_pass_candidate;oracle_label_leakage_sentinel;valid_early_hidden_state_signal
+18,4812,223,0.6248750423854275,0.6569242886332788,1.0,0.501510972329034,0.499681063217071,0.5010706896096827,0.024775953145408983,4618,233,True,True,True,audit_pass_candidate;oracle_label_leakage_sentinel;valid_early_hidden_state_signal

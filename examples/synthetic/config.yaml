@@ -1,0 +1,77 @@
+schema_version: lamp.audit_config/v1
+
+dataset:
+  name: Synthetic hidden-state demo
+  task: controlled visible-state indistinguishability audit
+  role: synthetic demonstration
+
+columns:
+  subject_id: subject_id
+  label: outcome
+  positive_value: 1
+  score: valid_score
+  anchor_time: anchor_time_h
+
+temporal_isolation:
+  anchor: anchor_time_h
+  valid_features_must_be: at_or_before_anchor
+  frozen_before_holdout:
+    - score definition
+    - visible-state matching columns
+    - sentinel columns
+    - null-control seed
+    - audit thresholds
+  valid_score_features:
+    - name: baseline_hr
+      latest_offset_h: 0
+    - name: baseline_spo2
+      latest_offset_h: 0
+    - name: age
+      latest_offset_h: 0
+    - name: missingness_burden
+      latest_offset_h: 0
+
+forbidden_features:
+  columns:
+    - future_score
+    - oracle_score
+    - post_anchor_lactate
+    - onset_distance_hours
+  valid_score_features:
+    - baseline_hr
+    - baseline_spo2
+    - age
+    - missingness_burden
+
+sentinels:
+  future_physiology:
+    column: future_score
+    role: future_physiology
+    expected_signature: invalid post-anchor comparator
+  oracle_label:
+    column: oracle_score
+    role: oracle_label
+    expected_signature: ceiling label-adjacent leakage
+
+negative_controls:
+  n_permutations: 200
+  seed: 23
+
+visible_state_matching:
+  columns:
+    - age
+    - baseline_hr
+  n_bins: 2
+  min_bin_size: 4
+
+thresholds:
+  null_auc_max: 0.58
+  valid_auc_min: 0.70
+  oracle_auc_min: 0.95
+  leakage_auc_gap: 0.10
+  matched_delta_min: 0.10
+  matched_collapse_max: 0.02
+  score_thresholds:
+    - 0.40
+    - 0.50
+    - 0.60

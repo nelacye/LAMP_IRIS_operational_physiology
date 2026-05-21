@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lamp-audit"
+version = "0.1.0"
+description = "Executable audits for latent-state claims in AI alignment and high-stakes evaluation."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+authors = [
+  { name = "LAMP contributors" }
+]
+dependencies = [
+  "click>=8.1",
+  "pydantic>=2.0",
+  "PyYAML>=6.0"
+]
+keywords = [
+  "ai-alignment",
+  "ai-safety",
+  "mechanistic-interpretability",
+  "scalable-oversight",
+  "evaluation-auditing",
+  "latent-state",
+  "audit"
+]
+
+[project.scripts]
+lamp = "lamp.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
