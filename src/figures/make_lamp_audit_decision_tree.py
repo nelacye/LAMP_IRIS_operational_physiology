@@ -16,32 +16,21 @@ OUT = ROOT / "paper" / "figures" / "lamp_audit_decision_tree.png"
 def main() -> int:
     OUT.parent.mkdir(parents=True, exist_ok=True)
 
-    fig, ax = plt.subplots(figsize=(5.6, 7.2), dpi=300)
+    fig, ax = plt.subplots(figsize=(7.2, 9.2), dpi=300)
     fig.patch.set_facecolor("white")
     ax.set_xlim(0, 1)
     ax.set_ylim(0, 1)
     ax.axis("off")
 
-    ax.text(
-        0.5,
-        0.955,
-        "Audit decision tree",
-        ha="center",
-        va="center",
-        fontsize=13.5,
-        fontweight="bold",
-        color="black",
-    )
-
-    x = 0.36
-    box_w = 0.43
-    box_h = 0.062
+    x = 0.38
+    box_w = 0.36
+    box_h = 0.060
     y_positions = {
-        "Latent-state claim": 0.84,
-        "Temporal isolation": 0.67,
+        "Latent-state claim": 0.88,
+        "Temporal isolation": 0.69,
         "Matched cohorts": 0.50,
-        "Negative controls": 0.33,
-        "PASS": 0.16,
+        "Negative controls": 0.31,
+        "PASS": 0.12,
     }
 
     for label, y in y_positions.items():
@@ -52,7 +41,7 @@ def main() -> int:
             box_w,
             box_h,
             label,
-            fontsize=11.2 if label != "PASS" else 12.2,
+            fontsize=11.8 if label != "PASS" else 12.8,
             weight="bold" if label in {"Latent-state claim", "PASS"} else "normal",
         )
 
@@ -60,8 +49,8 @@ def main() -> int:
     for upper, lower in zip(labels[:-1], labels[1:]):
         draw_arrow(
             ax,
-            (x, y_positions[upper] - box_h / 2 - 0.012),
-            (x, y_positions[lower] + box_h / 2 + 0.012),
+            (x, y_positions[upper] - box_h / 2 - 0.018),
+            (x, y_positions[lower] + box_h / 2 + 0.018),
             linewidth=1.2,
             scale=11,
         )
@@ -73,27 +62,27 @@ def main() -> int:
     ]
     for source, outcome in fail_branches:
         y = y_positions[source]
-        start = (x + box_w / 2 + 0.012, y)
-        end = (0.66, y)
+        start = (x + box_w / 2 + 0.018, y)
+        end = (0.64, y)
         draw_arrow(ax, start, end, linewidth=1.1, scale=10)
         ax.text(
-            0.675,
+            0.665,
             y,
             f"FAIL \u2192 {outcome}",
             ha="left",
             va="center",
-            fontsize=10.6,
+            fontsize=10.4,
             color="black",
         )
 
-    ax.plot([0.25, 0.75], [0.073, 0.073], color="black", linewidth=0.9)
+    ax.plot([0.24, 0.76], [0.060, 0.060], color="black", linewidth=0.9)
     ax.text(
         0.5,
-        0.045,
+        0.034,
         "LAMP Audit Protocol",
         ha="center",
         va="center",
-        fontsize=12.5,
+        fontsize=13.4,
         fontweight="bold",
         color="black",
     )
