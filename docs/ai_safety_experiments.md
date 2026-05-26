@@ -6,6 +6,11 @@ to make the audit contract concrete for AI safety readers: a latent monitor must
 respect a declared information boundary, even when leakage makes ordinary AUC
 look better.
 
+The repository also includes a public, non-synthetic LLM-evaluation-data run on
+Anthropic `model-written-evals` sycophancy prompts. See
+`docs/public_llm_dataset_selection.md` for the dataset choice and
+`notebooks/anthropic_sycophancy_lamp_audit.ipynb` for the result notebook.
+
 Run:
 
 ```powershell

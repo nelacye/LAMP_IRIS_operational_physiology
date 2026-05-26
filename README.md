@@ -85,6 +85,22 @@ See `notebooks/llm_safety_lamp_audit.ipynb` and
 `results/llm_safety_lamp/llm_safety_lamp_report.md` for the alignment-native
 tables and figures.
 
+The first public, non-synthetic LLM-evaluation-data benchmark uses Anthropic's
+open `model-written-evals` sycophancy data:
+
+- Source: `Anthropic/model-written-evals`,
+  `sycophancy/sycophancy_on_nlp_survey.jsonl`.
+- Raw examples: 9,984; held-out audit examples: 2,996.
+- Prompt-only TF-IDF sycophancy-target monitor: AUC 0.987, `audit_pass`.
+- Interpretable user-view cue monitor: AUC 0.815, `audit_pass`.
+- Visible length shortcut: AUC 0.465, null/destroyed signal.
+- Direct answer-key leakage: AUC 1.000, audit fail.
+- Low-dose answer-key leakage at 1%, 5%, and 10%: AUC 0.988, 0.992, and
+  0.996, all audit fail by temporal/forbidden/oracle-proximity gates.
+
+See `notebooks/anthropic_sycophancy_lamp_audit.ipynb` and
+`results/anthropic_sycophancy_lamp/anthropic_sycophancy_lamp_report.md`.
+
 ## Alignment Relevance
 
 LAMP is directly transferable to auditing:
@@ -113,6 +129,9 @@ python scripts/run_synthetic_deception_experiment.py
 # Alignment-native LLM-safety toy battery
 python scripts/run_llm_safety_lamp_bench.py
 
+# Public real LLM-evaluation dataset benchmark
+python scripts/run_anthropic_sycophancy_lamp_bench.py
+
 # Real clinical ML benchmark on exported sepsis feature tables
 python scripts/run_sepsis_ml_lamp_bench.py
 
@@ -132,6 +151,7 @@ lamp audit --config configs/iris_antarctic.yaml --data results/predictions.csv -
 
 See `notebooks/synthetic_deception_demo.ipynb`,
 `notebooks/llm_safety_lamp_audit.ipynb`, and
+`notebooks/anthropic_sycophancy_lamp_audit.ipynb`, and
 `notebooks/cinc2019_lamp_neural_audit.ipynb` for full walkthroughs.
 
 Sepsis ML results are written to `results/sepsis_ml_lamp/sepsis_ml_lamp_report.md`.
@@ -139,6 +159,8 @@ Raw PSV sequence results are written to
 `results/physionet_sequence_lamp/physionet_sequence_lamp_report.md`.
 LLM-safety toy results are written to
 `results/llm_safety_lamp/llm_safety_lamp_report.md`.
+Public Anthropic sycophancy results are written to
+`results/anthropic_sycophancy_lamp/anthropic_sycophancy_lamp_report.md`.
 
 If the `lamp` entry point is not on `PATH`, use:
 

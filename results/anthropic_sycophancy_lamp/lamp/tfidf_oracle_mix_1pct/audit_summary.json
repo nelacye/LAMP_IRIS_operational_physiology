@@ -1,0 +1,248 @@
+{
+  "created_at_utc": "2026-05-26T17:17:16.264342+00:00",
+  "dataset": {
+    "monitor_description": "One-percent answer-key contamination added to the valid prompt monitor.",
+    "monitor_id": "tfidf_oracle_mix_1pct",
+    "monitor_type": "low-dose oracle leakage",
+    "name": "Anthropic model-written-evals sycophancy: TF-IDF + answer-key leakage 1%",
+    "role": "real LLM evaluation-data benchmark",
+    "source": "Anthropic/model-written-evals sycophancy_on_nlp_survey",
+    "task": "public LLM sycophancy prompt audit"
+  },
+  "early_window_sensitivity": {
+    "evaluated": true,
+    "score_columns": [
+      {
+        "auc": 0.987259826631325,
+        "column": "tfidf_prompt_valid_score",
+        "evaluated": true,
+        "n": 2996,
+        "n_positive": 1498
+      },
+      {
+        "auc": 0.8152982347625048,
+        "column": "cue_prompt_valid_score",
+        "evaluated": true,
+        "n": 2996,
+        "n_positive": 1498
+      },
+      {
+        "auc": 0.4653712738479967,
+        "column": "visible_length_shortcut_score",
+        "evaluated": true,
+        "n": 2996,
+        "n_positive": 1498
+      },
+      {
+        "auc": 1.0,
+        "column": "answer_key_leakage_score",
+        "evaluated": true,
+        "n": 2996,
+        "n_positive": 1498
+      },
+      {
+        "auc": 0.9884527835066248,
+        "column": "tfidf_oracle_mix_1pct",
+        "evaluated": true,
+        "n": 2996,
+        "n_positive": 1498
+      },
+      {
+        "auc": 0.9924661453366393,
+        "column": "tfidf_oracle_mix_5pct",
+        "evaluated": true,
+        "n": 2996,
+        "n_positive": 1498
+      },
+      {
+        "auc": 0.995927369113424,
+        "column": "tfidf_oracle_mix_10pct",
+        "evaluated": true,
+        "n": 2996,
+        "n_positive": 1498
+      }
+    ]
+  },
+  "failure_mode_dossier": {
+    "audit_pass_candidate": false,
+    "controls_near_null": true,
+    "notes": [],
+    "output_classes": [
+      "forbidden_feature_contamination",
+      "leakage_contaminated_candidate",
+      "oracle_label_leakage_sentinel",
+      "oracle_leakage_proximity_shift",
+      "temporal_isolation_incomplete",
+      "valid_early_hidden_state_signal"
+    ],
+    "thresholds": {
+      "leakage_auc_gap": 0.1,
+      "matched_collapse_max": 0.015,
+      "matched_delta_min": 0.05,
+      "null_auc_max": 0.58,
+      "oracle_auc_min": 0.95,
+      "valid_auc_min": 0.7
+    }
+  },
+  "forbidden_feature_screen": {
+    "declared_sentinel_columns_present": [
+      "oracle_answer_key_score"
+    ],
+    "forbidden_columns_declared": [
+      "answer_matching_behavior_is_a",
+      "answer_not_matching_behavior_is_a",
+      "oracle_answer_key_score"
+    ],
+    "interpretation": "Declared sentinel columns are audit comparators, not leakage in the valid model unless they appear in valid_score_features.",
+    "passed": false,
+    "unexpected_forbidden_columns_present": [],
+    "valid_score_feature_violations": [
+      "oracle_answer_key_score"
+    ]
+  },
+  "input": {
+    "columns": [
+      "anchor_step",
+      "answer_key_leakage_score",
+      "answer_matching_behavior_is_a",
+      "answer_not_matching_behavior_is_a",
+      "cue_prompt_valid_score",
+      "example_id",
+      "label_matching_answer_is_a",
+      "oracle_answer_key_score",
+      "persona_length",
+      "prompt_length",
+      "prompt_text",
+      "split",
+      "tfidf_oracle_mix_10pct",
+      "tfidf_oracle_mix_1pct",
+      "tfidf_oracle_mix_5pct",
+      "tfidf_prompt_valid_score",
+      "visible_length_shortcut_score"
+    ],
+    "config_path": "C:\\Users\\User\\Downloads\\LAMP_IRIS_operational_physiology\\results\\anthropic_sycophancy_lamp\\configs\\tfidf_oracle_mix_1pct.yaml",
+    "input_path": "C:\\Users\\User\\Downloads\\LAMP_IRIS_operational_physiology\\results\\anthropic_sycophancy_lamp\\anthropic_sycophancy_predictions.csv",
+    "n_rows": 2996,
+    "n_subjects": 2996
+  },
+  "negative_controls": {
+    "label_permutation_auc_mean": 0.500233106536352,
+    "label_permutation_auc_sd": 0.01063572713983801,
+    "n": 2996,
+    "n_permutations": 250,
+    "noise_auc_mean": 0.4996815353270315,
+    "noise_auc_sd": 0.01024917564175691,
+    "score_permutation_auc_mean": 0.4991339284600206,
+    "score_permutation_auc_sd": 0.010525302571398847
+  },
+  "outputs": {
+    "report_md": "C:\\Users\\User\\Downloads\\LAMP_IRIS_operational_physiology\\results\\anthropic_sycophancy_lamp\\lamp\\tfidf_oracle_mix_1pct\\audit_report.md",
+    "summary_json": "C:\\Users\\User\\Downloads\\LAMP_IRIS_operational_physiology\\results\\anthropic_sycophancy_lamp\\lamp\\tfidf_oracle_mix_1pct\\audit_summary.json"
+  },
+  "primary_score": {
+    "auc": 0.9884527835066248,
+    "column": "tfidf_oracle_mix_1pct",
+    "n": 2996,
+    "n_negative": 1498,
+    "n_positive": 1498
+  },
+  "schema_version": "lamp.audit_summary/v1",
+  "sentinel_relations": {
+    "oracle_answer_key": {
+      "auc_leakage_proximity": 0.09363741299101482,
+      "baseline_auc": 0.987259826631325,
+      "baseline_score_column": "tfidf_prompt_valid_score",
+      "column": "oracle_answer_key_score",
+      "n": 2996,
+      "oracle_proximity_alert": true,
+      "oracle_proximity_alert_min": 0.005,
+      "primary_auc": 0.9884527835066248,
+      "primary_sentinel_pearson": 0.8857523418313944,
+      "primary_sentinel_spearman": 0.8460250852588985,
+      "role": "oracle_label",
+      "sentinel_auc": 1.0,
+      "sentinel_minus_primary_auc": 0.0115472164933752
+    }
+  },
+  "sentinels": {
+    "oracle_answer_key": {
+      "auc": 1.0,
+      "column": "oracle_answer_key_score",
+      "evaluated": true,
+      "expected_signature": "dataset answer_matching_behavior field",
+      "n": 2996,
+      "n_negative": 1498,
+      "n_positive": 1498,
+      "role": "oracle_label"
+    }
+  },
+  "temporal_isolation": {
+    "anchor": "anchor_step",
+    "declared": true,
+    "frozen_before_holdout": [
+      "source file",
+      "train/holdout split seed",
+      "TF-IDF model specification",
+      "sentinel columns",
+      "visible matching variables",
+      "thresholds"
+    ],
+    "passed": false,
+    "valid_features_must_be": "prompt-only before model completion",
+    "valid_score_features": [
+      {
+        "latest_offset_h": 0.0,
+        "name": "prompt_text_tfidf"
+      },
+      {
+        "latest_offset_h": 1.0,
+        "name": "oracle_answer_key_score"
+      }
+    ],
+    "violations": [
+      {
+        "latest_offset_h": 1.0,
+        "name": "oracle_answer_key_score"
+      }
+    ]
+  },
+  "threshold_sensitivity": {
+    "baseline_positive_rate": 0.5,
+    "evaluated": true,
+    "fragile": false,
+    "thresholds": [
+      {
+        "enrichment_over_baseline": 0.18672485071198897,
+        "positive_rate": 0.686724850711989,
+        "selected_fraction": 0.7266355140186916,
+        "threshold": 0.25
+      },
+      {
+        "enrichment_over_baseline": 0.4404450261780105,
+        "positive_rate": 0.9404450261780105,
+        "selected_fraction": 0.5100133511348465,
+        "threshold": 0.5
+      },
+      {
+        "enrichment_over_baseline": 0.496547756041427,
+        "positive_rate": 0.996547756041427,
+        "selected_fraction": 0.29005340453938583,
+        "threshold": 0.75
+      }
+    ]
+  },
+  "visible_state_matching": {
+    "absolute_matched_observed_state_delta": 0.8722598159774793,
+    "candidate_strata": 9,
+    "evaluated": true,
+    "match_columns": [
+      "prompt_length",
+      "persona_length"
+    ],
+    "matched_observed_state_delta": 0.8722598159774793,
+    "matched_rows": 2992,
+    "matched_strata": 8,
+    "min_bin_size": 8,
+    "n_bins": 3
+  }
+}

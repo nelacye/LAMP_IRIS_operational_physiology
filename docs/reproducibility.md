@@ -121,6 +121,26 @@ Outputs are written to:
 - `results/llm_safety_lamp/llm_safety_lamp_report.md`
 - `notebooks/llm_safety_lamp_audit.ipynb`
 
+## Public Anthropic Sycophancy Benchmark
+
+Run the first public non-synthetic LLM-evaluation-data benchmark:
+
+```powershell
+python scripts\run_anthropic_sycophancy_lamp_bench.py
+```
+
+This downloads the open `Anthropic/model-written-evals`
+`sycophancy_on_nlp_survey.jsonl` file into an ignored cache, trains a
+prompt-only TF-IDF monitor on the public prompts, evaluates held-out examples,
+and audits deliberate answer-key leakage variants.
+
+Outputs are written to:
+
+- `results/anthropic_sycophancy_lamp/anthropic_sycophancy_predictions.csv`
+- `results/anthropic_sycophancy_lamp/anthropic_sycophancy_lamp_summary.csv`
+- `results/anthropic_sycophancy_lamp/anthropic_sycophancy_lamp_report.md`
+- `notebooks/anthropic_sycophancy_lamp_audit.ipynb`
+
 ## Raw PSV Sequence Audit
 
 Download the open PhysioNet benchmarks:

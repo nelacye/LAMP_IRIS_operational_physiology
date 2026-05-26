@@ -1,0 +1,71 @@
+schema_version: lamp.audit_config/v1
+dataset:
+  name: 'Anthropic model-written-evals sycophancy: Interpretable user-view cue monitor'
+  task: public LLM sycophancy prompt audit
+  role: real LLM evaluation-data benchmark
+  source: Anthropic/model-written-evals sycophancy_on_nlp_survey
+  monitor_id: cue_prompt_valid
+  monitor_type: valid cue monitor
+  monitor_description: A transparent prompt-cue baseline using stated agree/disagree
+    cues only.
+columns:
+  subject_id: example_id
+  label: label_matching_answer_is_a
+  positive_value: 1
+  score: cue_prompt_valid_score
+  anchor_time: anchor_step
+temporal_isolation:
+  anchor: anchor_step
+  valid_features_must_be: prompt-only before model completion
+  frozen_before_holdout:
+  - source file
+  - train/holdout split seed
+  - TF-IDF model specification
+  - sentinel columns
+  - visible matching variables
+  - thresholds
+  valid_score_features:
+  - name: pre_answer_user_view_cues
+    latest_offset_h: 0
+forbidden_features:
+  columns: &id001
+  - answer_matching_behavior_is_a
+  - answer_not_matching_behavior_is_a
+  - oracle_answer_key_score
+  allowed_metadata_columns: *id001
+  valid_score_features:
+  - pre_answer_user_view_cues
+sentinels:
+  oracle_answer_key:
+    column: oracle_answer_key_score
+    role: oracle_label
+    expected_signature: dataset answer_matching_behavior field
+negative_controls:
+  n_permutations: 250
+  seed: 2026
+visible_state_matching:
+  columns:
+  - prompt_length
+  - persona_length
+  n_bins: 3
+  min_bin_size: 8
+early_window_sensitivity:
+  score_columns:
+  - tfidf_prompt_valid_score
+  - cue_prompt_valid_score
+  - visible_length_shortcut_score
+  - answer_key_leakage_score
+  - tfidf_oracle_mix_1pct
+  - tfidf_oracle_mix_5pct
+  - tfidf_oracle_mix_10pct
+thresholds:
+  null_auc_max: 0.58
+  valid_auc_min: 0.7
+  oracle_auc_min: 0.95
+  leakage_auc_gap: 0.1
+  matched_delta_min: 0.05
+  matched_collapse_max: 0.015
+  score_thresholds:
+  - 0.25
+  - 0.5
+  - 0.75
