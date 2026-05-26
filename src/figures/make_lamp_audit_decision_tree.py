@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Render the LAMP audit decision tree figure."""
+"""Render a compact black-and-white LAMP audit decision tree."""
 
 from __future__ import annotations
 
 from pathlib import Path
 
 import matplotlib.pyplot as plt
-from matplotlib.patches import FancyArrowPatch, FancyBboxPatch
+from matplotlib.patches import FancyArrowPatch, Rectangle
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -16,81 +16,89 @@ OUT = ROOT / "paper" / "figures" / "lamp_audit_decision_tree.png"
 def main() -> int:
     OUT.parent.mkdir(parents=True, exist_ok=True)
 
-    fig, ax = plt.subplots(figsize=(7.4, 8.9), dpi=300)
+    fig, ax = plt.subplots(figsize=(5.6, 7.2), dpi=300)
     fig.patch.set_facecolor("white")
     ax.set_xlim(0, 1)
     ax.set_ylim(0, 1)
     ax.axis("off")
 
-    center_x = 0.35
-    node_w = 0.38
-    node_h = 0.074
-    fail_x = 0.78
-    fail_w = 0.24
-    fail_h = 0.062
-
-    nodes = [
-        ("Latent-state claim", 0.86),
-        ("Temporal isolation", 0.70),
-        ("Matched cohorts", 0.53),
-        ("Negative controls", 0.36),
-        ("PASS", 0.19),
-    ]
-
-    for text, y in nodes:
-        draw_box(
-            ax,
-            center_x,
-            y,
-            node_w,
-            node_h,
-            text,
-            fontsize=12.2 if text != "PASS" else 14.5,
-            weight="bold" if text in {"Latent-state claim", "PASS"} else "normal",
-        )
-
-    for (_, y0), (_, y1) in zip(nodes[:-1], nodes[1:]):
-        draw_arrow(
-            ax,
-            (center_x, y0 - node_h / 2 - 0.008),
-            (center_x, y1 + node_h / 2 + 0.008),
-        )
-
-    fail_branches = [
-        (0.70, "Leakage"),
-        (0.53, "Shortcut"),
-        (0.36, "Contamination"),
-    ]
-    for y, outcome in fail_branches:
-        start = (center_x + node_w / 2 + 0.012, y)
-        end = (fail_x - fail_w / 2 - 0.018, y)
-        draw_arrow(ax, start, end)
-        ax.text(
-            (start[0] + end[0]) / 2,
-            y + 0.020,
-            "FAIL",
-            ha="center",
-            va="bottom",
-            fontsize=9.6,
-            fontweight="bold",
-            color="black",
-        )
-        draw_box(ax, fail_x, y, fail_w, fail_h, outcome, fontsize=11.8)
-
     ax.text(
         0.5,
-        0.065,
-        "LAMP Audit Protocol",
+        0.955,
+        "Audit decision tree",
         ha="center",
         va="center",
-        fontsize=14.2,
+        fontsize=13.5,
         fontweight="bold",
         color="black",
     )
 
-    ax.plot([0.28, 0.72], [0.105, 0.105], color="black", linewidth=1.2)
+    x = 0.36
+    box_w = 0.43
+    box_h = 0.062
+    y_positions = {
+        "Latent-state claim": 0.84,
+        "Temporal isolation": 0.67,
+        "Matched cohorts": 0.50,
+        "Negative controls": 0.33,
+        "PASS": 0.16,
+    }
 
-    fig.savefig(OUT, bbox_inches="tight", facecolor="white", pad_inches=0.18)
+    for label, y in y_positions.items():
+        draw_box(
+            ax,
+            x,
+            y,
+            box_w,
+            box_h,
+            label,
+            fontsize=11.2 if label != "PASS" else 12.2,
+            weight="bold" if label in {"Latent-state claim", "PASS"} else "normal",
+        )
+
+    labels = list(y_positions)
+    for upper, lower in zip(labels[:-1], labels[1:]):
+        draw_arrow(
+            ax,
+            (x, y_positions[upper] - box_h / 2 - 0.012),
+            (x, y_positions[lower] + box_h / 2 + 0.012),
+            linewidth=1.2,
+            scale=11,
+        )
+
+    fail_branches = [
+        ("Temporal isolation", "Leakage"),
+        ("Matched cohorts", "Shortcut"),
+        ("Negative controls", "Contamination"),
+    ]
+    for source, outcome in fail_branches:
+        y = y_positions[source]
+        start = (x + box_w / 2 + 0.012, y)
+        end = (0.66, y)
+        draw_arrow(ax, start, end, linewidth=1.1, scale=10)
+        ax.text(
+            0.675,
+            y,
+            f"FAIL \u2192 {outcome}",
+            ha="left",
+            va="center",
+            fontsize=10.6,
+            color="black",
+        )
+
+    ax.plot([0.25, 0.75], [0.073, 0.073], color="black", linewidth=0.9)
+    ax.text(
+        0.5,
+        0.045,
+        "LAMP Audit Protocol",
+        ha="center",
+        va="center",
+        fontsize=12.5,
+        fontweight="bold",
+        color="black",
+    )
+
+    fig.savefig(OUT, bbox_inches="tight", facecolor="white", pad_inches=0.12)
     plt.close(fig)
     print(OUT)
     return 0
@@ -104,18 +112,17 @@ def draw_box(
     height: float,
     text: str,
     fontsize: float,
-    weight: str = "normal",
+    weight: str,
 ) -> None:
-    box = FancyBboxPatch(
+    rect = Rectangle(
         (x - width / 2, y - height / 2),
         width,
         height,
-        boxstyle="round,pad=0.012,rounding_size=0.012",
-        linewidth=1.6,
+        linewidth=1.1,
         edgecolor="black",
         facecolor="white",
     )
-    ax.add_patch(box)
+    ax.add_patch(rect)
     ax.text(
         x,
         y,
@@ -128,18 +135,25 @@ def draw_box(
     )
 
 
-def draw_arrow(ax: plt.Axes, start: tuple[float, float], end: tuple[float, float]) -> None:
-    arrow = FancyArrowPatch(
-        start,
-        end,
-        arrowstyle="-|>",
-        mutation_scale=14,
-        linewidth=1.55,
-        color="black",
-        shrinkA=0,
-        shrinkB=0,
+def draw_arrow(
+    ax: plt.Axes,
+    start: tuple[float, float],
+    end: tuple[float, float],
+    linewidth: float,
+    scale: float,
+) -> None:
+    ax.add_patch(
+        FancyArrowPatch(
+            start,
+            end,
+            arrowstyle="-|>",
+            mutation_scale=scale,
+            linewidth=linewidth,
+            color="black",
+            shrinkA=0,
+            shrinkB=0,
+        )
     )
-    ax.add_patch(arrow)
 
 
 if __name__ == "__main__":
