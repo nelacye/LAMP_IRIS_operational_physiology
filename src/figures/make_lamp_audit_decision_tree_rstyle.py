@@ -27,14 +27,15 @@ def main() -> int:
             "axes.linewidth": 0.8,
         }
     )
-    fig, ax = plt.subplots(figsize=(7.3, 9.3), dpi=300)
+    fig, ax = plt.subplots(figsize=(12.8, 5.2), dpi=300)
     fig.patch.set_facecolor("white")
     ax.set_xlim(0, 1)
     ax.set_ylim(0, 1)
     ax.axis("off")
 
-    x = 0.34
-    ys = [0.88, 0.68, 0.48, 0.28, 0.10]
+    main_y = 0.68
+    xs = [0.115, 0.33, 0.535, 0.74, 0.915]
+    widths = [0.185, 0.175, 0.170, 0.175, 0.095]
     labels = [
         "Latent-state claim",
         "Temporal isolation",
@@ -43,24 +44,37 @@ def main() -> int:
         "PASS",
     ]
 
-    for label, y in zip(labels, ys):
-        draw_rect(ax, x, y, label, bold=label in {"Latent-state claim", "PASS"})
+    for label, x, width in zip(labels, xs, widths):
+        draw_rect(
+            ax,
+            x,
+            main_y,
+            label,
+            width=width,
+            bold=label in {"Latent-state claim", "PASS"},
+        )
 
-    for upper, lower in zip(ys[:-1], ys[1:]):
-        draw_arrow(ax, (x, upper - 0.062), (x, lower + 0.062))
+    for i in range(len(xs) - 1):
+        start_x = xs[i] + widths[i] / 2 + 0.006
+        end_x = xs[i + 1] - widths[i + 1] / 2 - 0.006
+        draw_arrow(ax, (start_x, main_y), (end_x, main_y))
 
-    for y, outcome in zip(ys[1:4], ["FAIL -> Leakage", "FAIL -> Shortcut", "FAIL -> Contamination"]):
-        draw_arrow(ax, (x + 0.205, y), (0.58, y))
-        ax.text(0.62, y, outcome, ha="left", va="center", fontsize=12.3)
+    fail_y = 0.34
+    for x, outcome in zip(
+        xs[1:4],
+        ["FAIL -> Leakage", "FAIL -> Shortcut", "FAIL -> Contamination"],
+    ):
+        draw_arrow(ax, (x, main_y - 0.083), (x, fail_y + 0.050))
+        ax.text(x, fail_y, outcome, ha="center", va="center", fontsize=10.6)
 
-    ax.plot([0.26, 0.74], [0.037, 0.037], color="black", linewidth=0.9)
+    ax.plot([0.31, 0.69], [0.130, 0.130], color="black", linewidth=0.9)
     ax.text(
         0.50,
-        0.015,
+        0.065,
         "LAMP Audit Protocol",
         ha="center",
         va="center",
-        fontsize=14.0,
+        fontsize=13.2,
         fontweight="bold",
     )
 
@@ -70,9 +84,8 @@ def main() -> int:
     return 0
 
 
-def draw_rect(ax: plt.Axes, x: float, y: float, label: str, bold: bool) -> None:
-    width = 0.36
-    height = 0.060
+def draw_rect(ax: plt.Axes, x: float, y: float, label: str, width: float, bold: bool) -> None:
+    height = 0.110
     ax.add_patch(
         Rectangle(
             (x - width / 2, y - height / 2),
@@ -89,7 +102,7 @@ def draw_rect(ax: plt.Axes, x: float, y: float, label: str, bold: bool) -> None:
         label,
         ha="center",
         va="center",
-        fontsize=13.0 if bold else 12.4,
+        fontsize=10.7 if bold else 10.4,
         fontweight="bold" if bold else "normal",
     )
 
