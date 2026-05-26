@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render a horizontal pixel-style LAMP audit decision tree."""
+"""Render a horizontal terminal-style LAMP audit decision tree."""
 
 from __future__ import annotations
 
@@ -17,43 +17,64 @@ OUT_HORIZONTAL = ROOT / "paper" / "figures" / "lamp_audit_decision_tree_horizont
 def main() -> int:
     OUT.parent.mkdir(parents=True, exist_ok=True)
 
-    base = Image.new("RGB", (740, 198), "white")
+    base = Image.new("RGB", (4200, 1180), "white")
     draw = ImageDraw.Draw(base)
-    font = ImageFont.load_default_imagefont()
+    font = load_font(54)
+    bold_font = load_font(60)
+    small_font = load_font(46)
 
-    main_y = 52
-    box_h = 26
+    main_y = 315
+    box_h = 170
     boxes = [
-        ("Latent-state claim", 78, 138, True),
-        ("Temporal isolation", 230, 132, False),
-        ("Matched cohorts", 374, 124, False),
-        ("Negative controls", 520, 138, False),
-        ("PASS", 666, 64, True),
+        ("Latent-state claim", 450, 730, True),
+        ("Temporal isolation", 1270, 700, False),
+        ("Matched cohorts", 2050, 650, False),
+        ("Negative controls", 2830, 710, False),
+        ("PASS", 3740, 340, True),
     ]
 
     for label, x, width, bold in boxes:
-        draw_box(draw, x, main_y, width, box_h, label, font, bold=bold)
+        draw_box(
+            draw,
+            x,
+            main_y,
+            width,
+            box_h,
+            label,
+            bold_font if bold else font,
+        )
 
     for (_, x0, w0, _), (_, x1, w1, _) in zip(boxes[:-1], boxes[1:]):
-        draw_arrow(draw, (x0 + w0 // 2 + 6, main_y), (x1 - w1 // 2 - 6, main_y))
+        draw_arrow(draw, (x0 + w0 // 2 + 36, main_y), (x1 - w1 // 2 - 36, main_y))
 
-    fail_y = 118
+    fail_y = 700
     for label, x in [
         ("FAIL -> Leakage", boxes[1][1]),
         ("FAIL -> Shortcut", boxes[2][1]),
         ("FAIL -> Contamination", boxes[3][1]),
     ]:
-        draw_arrow(draw, (x, main_y + box_h // 2 + 7), (x, fail_y - 13))
-        draw_centered_text(draw, (x, fail_y), label, font)
+        draw_arrow(draw, (x, main_y + box_h // 2 + 48), (x, fail_y - 58))
+        draw_centered_text(draw, (x, fail_y), label, small_font)
 
-    draw.line((252, 164, 488, 164), fill="black", width=1)
-    draw_centered_text(draw, (370, 183), "LAMP Audit Protocol", font, bold=True)
+    draw.line((1390, 945, 2810, 945), fill="black", width=7)
+    draw_centered_text(draw, (2100, 1040), "LAMP Audit Protocol", bold_font)
 
-    final = base.resize((base.width * 5, base.height * 5), Image.Resampling.NEAREST)
     for out in (OUT, OUT_SPACIOUS, OUT_HORIZONTAL):
-        final.save(out)
+        base.save(out)
         print(out)
     return 0
+
+
+def load_font(size: int) -> ImageFont.FreeTypeFont:
+    candidates = [
+        Path("C:/Windows/Fonts/lucon.ttf"),
+        Path("C:/Windows/Fonts/consola.ttf"),
+        Path("C:/Windows/Fonts/cour.ttf"),
+    ]
+    for path in candidates:
+        if path.exists():
+            return ImageFont.truetype(str(path), size=size)
+    return ImageFont.load_default(size=size)
 
 
 def draw_box(
@@ -64,15 +85,13 @@ def draw_box(
     height: int,
     label: str,
     font: ImageFont.ImageFont,
-    *,
-    bold: bool,
 ) -> None:
     draw.rectangle(
         (x - width // 2, y - height // 2, x + width // 2, y + height // 2),
         outline="black",
-        width=1,
+        width=8,
     )
-    draw_centered_text(draw, (x, y), label, font, bold=bold)
+    draw_centered_text(draw, (x, y), label, font)
 
 
 def draw_centered_text(
@@ -80,8 +99,6 @@ def draw_centered_text(
     center: tuple[int, int],
     text: str,
     font: ImageFont.ImageFont,
-    *,
-    bold: bool = False,
 ) -> None:
     bbox = draw.textbbox((0, 0), text, font=font)
     width = bbox[2] - bbox[0]
@@ -89,8 +106,6 @@ def draw_centered_text(
     x = center[0] - width // 2
     y = center[1] - height // 2 - 1
     draw.text((x, y), text, fill="black", font=font)
-    if bold:
-        draw.text((x + 1, y), text, fill="black", font=font)
 
 
 def draw_arrow(
@@ -98,15 +113,15 @@ def draw_arrow(
     start: tuple[int, int],
     end: tuple[int, int],
 ) -> None:
-    draw.line((start[0], start[1], end[0], end[1]), fill="black", width=1)
+    draw.line((start[0], start[1], end[0], end[1]), fill="black", width=8)
     if start[1] == end[1]:
         direction = 1 if end[0] > start[0] else -1
         tip = end
         draw.polygon(
             [
                 tip,
-                (tip[0] - 7 * direction, tip[1] - 4),
-                (tip[0] - 7 * direction, tip[1] + 4),
+                (tip[0] - 42 * direction, tip[1] - 24),
+                (tip[0] - 42 * direction, tip[1] + 24),
             ],
             fill="black",
         )
@@ -116,8 +131,8 @@ def draw_arrow(
         draw.polygon(
             [
                 tip,
-                (tip[0] - 4, tip[1] - 7 * direction),
-                (tip[0] + 4, tip[1] - 7 * direction),
+                (tip[0] - 24, tip[1] - 42 * direction),
+                (tip[0] + 24, tip[1] - 42 * direction),
             ],
             fill="black",
         )
