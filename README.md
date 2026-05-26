@@ -27,6 +27,8 @@ It implements eight audit components, including temporal isolation, forbidden
 feature screening, negative controls, matched observed-state cohorts, leaky
 sentinels, early-window sensitivity, and threshold robustness.
 
+![LAMP horizontal audit decision tree](paper/figures/lamp_audit_decision_tree_horizontal.png)
+
 ## Evidence
 
 - **IRIS**: mechanistic toy model of multi-axis reserve topology, analogous to
