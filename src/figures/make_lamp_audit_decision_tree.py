@@ -11,26 +11,27 @@ from matplotlib.patches import FancyArrowPatch, Rectangle
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "paper" / "figures" / "lamp_audit_decision_tree.png"
+OUT_SPACIOUS = ROOT / "paper" / "figures" / "lamp_audit_decision_tree_spacious.png"
 
 
 def main() -> int:
     OUT.parent.mkdir(parents=True, exist_ok=True)
 
-    fig, ax = plt.subplots(figsize=(7.2, 9.2), dpi=300)
+    fig, ax = plt.subplots(figsize=(9.5, 11.5), dpi=300)
     fig.patch.set_facecolor("white")
     ax.set_xlim(0, 1)
     ax.set_ylim(0, 1)
     ax.axis("off")
 
-    x = 0.38
-    box_w = 0.36
-    box_h = 0.060
+    x = 0.31
+    box_w = 0.34
+    box_h = 0.050
     y_positions = {
-        "Latent-state claim": 0.88,
-        "Temporal isolation": 0.69,
-        "Matched cohorts": 0.50,
-        "Negative controls": 0.31,
-        "PASS": 0.12,
+        "Latent-state claim": 0.90,
+        "Temporal isolation": 0.68,
+        "Matched cohorts": 0.46,
+        "Negative controls": 0.24,
+        "PASS": 0.055,
     }
 
     for label, y in y_positions.items():
@@ -41,7 +42,7 @@ def main() -> int:
             box_w,
             box_h,
             label,
-            fontsize=11.8 if label != "PASS" else 12.8,
+            fontsize=12.4 if label != "PASS" else 13.2,
             weight="bold" if label in {"Latent-state claim", "PASS"} else "normal",
         )
 
@@ -49,10 +50,10 @@ def main() -> int:
     for upper, lower in zip(labels[:-1], labels[1:]):
         draw_arrow(
             ax,
-            (x, y_positions[upper] - box_h / 2 - 0.018),
-            (x, y_positions[lower] + box_h / 2 + 0.018),
-            linewidth=1.2,
-            scale=11,
+            (x, y_positions[upper] - box_h / 2 - 0.026),
+            (x, y_positions[lower] + box_h / 2 + 0.026),
+            linewidth=1.05,
+            scale=10,
         )
 
     fail_branches = [
@@ -62,34 +63,36 @@ def main() -> int:
     ]
     for source, outcome in fail_branches:
         y = y_positions[source]
-        start = (x + box_w / 2 + 0.018, y)
-        end = (0.64, y)
-        draw_arrow(ax, start, end, linewidth=1.1, scale=10)
+        start = (x + box_w / 2 + 0.026, y)
+        end = (0.62, y)
+        draw_arrow(ax, start, end, linewidth=1.0, scale=9.5)
         ax.text(
-            0.665,
+            0.66,
             y,
             f"FAIL \u2192 {outcome}",
             ha="left",
             va="center",
-            fontsize=10.4,
+            fontsize=11.5,
             color="black",
         )
 
-    ax.plot([0.24, 0.76], [0.060, 0.060], color="black", linewidth=0.9)
+    ax.plot([0.22, 0.78], [0.015, 0.015], color="black", linewidth=0.75)
     ax.text(
         0.5,
-        0.034,
+        -0.012,
         "LAMP Audit Protocol",
         ha="center",
         va="center",
-        fontsize=13.4,
+        fontsize=13.6,
         fontweight="bold",
         color="black",
     )
 
     fig.savefig(OUT, bbox_inches="tight", facecolor="white", pad_inches=0.12)
+    fig.savefig(OUT_SPACIOUS, bbox_inches="tight", facecolor="white", pad_inches=0.12)
     plt.close(fig)
     print(OUT)
+    print(OUT_SPACIOUS)
     return 0
 
 
