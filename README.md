@@ -41,6 +41,9 @@ sentinels, early-window sensitivity, and threshold robustness.
 - LLM-safety toy audit battery covering latent knowledge, hidden-state probes,
   deceptive behavior, chain-of-thought leakage, routing signals, and low-dose
   oracle contamination.
+- Harmless eval-awareness / sandbagging-style framing audit showing how LAMP
+  separates valid framing sensitivity from answer-key, rubric, stage-token, and
+  surface-behavior shortcuts.
 - Real clinical ML audit on PhysioNet/CinC 2019 sepsis feature tables, including
   early-window MLP/gradient-boosted models, contaminated future-window variants,
   and hidden-activation probes.
@@ -87,6 +90,22 @@ See `notebooks/llm_safety_lamp_audit.ipynb` and
 `results/llm_safety_lamp/llm_safety_lamp_report.md` for the alignment-native
 tables and figures.
 
+The eval-awareness / sandbagging-style framing battery audits 1,296 harmless
+math, logic, code, and QA episodes across evaluation, deployment, and neutral
+framing:
+
+- Valid framing-sensitivity monitor: AUC 0.963, `audit_pass`.
+- Surface behavior shortcut: AUC 0.780, but matched visible-state delta
+  collapses to 0.010 and is classified as visible-state confounding.
+- Answer-key and rubric leakage: AUC 1.000, both fail temporal/forbidden/oracle
+  leakage gates.
+- Stage-token leakage: AUC 0.960, fail.
+- Low-dose oracle mixtures at 1%, 5%, and 10% raise AUC to 0.965, 0.974, and
+  0.984 while failing leakage gates.
+
+See `notebooks/eval_awareness_lamp_audit.ipynb` and
+`results/eval_awareness_lamp/eval_awareness_lamp_report.md`.
+
 The first public, non-synthetic LLM-evaluation-data benchmark uses Anthropic's
 open `model-written-evals` sycophancy data:
 
@@ -131,6 +150,12 @@ python scripts/run_synthetic_deception_experiment.py
 # Alignment-native LLM-safety toy battery
 python scripts/run_llm_safety_lamp_bench.py
 
+# Harmless eval-awareness / sandbagging-style framing audit
+python scripts/run_eval_awareness_lamp_bench.py
+
+# Convert a simple Inspect AI JSON/JSONL export into a LAMP-ready CSV
+lamp-inspect-import inspect_export.jsonl results/inspect_lamp/events.csv
+
 # Public real LLM-evaluation dataset benchmark
 python scripts/run_anthropic_sycophancy_lamp_bench.py
 
@@ -154,6 +179,7 @@ lamp audit --config configs/iris_antarctic.yaml --data results/predictions.csv -
 See `notebooks/synthetic_deception_demo.ipynb`,
 `notebooks/llm_safety_lamp_audit.ipynb`, and
 `notebooks/anthropic_sycophancy_lamp_audit.ipynb`, and
+`notebooks/eval_awareness_lamp_audit.ipynb`, and
 `notebooks/cinc2019_lamp_neural_audit.ipynb` for full walkthroughs.
 
 Sepsis ML results are written to `results/sepsis_ml_lamp/sepsis_ml_lamp_report.md`.
@@ -161,6 +187,8 @@ Raw PSV sequence results are written to
 `results/physionet_sequence_lamp/physionet_sequence_lamp_report.md`.
 LLM-safety toy results are written to
 `results/llm_safety_lamp/llm_safety_lamp_report.md`.
+Eval-awareness framing results are written to
+`results/eval_awareness_lamp/eval_awareness_lamp_report.md`.
 Public Anthropic sycophancy results are written to
 `results/anthropic_sycophancy_lamp/anthropic_sycophancy_lamp_report.md`.
 

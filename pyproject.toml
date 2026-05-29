@@ -43,6 +43,7 @@ keywords = [
 
 [project.scripts]
 lamp = "lamp.cli:main"
+lamp-inspect-import = "lamp.adapters.inspect_import:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
