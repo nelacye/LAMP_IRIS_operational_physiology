@@ -1,0 +1,298 @@
+{
+  "created_at_utc": "2026-06-04T23:27:02.447619+00:00",
+  "dataset": {
+    "expected_result": "PASS_OR_FRAGILE",
+    "monitor_description": "Average of calcium/electrophysiology and metabolic axes.",
+    "monitor_id": "combined_biology_to_structural_probe",
+    "name": "GSE175634 scRNA counts: Combined disjoint biology -> structural endpoint",
+    "role": "LAMP-Bio real scRNA count-matrix pilot",
+    "source": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE175634",
+    "task": "Count-level disjoint biological-axis audit for hiPSC-CM differentiation"
+  },
+  "early_window_sensitivity": {
+    "evaluated": true,
+    "score_columns": [
+      {
+        "auc": 0.5705113260582011,
+        "column": "calcium_ephys_panel_score",
+        "evaluated": true,
+        "n": 60000,
+        "n_positive": 18000
+      },
+      {
+        "auc": 0.4973331283068783,
+        "column": "metabolic_panel_score",
+        "evaluated": true,
+        "n": 60000,
+        "n_positive": 18000
+      },
+      {
+        "auc": 0.5479449940476191,
+        "column": "combined_disjoint_biology_score",
+        "evaluated": true,
+        "n": 60000,
+        "n_positive": 18000
+      },
+      {
+        "auc": 0.7711661044973545,
+        "column": "diffday_numeric_score",
+        "evaluated": true,
+        "n": 60000,
+        "n_positive": 18000
+      },
+      {
+        "auc": 0.7806713162063669,
+        "column": "dpt_pseudotime_score",
+        "evaluated": true,
+        "n": 55886,
+        "n_positive": 16604
+      }
+    ]
+  },
+  "failure_mode_dossier": {
+    "audit_pass_candidate": false,
+    "controls_near_null": true,
+    "notes": [],
+    "output_classes": [
+      "null_or_destroyed_signal",
+      "oracle_label_leakage_sentinel",
+      "protocol_batch_or_donor_shortcut_sentinel"
+    ],
+    "thresholds": {
+      "leakage_auc_gap": 0.1,
+      "matched_collapse_max": 0.005,
+      "matched_delta_min": 0.02,
+      "null_auc_max": 0.58,
+      "oracle_auc_min": 0.95,
+      "valid_auc_min": 0.6
+    }
+  },
+  "forbidden_feature_screen": {
+    "declared_sentinel_columns_present": [
+      "annotation_cm_score",
+      "diffday_numeric_score",
+      "dpt_pseudotime_score",
+      "structural_panel_score"
+    ],
+    "forbidden_columns_declared": [
+      "annotation_cm_score",
+      "diffday_numeric_score",
+      "dpt_pseudotime_score",
+      "structural_panel_score"
+    ],
+    "interpretation": "Declared sentinel columns are audit comparators, not leakage in the valid model unless they appear in valid_score_features.",
+    "passed": true,
+    "unexpected_forbidden_columns_present": [],
+    "valid_score_feature_violations": []
+  },
+  "input": {
+    "columns": [
+      "annotation_cm_score",
+      "calcium_ephys_panel_score",
+      "cell_cycle_exit_score",
+      "cell_cycle_panel_score",
+      "cell_id",
+      "cell_index",
+      "collection_id",
+      "combined_disjoint_biology_score",
+      "demux_dbl_z",
+      "detected_genes",
+      "diffday",
+      "diffday_num",
+      "diffday_numeric_score",
+      "dpt_pseudotime_score",
+      "individual",
+      "label_structural_maturity_high",
+      "leiden",
+      "library_size",
+      "log_detected_genes",
+      "log_library_size",
+      "metabolic_panel_score",
+      "sample",
+      "structural_endpoint_score",
+      "structural_panel_score",
+      "type"
+    ],
+    "config_path": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\results\\lamp_bio_scrna\\gse175634_counts\\configs\\combined_biology_to_structural_probe.yaml",
+    "input_path": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\results\\lamp_bio_scrna\\gse175634_counts\\gse175634_scrna_counts_prediction_table.csv",
+    "n_rows": 60000,
+    "n_subjects": 60000
+  },
+  "negative_controls": {
+    "label_permutation_auc_mean": 0.500095673324515,
+    "label_permutation_auc_sd": 0.0023411195279806774,
+    "n": 60000,
+    "n_permutations": 60,
+    "noise_auc_mean": 0.4999302279541446,
+    "noise_auc_sd": 0.002557218282109752,
+    "score_permutation_auc_mean": 0.5004218810515872,
+    "score_permutation_auc_sd": 0.0026131954916637085
+  },
+  "outputs": {
+    "report_md": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\results\\lamp_bio_scrna\\gse175634_counts\\lamp\\combined_biology_to_structural_probe\\audit_report.md",
+    "summary_json": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\results\\lamp_bio_scrna\\gse175634_counts\\lamp\\combined_biology_to_structural_probe\\audit_summary.json"
+  },
+  "primary_score": {
+    "auc": 0.5479449940476191,
+    "column": "combined_disjoint_biology_score",
+    "direction_ambiguous": false,
+    "direction_interpretation": "Primary AUC = 0.548; inverted AUC = 0.452. No strong score-direction ambiguity was detected under the default higher-score-means-positive convention.",
+    "inverted_auc": 0.4520550059523809,
+    "n": 60000,
+    "n_negative": 42000,
+    "n_positive": 18000
+  },
+  "schema_version": "lamp.audit_summary/v1",
+  "sentinel_relations": {
+    "day_protocol": {
+      "column": "diffday_numeric_score",
+      "n": 60000,
+      "oracle_proximity_alert": false,
+      "primary_auc": 0.5479449940476191,
+      "primary_sentinel_pearson": 0.021551311167211453,
+      "primary_sentinel_spearman": -0.14305489288139567,
+      "role": "timepoint_protocol_shortcut",
+      "sentinel_auc": 0.7711661044973545,
+      "sentinel_minus_primary_auc": 0.22322111044973536
+    },
+    "published_annotation": {
+      "column": "annotation_cm_score",
+      "n": 60000,
+      "oracle_proximity_alert": false,
+      "primary_auc": 0.5479449940476191,
+      "primary_sentinel_pearson": 0.3639282552473427,
+      "primary_sentinel_spearman": 0.2458925301835122,
+      "role": "annotation_shortcut",
+      "sentinel_auc": 0.6535833333333333,
+      "sentinel_minus_primary_auc": 0.1056383392857142
+    },
+    "published_pseudotime": {
+      "column": "dpt_pseudotime_score",
+      "n": 55886,
+      "oracle_proximity_alert": false,
+      "primary_auc": 0.5495268287882646,
+      "primary_sentinel_pearson": 0.2142166917940093,
+      "primary_sentinel_spearman": -0.06063830650514968,
+      "role": "endpoint_adjacent_oracle",
+      "sentinel_auc": 0.7806713162063669,
+      "sentinel_minus_primary_auc": 0.23114448741810223
+    },
+    "structural_endpoint_oracle": {
+      "column": "structural_panel_score",
+      "n": 60000,
+      "oracle_proximity_alert": false,
+      "primary_auc": 0.5479449940476191,
+      "primary_sentinel_pearson": 0.38740665720005657,
+      "primary_sentinel_spearman": 0.09399431284490191,
+      "role": "endpoint_adjacent_oracle",
+      "sentinel_auc": 1.0,
+      "sentinel_minus_primary_auc": 0.4520550059523809
+    }
+  },
+  "sentinels": {
+    "day_protocol": {
+      "auc": 0.7711661044973545,
+      "column": "diffday_numeric_score",
+      "evaluated": true,
+      "expected_signature": "differentiation day should not be used as molecular evidence",
+      "n": 60000,
+      "n_negative": 42000,
+      "n_positive": 18000,
+      "role": "timepoint_protocol_shortcut"
+    },
+    "published_annotation": {
+      "auc": 0.6535833333333333,
+      "column": "annotation_cm_score",
+      "evaluated": true,
+      "expected_signature": "published cell-type annotation is a label-adjacent channel",
+      "n": 60000,
+      "n_negative": 42000,
+      "n_positive": 18000,
+      "role": "annotation_shortcut"
+    },
+    "published_pseudotime": {
+      "auc": 0.7806713162063669,
+      "column": "dpt_pseudotime_score",
+      "evaluated": true,
+      "expected_signature": "published pseudotime is inferred from full expression trajectory",
+      "n": 55886,
+      "n_negative": 39282,
+      "n_positive": 16604,
+      "role": "endpoint_adjacent_oracle"
+    },
+    "structural_endpoint_oracle": {
+      "auc": 1.0,
+      "column": "structural_panel_score",
+      "evaluated": true,
+      "expected_signature": "same marker axis that defines the endpoint",
+      "n": 60000,
+      "n_negative": 42000,
+      "n_positive": 18000,
+      "role": "endpoint_adjacent_oracle"
+    }
+  },
+  "temporal_isolation": {
+    "anchor": "diffday_num",
+    "declared": true,
+    "frozen_before_holdout": [
+      "GSE175634 accession",
+      "structural endpoint marker panel",
+      "disjoint allowed calcium/electrophysiology and metabolic panels",
+      "forbidden day/pseudotime/annotation shortcuts",
+      "LAMP thresholds"
+    ],
+    "passed": true,
+    "valid_features_must_be": "no day, pseudotime, annotation, or endpoint-axis features in valid score",
+    "valid_score_features": [
+      {
+        "latest_offset_h": 0.0,
+        "name": "calcium_ephys_panel_score"
+      },
+      {
+        "latest_offset_h": 0.0,
+        "name": "metabolic_panel_score"
+      }
+    ],
+    "violations": []
+  },
+  "threshold_sensitivity": {
+    "baseline_positive_rate": 0.3,
+    "evaluated": true,
+    "fragile": false,
+    "thresholds": [
+      {
+        "enrichment_over_baseline": 0.0,
+        "positive_rate": 0.3,
+        "selected_fraction": 1.0,
+        "threshold": -0.75
+      },
+      {
+        "enrichment_over_baseline": 0.03063676411694033,
+        "positive_rate": 0.3306367641169403,
+        "selected_fraction": 0.4161666666666667,
+        "threshold": 0.0
+      },
+      {
+        "enrichment_over_baseline": 0.4697536108751062,
+        "positive_rate": 0.7697536108751062,
+        "selected_fraction": 0.019616666666666668,
+        "threshold": 0.75
+      }
+    ]
+  },
+  "visible_state_matching": {
+    "absolute_matched_observed_state_delta": 0.06566525867321599,
+    "candidate_strata": 27,
+    "evaluated": true,
+    "match_columns": [
+      "diffday_numeric_score",
+      "cell_cycle_exit_score",
+      "demux_dbl_z"
+    ],
+    "matched_observed_state_delta": 0.06566525867321599,
+    "matched_rows": 60000,
+    "matched_strata": 27,
+    "min_bin_size": 50,
+    "n_bins": 3
+  }
+}

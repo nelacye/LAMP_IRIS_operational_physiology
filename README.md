@@ -152,6 +152,15 @@ Current artifacts include:
   oracle (AUC 1.000, FAIL). This identifies the dataset as suitable for the
   next disjoint marker-panel count-matrix audit without overclaiming a clean
   maturation monitor.
+- GEO `GSE175634` count-matrix pilot: 60,000 real scRNA cells with a structural
+  maturation endpoint and disjoint calcium/electrophysiology plus metabolic
+  marker-panel probes. Under the strict contract that forbids day, pseudotime,
+  annotation, and endpoint-axis reuse, the disjoint probes do not pass
+  (calcium/ephys AUC 0.571, metabolic AUC 0.497, combined AUC 0.548). In
+  contrast, forbidden shortcut/sentinel channels are strong: structural oracle
+  AUC 1.000, differentiation day AUC 0.771, pseudotime AUC 0.781. This is a
+  useful negative result: the easy biology-looking scores are not enough under
+  the declared information contract.
 - GEO `GSE201437`: clean disjoint maturation probe PASS (AUC 0.694),
   high-calcium protocol shortcut FAIL (AUC 0.857), oracle leakage FAIL
   (AUC 1.000), with robustness analysis.
@@ -168,6 +177,7 @@ Key reports:
 - `docs/lamp_bio_lab_integration.md`
 - `results/lamp_bio_lab_integration/lamp_bio_lab_integration_report.md`
 - `results/lamp_bio_scrna/gse175634_metadata/gse175634_scrna_metadata_lamp_report.md`
+- `results/lamp_bio_scrna/gse175634_counts/gse175634_scrna_counts_lamp_report.md`
 - `results/ipsc_cm_maturation_lamp/gse201437_protocol_shortcut/gse201437_protocol_shortcut_lamp_report.md`
 - `results/ipsc_cm_maturation_lamp/bio_contract_diagnosis/ipsc_cm_bio_contract_diagnosis.md`
 - `results/ipsc_molecular_code/synthetic_kinase_folding/synthetic_ipsc_molecular_code_report.md`
@@ -222,6 +232,9 @@ python scripts/run_lamp_bio_lab_integration_demo.py
 
 # Real hiPSC-CM scRNA metadata audit
 python scripts/run_gse175634_scrna_metadata_lamp_audit.py --max-cells 60000
+
+# Real hiPSC-CM scRNA count-matrix disjoint-axis audit
+python scripts/run_gse175634_scrna_counts_lamp_bio_audit.py --max-cells 60000
 
 # Run a small bundled audit
 lamp audit --config examples/synthetic/config.yaml --data examples/synthetic/input.csv --output audit_results/

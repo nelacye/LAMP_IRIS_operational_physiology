@@ -1,0 +1,21 @@
+{
+  "accession": "GSE175634",
+  "geo_record": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE175634",
+  "report": "results/lamp_bio_scrna/gse175634_counts/gse175634_scrna_counts_lamp_report.md",
+  "summary": "results/lamp_bio_scrna/gse175634_counts/gse175634_scrna_counts_lamp_summary.csv",
+  "inventory": "results/lamp_bio_scrna/gse175634_counts/gse175634_scrna_counts_inventory.json",
+  "prediction_table": "results/lamp_bio_scrna/gse175634_counts/gse175634_scrna_counts_prediction_table.csv",
+  "figures": [
+    "results/lamp_bio_scrna/gse175634_counts/figures/panel_scores_by_structural_endpoint.png",
+    "results/lamp_bio_scrna/gse175634_counts/figures/counts_monitor_auc_summary.png"
+  ],
+  "lamp_dirs": [
+    "results/lamp_bio_scrna/gse175634_counts/lamp/calcium_to_structural_disjoint_probe",
+    "results/lamp_bio_scrna/gse175634_counts/lamp/metabolic_to_structural_disjoint_probe",
+    "results/lamp_bio_scrna/gse175634_counts/lamp/combined_biology_to_structural_probe",
+    "results/lamp_bio_scrna/gse175634_counts/lamp/structural_endpoint_adjacent_oracle",
+    "results/lamp_bio_scrna/gse175634_counts/lamp/day_protocol_shortcut",
+    "results/lamp_bio_scrna/gse175634_counts/lamp/published_annotation_shortcut",
+    "results/lamp_bio_scrna/gse175634_counts/lamp/published_pseudotime_shortcut"
+  ]
+}

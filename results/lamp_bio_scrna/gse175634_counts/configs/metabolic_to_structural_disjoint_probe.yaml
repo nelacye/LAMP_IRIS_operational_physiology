@@ -1,0 +1,81 @@
+schema_version: lamp.audit_config/v1
+dataset:
+  name: 'GSE175634 scRNA counts: Metabolic -> structural endpoint'
+  task: Count-level disjoint biological-axis audit for hiPSC-CM differentiation
+  role: LAMP-Bio real scRNA count-matrix pilot
+  source: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE175634
+  monitor_id: metabolic_to_structural_disjoint_probe
+  monitor_description: Disjoint metabolic panel predicts structural-axis maturity.
+  expected_result: PASS_OR_FRAGILE
+columns:
+  subject_id: cell_id
+  label: label_structural_maturity_high
+  positive_value: 1
+  score: metabolic_panel_score
+  anchor_time: diffday_num
+temporal_isolation:
+  anchor: diffday_num
+  valid_features_must_be: no day, pseudotime, annotation, or endpoint-axis features
+    in valid score
+  frozen_before_holdout:
+  - GSE175634 accession
+  - structural endpoint marker panel
+  - disjoint allowed calcium/electrophysiology and metabolic panels
+  - forbidden day/pseudotime/annotation shortcuts
+  - LAMP thresholds
+  valid_score_features:
+  - name: metabolic_panel_score
+    latest_offset_h: 0.0
+forbidden_features:
+  columns:
+  - structural_panel_score
+  - diffday_numeric_score
+  - dpt_pseudotime_score
+  - annotation_cm_score
+  valid_score_features:
+  - metabolic_panel_score
+sentinels:
+  structural_endpoint_oracle:
+    column: structural_panel_score
+    role: endpoint_adjacent_oracle
+    expected_signature: same marker axis that defines the endpoint
+  day_protocol:
+    column: diffday_numeric_score
+    role: timepoint_protocol_shortcut
+    expected_signature: differentiation day should not be used as molecular evidence
+  published_pseudotime:
+    column: dpt_pseudotime_score
+    role: endpoint_adjacent_oracle
+    expected_signature: published pseudotime is inferred from full expression trajectory
+  published_annotation:
+    column: annotation_cm_score
+    role: annotation_shortcut
+    expected_signature: published cell-type annotation is a label-adjacent channel
+negative_controls:
+  n_permutations: 60
+  seed: 20260605
+visible_state_matching:
+  columns:
+  - diffday_numeric_score
+  - cell_cycle_exit_score
+  - demux_dbl_z
+  n_bins: 3
+  min_bin_size: 50
+early_window_sensitivity:
+  score_columns:
+  - calcium_ephys_panel_score
+  - metabolic_panel_score
+  - combined_disjoint_biology_score
+  - diffday_numeric_score
+  - dpt_pseudotime_score
+thresholds:
+  null_auc_max: 0.58
+  valid_auc_min: 0.6
+  oracle_auc_min: 0.95
+  leakage_auc_gap: 0.1
+  matched_delta_min: 0.02
+  matched_collapse_max: 0.005
+  score_thresholds:
+  - -0.75
+  - 0.0
+  - 0.75

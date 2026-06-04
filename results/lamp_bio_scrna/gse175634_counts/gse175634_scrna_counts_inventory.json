@@ -1,0 +1,141 @@
+{
+  "accession": "GSE175634",
+  "geo_record": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE175634",
+  "matrix_file": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\data\\raw\\gse175634\\GSE175634_cell_counts.mtx.gz",
+  "audit_rows": 60000,
+  "max_cells": 60000,
+  "structural_endpoint_quantile": 0.7,
+  "structural_endpoint_threshold": -0.04675633642848506,
+  "positive_rows": 18000,
+  "panels": {
+    "structural": [
+      "TNNT2",
+      "TNNI3",
+      "MYH6",
+      "MYH7",
+      "MYL2",
+      "MYL7",
+      "ACTN2",
+      "MYBPC3",
+      "TTN",
+      "TNNC1"
+    ],
+    "calcium_ephys": [
+      "RYR2",
+      "ATP2A2",
+      "PLN",
+      "CASQ2",
+      "CACNA1C",
+      "SCN5A",
+      "KCNH2",
+      "KCNQ1",
+      "KCND3",
+      "GJA1"
+    ],
+    "metabolic": [
+      "PPARGC1A",
+      "CPT1B",
+      "ACADVL",
+      "HADHA",
+      "NDUFA4",
+      "COX5A",
+      "COX6A2",
+      "SLC25A4",
+      "CKMT2",
+      "PDK4"
+    ],
+    "cell_cycle": [
+      "MKI67",
+      "TOP2A",
+      "PCNA",
+      "CCNB1",
+      "CCNB2",
+      "CDK1",
+      "MCM5"
+    ]
+  },
+  "genes_found": [
+    "ACADVL",
+    "ACTN2",
+    "ATP2A2",
+    "CACNA1C",
+    "CASQ2",
+    "CCNB1",
+    "CCNB2",
+    "CDK1",
+    "CKMT2",
+    "COX5A",
+    "COX6A2",
+    "CPT1B",
+    "GJA1",
+    "HADHA",
+    "KCND3",
+    "KCNH2",
+    "KCNQ1",
+    "MCM5",
+    "MKI67",
+    "MYBPC3",
+    "MYH6",
+    "MYH7",
+    "MYL2",
+    "MYL7",
+    "NDUFA4",
+    "PCNA",
+    "PDK4",
+    "PLN",
+    "PPARGC1A",
+    "RYR2",
+    "SCN5A",
+    "SLC25A4",
+    "TNNC1",
+    "TNNI3",
+    "TNNT2",
+    "TOP2A",
+    "TTN"
+  ],
+  "genes_missing": [],
+  "matrix_header": {
+    "header": "%%MatrixMarket matrix coordinate integer general",
+    "n_gene_rows": 38943,
+    "n_cell_cols": 230786,
+    "nnz": 317416972
+  },
+  "entries_scanned": 94451863,
+  "stopped_at_column": 60001,
+  "diffday_counts": {
+    "day1": 17639,
+    "day11": 6625,
+    "day3": 14071,
+    "day5": 6935,
+    "day7": 14730
+  },
+  "cell_type_counts": {
+    "MES": 23504,
+    "PROG": 10027,
+    "CF": 8156,
+    "CMES": 8028,
+    "CM": 5849,
+    "UNK": 4114,
+    "IPSC": 322
+  },
+  "n_individuals": 6,
+  "n_collections": 11,
+  "contract": {
+    "endpoint_axis": "structural maturation marker panel high state",
+    "allowed_probe_axes": [
+      "calcium/electrophysiology",
+      "metabolic"
+    ],
+    "forbidden_axes": [
+      "differentiation day",
+      "published pseudotime",
+      "published annotation",
+      "endpoint structural panel as a monitor"
+    ],
+    "matching_axes": [
+      "diffday",
+      "cell-cycle scores",
+      "doublet probability"
+    ]
+  }
+}
