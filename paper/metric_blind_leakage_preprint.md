@@ -74,6 +74,16 @@ The table shows the key pattern. At the same low contamination dose, AUC does no
 
 The clinical benchmark uses held-out PhysioNet/CinC 2019 sepsis prediction rows from the LAMP raw sequence audit. The valid monitor is a random-forest early-window model with AUC 0.8188. Adding 0.1% oracle label sentinel score raises AUC to only 0.8198, a change of 0.0009. AUC-delta and incremental MI do not flag the difference, but LAMP fails temporal isolation and forbidden-feature checks because the mixed score now declares oracle information.
 
+We also ran a known-truth oracle-injection control directly on the real PhysioNet/CinC 2019 v3_5k sepsis score table already used by LAMP. For each horizon, we constructed
+
+\[
+s_\lambda = z((1-\lambda)z(s_0) + \lambda z(s_\mathrm{oracle}))
+\]
+
+and evaluated \(\lambda=0.005\), a 0.5% oracle-label injection. The AUC deltas were 0.0078 at 6h, 0.0083 at 12h, and 0.0087 at 18h, all below a 0.01 metric-delta alert. LAMP nevertheless failed the contaminated monitors in both modes: the strict-declared mode failed the stated information contract, while the geometry-only mode detected movement toward the oracle sentinel. In a clean-vs-0.5% confusion matrix across the three horizons, both modes achieved sensitivity 1.000 and specificity 1.000 against the known injected-leakage ground truth.
+
+![PhysioNet known-truth oracle injection ROC overlay](../results/physionet_sepsis_oracle_injection/figures/physionet_roc_clean_vs_0p5pct_oracle.png)
+
 ### Anthropic Sycophancy Evaluation Data
 
 The LLM-evaluation benchmark uses Anthropic's public model-written-evals sycophancy data. The valid monitor is a prompt-only TF-IDF classifier with AUC 0.9873. Adding 0.1% answer-key oracle score raises AUC to 0.9874, a change of 0.0001. The incremental MI bootstrap is non-significant. LAMP fails the monitor because answer-key information is outside the allowed prompt-only information boundary.

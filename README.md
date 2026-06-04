@@ -50,6 +50,9 @@ sentinels, early-window sensitivity, and threshold robustness.
 - Raw PhysioNet/CinC 2019 `.psv` sequence pipeline with early/future splits,
   engineered trend/missingness features, MLP probes, and optional
   LSTM/GRU/Transformer monitors.
+- Known-truth oracle-injection control on real PhysioNet/CinC 2019 sepsis rows:
+  0.5% injected oracle label leakage keeps AUC deltas below 0.01 across 6h,
+  12h, and 18h horizons while LAMP fails the contaminated monitors.
 
 ## Results Snapshot
 
@@ -107,6 +110,11 @@ window.
   1.000 and specificity 1.000; strict declared-provenance mode detects the
   lowest tested leakage dose (0.001%), while geometry-only proximity detects
   from 0.05%.
+- The real PhysioNet/CinC 2019 known-truth oracle-injection control reproduces
+  the same pattern on clinical rows: at 0.5% injected oracle leakage, AUC deltas
+  are 0.0078, 0.0083, and 0.0087 for 6h/12h/18h horizons, all below a 0.01
+  metric-delta alert; clean-vs-0.5% LAMP decisions give sensitivity 1.000 and
+  specificity 1.000 in both strict-declared and geometry-only modes.
 - A first LAMP-Pharm public artifact on GEO `GSE114686` asks whether a
   hiPSC-CM cardiotoxicity monitor detects pharmacological response biology or
   experimental structure; drug identity and dose sentinels outperform a modest
@@ -148,6 +156,10 @@ See
 and the PNG figures in
 `results/ipsc_molecular_code/synthetic_kinase_folding/leakage_sensitivity/figures/`
 for ROC overlap, confusion matrix, and leakage-dose sensitivity.
+See
+`results/physionet_sepsis_oracle_injection/real_physionet_oracle_injection_report.md`
+and the PNG figures in `results/physionet_sepsis_oracle_injection/figures/`
+for the real-data known-truth oracle-injection control.
 See
 `results/lamp_pharm/gse114686_tki_cardiotoxicity/gse114686_lamp_pharm_report.md`
 and `results/lamp_pharm/lamp_pharm_summary.md` for the first LAMP-Pharm
@@ -273,6 +285,9 @@ python scripts/run_gse114686_lamp_pharm_audit.py
 
 # Rebuild the real-domain metric-blind leakage preprint table
 python scripts/build_metric_blind_preprint_table.py
+
+# Known-truth oracle injection on real PhysioNet/CinC 2019 sepsis rows
+python scripts/run_physionet_sepsis_oracle_injection_analysis.py
 
 # Alignment-native LLM-safety toy battery
 python scripts/run_llm_safety_lamp_bench.py

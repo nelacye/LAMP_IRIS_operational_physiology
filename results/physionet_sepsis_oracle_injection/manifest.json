@@ -1,0 +1,13 @@
+{
+  "source_table": "results/sepsis_external/v3_5k/tables/sepsis_patient_scores.csv",
+  "source_config": "examples/sepsis/physionet_v3_5k_existing_results_config.yaml",
+  "summary": "results/physionet_sepsis_oracle_injection/real_physionet_oracle_injection_summary.csv",
+  "primary_0p5pct_rows": "results/physionet_sepsis_oracle_injection/real_physionet_oracle_0p5pct_rows.csv",
+  "confusion": "results/physionet_sepsis_oracle_injection/real_physionet_oracle_injection_confusion.csv",
+  "report": "results/physionet_sepsis_oracle_injection/real_physionet_oracle_injection_report.md",
+  "figures": [
+    "results/physionet_sepsis_oracle_injection/figures/physionet_roc_clean_vs_0p5pct_oracle.png",
+    "results/physionet_sepsis_oracle_injection/figures/physionet_oracle_leakage_sensitivity.png",
+    "results/physionet_sepsis_oracle_injection/figures/physionet_lamp_vs_known_leakage_confusion.png"
+  ]
+}
