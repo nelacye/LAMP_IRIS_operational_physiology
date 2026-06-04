@@ -1,0 +1,25 @@
+{
+  "accession": "GSE175634",
+  "geo_record": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE175634",
+  "report": "results/lamp_bio_scrna/gse175634_metadata/gse175634_scrna_metadata_lamp_report.md",
+  "summary": "results/lamp_bio_scrna/gse175634_metadata/gse175634_scrna_metadata_lamp_summary.csv",
+  "inventory": "results/lamp_bio_scrna/gse175634_metadata/gse175634_scrna_metadata_inventory.json",
+  "prediction_table": "results/lamp_bio_scrna/gse175634_metadata/gse175634_scrna_metadata_prediction_table.csv",
+  "figures": [
+    "results/lamp_bio_scrna/gse175634_metadata/figures/cell_type_by_day.png",
+    "results/lamp_bio_scrna/gse175634_metadata/figures/monitor_auc_summary.png"
+  ],
+  "lamp_dirs": [
+    "results/lamp_bio_scrna/gse175634_metadata/lamp/cell_cycle_exit_metadata_probe",
+    "results/lamp_bio_scrna/gse175634_metadata/lamp/pseudotime_endpoint_adjacent_probe",
+    "results/lamp_bio_scrna/gse175634_metadata/lamp/timepoint_protocol_shortcut",
+    "results/lamp_bio_scrna/gse175634_metadata/lamp/annotation_oracle"
+  ],
+  "raw_metadata_files": {
+    "cell_metadata": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\data\\raw\\gse175634\\GSE175634_cell_metadata.tsv.gz",
+    "cell_indices": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\data\\raw\\gse175634\\GSE175634_cell_indices.tsv.gz",
+    "gene_indices": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\data\\raw\\gse175634\\GSE175634_gene_indices_counts.tsv.gz",
+    "collection_metadata": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\data\\raw\\gse175634\\GSE175634_collection_metadata.txt.gz",
+    "experimental_design": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\data\\raw\\gse175634\\GSE175634_experimental_design.txt.gz"
+  }
+}

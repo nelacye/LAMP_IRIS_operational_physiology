@@ -1,0 +1,52 @@
+{
+  "accession": "GSE175634",
+  "geo_record": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE175634",
+  "full_cell_metadata_rows": 230786,
+  "audit_rows": 60000,
+  "max_cells": 60000,
+  "collection_context_join_rate": 0.6085377795880166,
+  "n_individuals_full": 19,
+  "n_collections_full": 57,
+  "n_samples_full": 131,
+  "diffday_counts_full": {
+    "day0": 41330,
+    "day1": 40889,
+    "day11": 39342,
+    "day15": 18303,
+    "day3": 29937,
+    "day5": 19508,
+    "day7": 41477
+  },
+  "cell_type_counts_full": {
+    "MES": 55177,
+    "CF": 45890,
+    "IPSC": 39733,
+    "PROG": 35722,
+    "CM": 21862,
+    "CMES": 19144,
+    "UNK": 13258
+  },
+  "audit_diffday_counts": {
+    "day0": 10702,
+    "day1": 10747,
+    "day11": 10172,
+    "day15": 4758,
+    "day3": 7776,
+    "day5": 5020,
+    "day7": 10825
+  },
+  "audit_cell_type_counts": {
+    "MES": 14486,
+    "CF": 11969,
+    "IPSC": 10300,
+    "PROG": 9198,
+    "CM": 5651,
+    "CMES": 4975,
+    "UNK": 3421
+  },
+  "limitations": [
+    "This first-pass artifact uses GEO metadata only.",
+    "Marker-panel maturation claims require downloading the sparse count matrix.",
+    "Published pseudotime and cell-type labels are treated as endpoint-adjacent sentinels, not clean early evidence."
+  ]
+}

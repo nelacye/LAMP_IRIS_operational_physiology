@@ -1,0 +1,111 @@
+schema_version: lamp.audit_config/v1
+dataset:
+  name: 'GSE175634 scRNA metadata: DPT pseudotime endpoint-adjacent probe'
+  task: Metadata-first LAMP-Bio audit of hiPSC-derived cardiac differentiation
+  role: Real scRNA dataset-selection and contract smoke test
+  source: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE175634
+  monitor_id: pseudotime_endpoint_adjacent_probe
+  monitor_description: Uses trajectory pseudotime inferred from the expression manifold.
+    This is useful biology, but not clean early evidence for this metadata-only contract.
+  expected_result: FAIL
+columns:
+  subject_id: cell_id
+  label: label_cm_state
+  positive_value: 1
+  score: dpt_pseudotime_score
+  anchor_time: diffday_num
+temporal_isolation:
+  anchor: diffday_num
+  valid_features_must_be: feature must be available without reading published endpoint
+    labels, future trajectory pseudotime, or protocol timepoint shortcuts
+  frozen_before_holdout:
+  - GSE175634 accession
+  - metadata-only first-pass contract
+  - cardiomyocyte-state endpoint label
+  - forbidden endpoint-adjacent sentinels
+  - LAMP thresholds
+  valid_score_features:
+  - name: dpt_pseudotime_score
+    latest_offset_h: 999.0
+forbidden_features:
+  columns:
+  - dpt_pseudotime_score
+  - diffday_numeric_score
+  - annotation_oracle_score
+  - terminal_state_oracle_score
+  - collection_beating_score
+  - experiment_batch_score
+  - leiden_label_rate_score
+  - individual_cm_rate_score
+  - collection_cm_rate_score
+  valid_score_features:
+  - dpt_pseudotime_score
+sentinels:
+  timepoint_protocol:
+    column: diffday_numeric_score
+    role: timepoint_protocol_shortcut
+    expected_signature: differentiation day is a protocol shortcut for endpoint state
+  published_pseudotime:
+    column: dpt_pseudotime_score
+    role: endpoint_adjacent_oracle
+    expected_signature: trajectory pseudotime is not clean early evidence here
+  annotation_oracle:
+    column: annotation_oracle_score
+    role: oracle_label
+    expected_signature: direct published cell-type label leakage
+  terminal_state_oracle:
+    column: terminal_state_oracle_score
+    role: oracle_label
+    expected_signature: broader terminal cardiac-state label leakage
+  collection_beating:
+    column: collection_beating_score
+    role: protocol_context_shortcut
+    expected_signature: collection-level beating notes are context, not cell-intrinsic
+      evidence
+  experiment_batch:
+    column: experiment_batch_score
+    role: batch_shortcut
+    expected_signature: experiment batch checks provenance shortcut risk
+  leiden_cluster_label_rate:
+    column: leiden_label_rate_score
+    role: endpoint_adjacent_cluster_oracle
+    expected_signature: cluster label-rate score is endpoint-adjacent
+  individual_cm_rate:
+    column: individual_cm_rate_score
+    role: donor_batch_shortcut
+    expected_signature: line-level CM prevalence checks donor/protocol confounding
+  collection_cm_rate:
+    column: collection_cm_rate_score
+    role: collection_target_rate_shortcut
+    expected_signature: collection-level CM prevalence checks pooled-collection shortcut
+      risk
+negative_controls:
+  n_permutations: 80
+  seed: 20260605
+visible_state_matching:
+  columns:
+  - S_z
+  - G2M_z
+  - demux_dbl_z
+  - diffday_numeric_score
+  n_bins: 3
+  min_bin_size: 50
+early_window_sensitivity:
+  score_columns:
+  - cell_cycle_exit_score
+  - dpt_pseudotime_score
+  - diffday_numeric_score
+leakage_proximity:
+  baseline_score: cell_cycle_exit_score
+  oracle_proximity_alert_min: 0.01
+thresholds:
+  null_auc_max: 0.58
+  valid_auc_min: 0.6
+  oracle_auc_min: 0.95
+  leakage_auc_gap: 0.1
+  matched_delta_min: 0.02
+  matched_collapse_max: 0.005
+  score_thresholds:
+  - -0.5
+  - 0.0
+  - 0.5

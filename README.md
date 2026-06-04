@@ -144,6 +144,14 @@ Current artifacts include:
 - LAMP-Bio lab integration demo: turns single-cell QC decisions, cluster
   annotation, context metadata, cross-modal evidence, and hypothesis generation
   into auditable outputs.
+- GEO `GSE175634`: real hiPSC-derived cardiac differentiation scRNA metadata
+  audit across 230,786 cells, 19 individuals, 57 collections, and 7 timepoints.
+  The first-pass metadata contract shows a weak cell-cycle probe (AUC 0.582),
+  a strong but endpoint-adjacent pseudotime probe (AUC 0.899, FAIL),
+  differentiation-day shortcut (AUC 0.827, FAIL), and published annotation
+  oracle (AUC 1.000, FAIL). This identifies the dataset as suitable for the
+  next disjoint marker-panel count-matrix audit without overclaiming a clean
+  maturation monitor.
 - GEO `GSE201437`: clean disjoint maturation probe PASS (AUC 0.694),
   high-calcium protocol shortcut FAIL (AUC 0.857), oracle leakage FAIL
   (AUC 1.000), with robustness analysis.
@@ -159,6 +167,7 @@ Key reports:
 
 - `docs/lamp_bio_lab_integration.md`
 - `results/lamp_bio_lab_integration/lamp_bio_lab_integration_report.md`
+- `results/lamp_bio_scrna/gse175634_metadata/gse175634_scrna_metadata_lamp_report.md`
 - `results/ipsc_cm_maturation_lamp/gse201437_protocol_shortcut/gse201437_protocol_shortcut_lamp_report.md`
 - `results/ipsc_cm_maturation_lamp/bio_contract_diagnosis/ipsc_cm_bio_contract_diagnosis.md`
 - `results/ipsc_molecular_code/synthetic_kinase_folding/synthetic_ipsc_molecular_code_report.md`
@@ -210,6 +219,9 @@ python scripts/run_ipsc_cm_bio_contract_diagnosis.py
 
 # LAMP-Bio lab integration: QC, annotation, context, multimodal evidence, hypotheses
 python scripts/run_lamp_bio_lab_integration_demo.py
+
+# Real hiPSC-CM scRNA metadata audit
+python scripts/run_gse175634_scrna_metadata_lamp_audit.py --max-cells 60000
 
 # Run a small bundled audit
 lamp audit --config examples/synthetic/config.yaml --data examples/synthetic/input.csv --output audit_results/

@@ -1,0 +1,453 @@
+{
+  "created_at_utc": "2026-06-04T22:42:51.986449+00:00",
+  "dataset": {
+    "expected_result": "FAIL",
+    "monitor_description": "Uses the published cell-type endpoint label itself.",
+    "monitor_id": "annotation_oracle",
+    "name": "GSE175634 scRNA metadata: Published annotation oracle",
+    "role": "Real scRNA dataset-selection and contract smoke test",
+    "source": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE175634",
+    "task": "Metadata-first LAMP-Bio audit of hiPSC-derived cardiac differentiation"
+  },
+  "early_window_sensitivity": {
+    "evaluated": true,
+    "score_columns": [
+      {
+        "auc": 0.5819180684745165,
+        "column": "cell_cycle_exit_score",
+        "evaluated": true,
+        "n": 60000,
+        "n_positive": 5651
+      },
+      {
+        "auc": 0.8986457534672145,
+        "column": "dpt_pseudotime_score",
+        "evaluated": true,
+        "n": 56579,
+        "n_positive": 5651
+      },
+      {
+        "auc": 0.8269952818320133,
+        "column": "diffday_numeric_score",
+        "evaluated": true,
+        "n": 60000,
+        "n_positive": 5651
+      }
+    ]
+  },
+  "failure_mode_dossier": {
+    "audit_pass_candidate": false,
+    "controls_near_null": true,
+    "notes": [],
+    "output_classes": [
+      "forbidden_feature_contamination",
+      "leakage_contaminated_candidate",
+      "oracle_label_leakage_sentinel",
+      "oracle_leakage_proximity_shift",
+      "protocol_batch_or_donor_shortcut_sentinel",
+      "temporal_isolation_incomplete",
+      "visible_state_confounding"
+    ],
+    "thresholds": {
+      "leakage_auc_gap": 0.1,
+      "matched_collapse_max": 0.005,
+      "matched_delta_min": 0.02,
+      "null_auc_max": 0.58,
+      "oracle_auc_min": 0.95,
+      "valid_auc_min": 0.6
+    }
+  },
+  "forbidden_feature_screen": {
+    "declared_sentinel_columns_present": [
+      "annotation_oracle_score",
+      "collection_beating_score",
+      "collection_cm_rate_score",
+      "diffday_numeric_score",
+      "dpt_pseudotime_score",
+      "experiment_batch_score",
+      "individual_cm_rate_score",
+      "leiden_label_rate_score",
+      "terminal_state_oracle_score"
+    ],
+    "forbidden_columns_declared": [
+      "annotation_oracle_score",
+      "collection_beating_score",
+      "collection_cm_rate_score",
+      "diffday_numeric_score",
+      "dpt_pseudotime_score",
+      "experiment_batch_score",
+      "individual_cm_rate_score",
+      "leiden_label_rate_score",
+      "terminal_state_oracle_score"
+    ],
+    "interpretation": "Declared sentinel columns are audit comparators, not leakage in the valid model unless they appear in valid_score_features.",
+    "passed": false,
+    "unexpected_forbidden_columns_present": [],
+    "valid_score_feature_violations": [
+      "annotation_oracle_score"
+    ]
+  },
+  "input": {
+    "columns": [
+      "CC_z",
+      "G2M_z",
+      "S_z",
+      "annotation_oracle_score",
+      "beating_on_collection",
+      "cell_cycle_difference",
+      "cell_cycle_exit_score",
+      "cell_id",
+      "collection_beating_score",
+      "collection_cm_rate_score",
+      "collection_id",
+      "day0_confluence",
+      "debris_score",
+      "demux_dbl_z",
+      "demux_doublet_probability",
+      "diff_start_batch",
+      "diffday",
+      "diffday_num",
+      "diffday_numeric_score",
+      "dpt_pseudotime_score",
+      "experiment_batch",
+      "experiment_batch_score",
+      "g2m_score",
+      "individual",
+      "individual_cm_rate_score",
+      "label_cm_state",
+      "label_terminal_cardiac_state",
+      "leiden",
+      "leiden_label_rate_score",
+      "percent_beating",
+      "published_dpt_pseudotime",
+      "s_score",
+      "sample",
+      "terminal_state_oracle_score",
+      "type"
+    ],
+    "config_path": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\results\\lamp_bio_scrna\\gse175634_metadata\\configs\\annotation_oracle.yaml",
+    "input_path": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\results\\lamp_bio_scrna\\gse175634_metadata\\gse175634_scrna_metadata_prediction_table.csv",
+    "n_rows": 60000,
+    "n_subjects": 60000
+  },
+  "negative_controls": {
+    "label_permutation_auc_mean": 0.4997211227818438,
+    "label_permutation_auc_sd": 0.0023163976523716493,
+    "n": 60000,
+    "n_permutations": 80,
+    "noise_auc_mean": 0.5000176998495006,
+    "noise_auc_sd": 0.003982065384158955,
+    "score_permutation_auc_mean": 0.4999299131755282,
+    "score_permutation_auc_sd": 0.0022827112798149865
+  },
+  "outputs": {
+    "report_md": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\results\\lamp_bio_scrna\\gse175634_metadata\\lamp\\annotation_oracle\\audit_report.md",
+    "summary_json": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\results\\lamp_bio_scrna\\gse175634_metadata\\lamp\\annotation_oracle\\audit_summary.json"
+  },
+  "primary_score": {
+    "auc": 1.0,
+    "column": "annotation_oracle_score",
+    "direction_ambiguous": false,
+    "direction_interpretation": "Primary AUC = 1.000; inverted AUC = 0.000. No strong score-direction ambiguity was detected under the default higher-score-means-positive convention.",
+    "inverted_auc": 0.0,
+    "n": 60000,
+    "n_negative": 54349,
+    "n_positive": 5651
+  },
+  "schema_version": "lamp.audit_summary/v1",
+  "sentinel_relations": {
+    "annotation_oracle": {
+      "auc_leakage_proximity": 1.0,
+      "baseline_auc": 0.5819180684745165,
+      "baseline_score_column": "cell_cycle_exit_score",
+      "column": "annotation_oracle_score",
+      "n": 60000,
+      "oracle_proximity_alert": true,
+      "oracle_proximity_alert_min": 0.01,
+      "primary_auc": 1.0,
+      "primary_sentinel_pearson": 0.9999999999999998,
+      "primary_sentinel_spearman": 0.9999999999999998,
+      "role": "oracle_label",
+      "sentinel_auc": 1.0,
+      "sentinel_minus_primary_auc": 0.0
+    },
+    "collection_beating": {
+      "auc_leakage_proximity": 19.29588320455775,
+      "baseline_auc": 0.5819180684745165,
+      "baseline_score_column": "cell_cycle_exit_score",
+      "column": "collection_beating_score",
+      "n": 60000,
+      "oracle_proximity_alert": false,
+      "oracle_proximity_alert_min": 0.01,
+      "primary_auc": 1.0,
+      "primary_sentinel_pearson": 0.23110262122130237,
+      "primary_sentinel_spearman": 0.20219996568796633,
+      "role": "protocol_context_shortcut",
+      "sentinel_auc": 0.6035849663870584,
+      "sentinel_minus_primary_auc": -0.3964150336129416
+    },
+    "collection_cm_rate": {
+      "auc_leakage_proximity": 2.0096833971021857,
+      "baseline_auc": 0.5819180684745165,
+      "baseline_score_column": "cell_cycle_exit_score",
+      "column": "collection_cm_rate_score",
+      "n": 60000,
+      "oracle_proximity_alert": false,
+      "oracle_proximity_alert_min": 0.01,
+      "primary_auc": 1.0,
+      "primary_sentinel_pearson": 0.33742178570418596,
+      "primary_sentinel_spearman": 0.29346600551436713,
+      "role": "collection_target_rate_shortcut",
+      "sentinel_auc": 0.789951797632217,
+      "sentinel_minus_primary_auc": -0.210048202367783
+    },
+    "experiment_batch": {
+      "auc_leakage_proximity": -2.3456135887847873,
+      "baseline_auc": 0.5819180684745165,
+      "baseline_score_column": "cell_cycle_exit_score",
+      "column": "experiment_batch_score",
+      "n": 60000,
+      "oracle_proximity_alert": false,
+      "oracle_proximity_alert_min": 0.01,
+      "primary_auc": 1.0,
+      "primary_sentinel_pearson": -0.11335522123700054,
+      "primary_sentinel_spearman": -0.10296370006097987,
+      "role": "batch_shortcut",
+      "sentinel_auc": 0.40367816846520477,
+      "sentinel_minus_primary_auc": -0.5963218315347952
+    },
+    "individual_cm_rate": {
+      "auc_leakage_proximity": 3.10914090917395,
+      "baseline_auc": 0.5819180684745165,
+      "baseline_score_column": "cell_cycle_exit_score",
+      "column": "individual_cm_rate_score",
+      "n": 60000,
+      "oracle_proximity_alert": false,
+      "oracle_proximity_alert_min": 0.01,
+      "primary_auc": 1.0,
+      "primary_sentinel_pearson": 0.2281578760731066,
+      "primary_sentinel_spearman": 0.2193187466738706,
+      "role": "donor_batch_shortcut",
+      "sentinel_auc": 0.7163867026531332,
+      "sentinel_minus_primary_auc": -0.2836132973468668
+    },
+    "leiden_cluster_label_rate": {
+      "auc_leakage_proximity": 1.0,
+      "baseline_auc": 0.5819180684745165,
+      "baseline_score_column": "cell_cycle_exit_score",
+      "column": "leiden_label_rate_score",
+      "n": 60000,
+      "oracle_proximity_alert": true,
+      "oracle_proximity_alert_min": 0.01,
+      "primary_auc": 1.0,
+      "primary_sentinel_pearson": 0.9999999999999998,
+      "primary_sentinel_spearman": 0.9999999999999998,
+      "role": "endpoint_adjacent_cluster_oracle",
+      "sentinel_auc": 1.0,
+      "sentinel_minus_primary_auc": 0.0
+    },
+    "published_pseudotime": {
+      "auc_leakage_proximity": 1.319356434284225,
+      "baseline_auc": 0.5812754560440511,
+      "baseline_score_column": "cell_cycle_exit_score",
+      "column": "dpt_pseudotime_score",
+      "n": 56579,
+      "oracle_proximity_alert": true,
+      "oracle_proximity_alert_min": 0.01,
+      "primary_auc": 1.0,
+      "primary_sentinel_pearson": 0.5109243274573166,
+      "primary_sentinel_spearman": 0.4140601758784503,
+      "role": "endpoint_adjacent_oracle",
+      "sentinel_auc": 0.8986457534672145,
+      "sentinel_minus_primary_auc": -0.10135424653278546
+    },
+    "terminal_state_oracle": {
+      "auc_leakage_proximity": 1.3575432567601138,
+      "baseline_auc": 0.5819180684745165,
+      "baseline_score_column": "cell_cycle_exit_score",
+      "column": "terminal_state_oracle_score",
+      "n": 60000,
+      "oracle_proximity_alert": true,
+      "oracle_proximity_alert_min": 0.01,
+      "primary_auc": 1.0,
+      "primary_sentinel_pearson": 0.5000856573277889,
+      "primary_sentinel_spearman": 0.5000856573277889,
+      "role": "oracle_label",
+      "sentinel_auc": 0.8898875784283059,
+      "sentinel_minus_primary_auc": -0.1101124215716941
+    },
+    "timepoint_protocol": {
+      "auc_leakage_proximity": 1.7059192317305438,
+      "baseline_auc": 0.5819180684745165,
+      "baseline_score_column": "cell_cycle_exit_score",
+      "column": "diffday_numeric_score",
+      "n": 60000,
+      "oracle_proximity_alert": false,
+      "oracle_proximity_alert_min": 0.01,
+      "primary_auc": 1.0,
+      "primary_sentinel_pearson": 0.34654543116399705,
+      "primary_sentinel_spearman": 0.33514461163369547,
+      "role": "timepoint_protocol_shortcut",
+      "sentinel_auc": 0.8269952818320133,
+      "sentinel_minus_primary_auc": -0.17300471816798668
+    }
+  },
+  "sentinels": {
+    "annotation_oracle": {
+      "auc": 1.0,
+      "column": "annotation_oracle_score",
+      "evaluated": true,
+      "expected_signature": "direct published cell-type label leakage",
+      "n": 60000,
+      "n_negative": 54349,
+      "n_positive": 5651,
+      "role": "oracle_label"
+    },
+    "collection_beating": {
+      "auc": 0.6035849663870584,
+      "column": "collection_beating_score",
+      "evaluated": true,
+      "expected_signature": "collection-level beating notes are context, not cell-intrinsic evidence",
+      "n": 60000,
+      "n_negative": 54349,
+      "n_positive": 5651,
+      "role": "protocol_context_shortcut"
+    },
+    "collection_cm_rate": {
+      "auc": 0.789951797632217,
+      "column": "collection_cm_rate_score",
+      "evaluated": true,
+      "expected_signature": "collection-level CM prevalence checks pooled-collection shortcut risk",
+      "n": 60000,
+      "n_negative": 54349,
+      "n_positive": 5651,
+      "role": "collection_target_rate_shortcut"
+    },
+    "experiment_batch": {
+      "auc": 0.40367816846520477,
+      "column": "experiment_batch_score",
+      "evaluated": true,
+      "expected_signature": "experiment batch checks provenance shortcut risk",
+      "n": 60000,
+      "n_negative": 54349,
+      "n_positive": 5651,
+      "role": "batch_shortcut"
+    },
+    "individual_cm_rate": {
+      "auc": 0.7163867026531332,
+      "column": "individual_cm_rate_score",
+      "evaluated": true,
+      "expected_signature": "line-level CM prevalence checks donor/protocol confounding",
+      "n": 60000,
+      "n_negative": 54349,
+      "n_positive": 5651,
+      "role": "donor_batch_shortcut"
+    },
+    "leiden_cluster_label_rate": {
+      "auc": 1.0,
+      "column": "leiden_label_rate_score",
+      "evaluated": true,
+      "expected_signature": "cluster label-rate score is endpoint-adjacent",
+      "n": 60000,
+      "n_negative": 54349,
+      "n_positive": 5651,
+      "role": "endpoint_adjacent_cluster_oracle"
+    },
+    "published_pseudotime": {
+      "auc": 0.8986457534672145,
+      "column": "dpt_pseudotime_score",
+      "evaluated": true,
+      "expected_signature": "trajectory pseudotime is not clean early evidence here",
+      "n": 56579,
+      "n_negative": 50928,
+      "n_positive": 5651,
+      "role": "endpoint_adjacent_oracle"
+    },
+    "terminal_state_oracle": {
+      "auc": 0.8898875784283059,
+      "column": "terminal_state_oracle_score",
+      "evaluated": true,
+      "expected_signature": "broader terminal cardiac-state label leakage",
+      "n": 60000,
+      "n_negative": 54349,
+      "n_positive": 5651,
+      "role": "oracle_label"
+    },
+    "timepoint_protocol": {
+      "auc": 0.8269952818320133,
+      "column": "diffday_numeric_score",
+      "evaluated": true,
+      "expected_signature": "differentiation day is a protocol shortcut for endpoint state",
+      "n": 60000,
+      "n_negative": 54349,
+      "n_positive": 5651,
+      "role": "timepoint_protocol_shortcut"
+    }
+  },
+  "temporal_isolation": {
+    "anchor": "diffday_num",
+    "declared": true,
+    "frozen_before_holdout": [
+      "GSE175634 accession",
+      "metadata-only first-pass contract",
+      "cardiomyocyte-state endpoint label",
+      "forbidden endpoint-adjacent sentinels",
+      "LAMP thresholds"
+    ],
+    "passed": false,
+    "valid_features_must_be": "feature must be available without reading published endpoint labels, future trajectory pseudotime, or protocol timepoint shortcuts",
+    "valid_score_features": [
+      {
+        "latest_offset_h": 999.0,
+        "name": "annotation_oracle_score"
+      }
+    ],
+    "violations": [
+      {
+        "latest_offset_h": 999.0,
+        "name": "annotation_oracle_score"
+      }
+    ]
+  },
+  "threshold_sensitivity": {
+    "baseline_positive_rate": 0.09418333333333333,
+    "evaluated": true,
+    "fragile": false,
+    "thresholds": [
+      {
+        "enrichment_over_baseline": 0.0,
+        "positive_rate": 0.09418333333333333,
+        "selected_fraction": 1.0,
+        "threshold": -0.5
+      },
+      {
+        "enrichment_over_baseline": 0.0,
+        "positive_rate": 0.09418333333333333,
+        "selected_fraction": 1.0,
+        "threshold": 0.0
+      },
+      {
+        "enrichment_over_baseline": 0.9058166666666667,
+        "positive_rate": 1.0,
+        "selected_fraction": 0.09418333333333333,
+        "threshold": 0.5
+      }
+    ]
+  },
+  "visible_state_matching": {
+    "absolute_matched_observed_state_delta": 0.0,
+    "candidate_strata": 81,
+    "evaluated": true,
+    "match_columns": [
+      "S_z",
+      "G2M_z",
+      "demux_dbl_z",
+      "diffday_numeric_score"
+    ],
+    "matched_observed_state_delta": 0.0,
+    "matched_rows": 10483,
+    "matched_strata": 17,
+    "min_bin_size": 50,
+    "n_bins": 3
+  }
+}
