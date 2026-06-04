@@ -1,0 +1,136 @@
+schema_version: lamp.bio_contract/v1
+name: iPSC-CM maturation biological contract
+domain: iPSC-derived cardiomyocyte maturation
+description: >
+  Biological interpretation grammar for auditing claims that an AI monitor
+  detects iPSC-CM maturation or readiness rather than experimental structure.
+
+biological_axes:
+  structural_maturation:
+    interpretation: >
+      Sarcomeric organization, contractile apparatus, and adult-like
+      myofibrillar architecture.
+    marker_panels:
+      structural_core:
+        role: endpoint_or_evidence
+        markers: [TNNI3, MYL2, MYH7, MYH6, ACTN2, TNNT2, MYBPC3]
+      structural_extended:
+        role: endpoint_or_evidence
+        markers: [TTN, MYOM1, MYOM2, MYL3, TPM1, ACTC1]
+    contract_note: >
+      A structural panel may define an endpoint or support a score, but the same
+      exact panel must not be used as both endpoint and score evidence.
+
+  calcium_handling_electrophysiology:
+    interpretation: >
+      Calcium cycling, ion-channel maturation, action-potential and conduction
+      readiness, or functional calcium/MEA/patch-clamp proxies.
+    marker_panels:
+      calcium_electrophysiology_core:
+        role: disjoint_probe
+        markers: [RYR2, ATP2A2, PLN, CASQ2, CACNA1C, KCNH2, KCNQ1, SCN5A]
+      calcium_handling:
+        role: disjoint_probe
+        markers: [RYR2, ATP2A2, PLN, CASQ2, CACNA1C]
+      ion_channel_core:
+        role: disjoint_probe
+        markers: [CACNA1C, KCNH2, KCNQ1, SCN5A]
+
+  metabolic_maturation:
+    interpretation: >
+      Transition from fetal-like glycolysis toward oxidative phosphorylation,
+      mitochondrial biogenesis, and fatty-acid metabolism.
+    marker_panels:
+      oxidative_fatty_acid:
+        role: disjoint_probe
+        markers: [PPARGC1A, CPT1B, ACADVL, HADHA, HADHB, NDUFA9, NDUFB8, COX5A, COX6A2]
+      mitochondrial_biogenesis:
+        role: supportive_probe
+        markers: [TFAM, ESRRA, NRF1, PPARGC1A]
+    contract_note: >
+      Metabolic media and substrate changes are intervention/protocol structure
+      unless the claim explicitly targets metabolic perturbation response.
+
+  cell_cycle_exit:
+    interpretation: >
+      Reduced proliferative state and cell-cycle exit. This axis is supportive
+      only because it can reflect stress, density, sorting, viability, or
+      culture artifacts instead of maturation.
+    marker_panels:
+      proliferation_immaturity:
+        role: supportive_not_sufficient
+        markers: [MKI67, TOP2A, PCNA, CCNB1, CCNB2, CDK1]
+    contract_note: >
+      Cell-cycle markers alone cannot establish maturation validity.
+
+  intervention_protocol_structure:
+    interpretation: >
+      Experimental structure and confounding channels, not biological evidence
+      for a latent maturation state.
+    forbidden_features:
+      - day
+      - timepoint
+      - protocol
+      - intervention_code
+      - calcium_condition
+      - pacing_condition
+      - culture_2d_3d
+      - plate
+      - batch
+      - donor_id
+      - line_id
+      - drug_identity
+      - dose
+      - medium
+      - replicate
+      - sequencing_lane
+
+claim_contracts:
+  structural_endpoint_calcium_probe:
+    claim: >
+      A disjoint calcium/electrophysiology expression probe predicts high
+      structural maturation state.
+    claim_template: Early X predicts later/latent Y
+    endpoint_axis: structural_maturation
+    endpoint_panel: structural_core
+    allowed_probe_axes: [calcium_handling_electrophysiology]
+    allowed_probe_panels: [calcium_electrophysiology_core, calcium_handling, ion_channel_core]
+    supportive_axes: [metabolic_maturation, cell_cycle_exit]
+    forbidden_axes: [intervention_protocol_structure]
+    required_sentinels:
+      - protocol_sentinel
+      - timepoint_sentinel
+      - endpoint_marker_oracle
+      - donor_batch_sentinel
+      - score_direction_sanity
+    disjointness_rule: endpoint_panel_and_score_panel_must_not_overlap
+
+diagnosis_rules:
+  thresholds:
+    stable_bootstrap_pass_rate_min: 0.90
+    fragile_bootstrap_pass_rate_min: 0.30
+    stable_leave_group_pass_rate_min: 0.90
+    stable_alt_panel_pass_rate_min: 0.80
+    protocol_sentinel_dominance_auc_gap: 0.00
+    sentinel_comparable_auc_gap: -0.05
+  levels:
+    valid_biological_signal_stable:
+      definition: >
+        PASS plus stable bootstrap, leave-group-out, and alternative-panel
+        checks with no protocol-sentinel dominance.
+    valid_biological_signal_fragile:
+      definition: >
+        PASS exists, but bootstrap, leave-group-out, threshold, or panel
+        robustness is weak.
+    protocol_confounded_signal:
+      definition: >
+        The score performs, but protocol/intervention/batch/donor sentinels are
+        comparable or stronger, or the score uses forbidden protocol structure.
+    endpoint_adjacent_contamination:
+      definition: >
+        The score uses endpoint markers, direct labels, post-endpoint features,
+        or otherwise violates temporal/forbidden endpoint isolation.
+    not_biologically_interpretable:
+      definition: >
+        The score performs numerically but no declared disjoint biological axis
+        supports the interpretation.

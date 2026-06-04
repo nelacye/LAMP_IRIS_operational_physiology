@@ -1,0 +1,212 @@
+{
+  "created_at_utc": "2026-05-31T18:08:32.717298+00:00",
+  "dataset": {
+    "name": "Metric-blind leakage synthetic control lambda=0",
+    "role": "synthetic control experiment",
+    "task": "controlled oracle-mixture validity audit"
+  },
+  "early_window_sensitivity": {
+    "evaluated": false,
+    "reason": "no early-window sensitivity score columns configured"
+  },
+  "failure_mode_dossier": {
+    "audit_pass_candidate": true,
+    "controls_near_null": true,
+    "notes": [],
+    "output_classes": [
+      "audit_pass_candidate",
+      "oracle_label_leakage_sentinel",
+      "valid_early_hidden_state_signal"
+    ],
+    "thresholds": {
+      "leakage_auc_gap": 0.1,
+      "matched_collapse_max": 0.005,
+      "matched_delta_min": 0.02,
+      "null_auc_max": 0.58,
+      "oracle_auc_min": 0.95,
+      "valid_auc_min": 0.6
+    }
+  },
+  "forbidden_feature_screen": {
+    "declared_sentinel_columns_present": [
+      "future_score",
+      "oracle_score"
+    ],
+    "forbidden_columns_declared": [
+      "future_score",
+      "oracle_score"
+    ],
+    "interpretation": "Declared sentinel columns are audit comparators, not leakage in the valid model unless they appear in valid_score_features.",
+    "passed": true,
+    "unexpected_forbidden_columns_present": [],
+    "valid_score_feature_violations": []
+  },
+  "input": {
+    "columns": [
+      "age_z",
+      "anchor_time_h",
+      "future_score",
+      "latent_reserve_probe",
+      "mixed_score_l0p0",
+      "mixed_score_l0p001",
+      "mixed_score_l0p002",
+      "mixed_score_l0p005",
+      "mixed_score_l0p01",
+      "mixed_score_l0p02",
+      "mixed_score_l0p05",
+      "mixed_score_l0p1",
+      "oracle_score",
+      "outcome",
+      "subject_id",
+      "valid_score",
+      "visible_severity",
+      "workflow_noise"
+    ],
+    "config_path": null,
+    "input_path": null,
+    "n_rows": 20000,
+    "n_subjects": 20000
+  },
+  "negative_controls": {
+    "label_permutation_auc_mean": 0.5000513436663535,
+    "label_permutation_auc_sd": 0.004404505726948236,
+    "n": 20000,
+    "n_permutations": 100,
+    "noise_auc_mean": 0.5000450274458889,
+    "noise_auc_sd": 0.004052416786251283,
+    "score_permutation_auc_mean": 0.4994089711850666,
+    "score_permutation_auc_sd": 0.0034154780301150632
+  },
+  "outputs": {
+    "report_md": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\results\\metric_blind_leakage_control\\lamp\\0p0\\audit_report.md",
+    "summary_json": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\results\\metric_blind_leakage_control\\lamp\\0p0\\audit_summary.json"
+  },
+  "primary_score": {
+    "auc": 0.8298667387682336,
+    "column": "mixed_score_l0p0",
+    "n": 20000,
+    "n_negative": 9982,
+    "n_positive": 10018
+  },
+  "schema_version": "lamp.audit_summary/v1",
+  "sentinel_relations": {
+    "future_physiology": {
+      "auc_leakage_proximity": 0.0,
+      "baseline_auc": 0.8298667387682336,
+      "baseline_score_column": "valid_score",
+      "column": "future_score",
+      "n": 20000,
+      "oracle_proximity_alert": false,
+      "oracle_proximity_alert_min": 0.01,
+      "primary_auc": 0.8298667387682336,
+      "primary_sentinel_pearson": 0.7145155556126889,
+      "primary_sentinel_spearman": 0.7236753788911885,
+      "role": "future_physiology",
+      "sentinel_auc": 0.8731036688558871,
+      "sentinel_minus_primary_auc": 0.0432369300876535
+    },
+    "oracle_label": {
+      "auc_leakage_proximity": 0.0,
+      "baseline_auc": 0.8298667387682336,
+      "baseline_score_column": "valid_score",
+      "column": "oracle_score",
+      "n": 20000,
+      "oracle_proximity_alert": false,
+      "oracle_proximity_alert_min": 0.01,
+      "primary_auc": 0.8298667387682336,
+      "primary_sentinel_pearson": 0.5706810945200548,
+      "primary_sentinel_spearman": 0.5713450264066214,
+      "role": "oracle_label",
+      "sentinel_auc": 1.0,
+      "sentinel_minus_primary_auc": 0.17013326123176642
+    }
+  },
+  "sentinels": {
+    "future_physiology": {
+      "auc": 0.8731036688558871,
+      "column": "future_score",
+      "evaluated": true,
+      "expected_signature": "invalid post-anchor comparator",
+      "n": 20000,
+      "n_negative": 9982,
+      "n_positive": 10018,
+      "role": "future_physiology"
+    },
+    "oracle_label": {
+      "auc": 1.0,
+      "column": "oracle_score",
+      "evaluated": true,
+      "expected_signature": "known ceiling label-adjacent leakage",
+      "n": 20000,
+      "n_negative": 9982,
+      "n_positive": 10018,
+      "role": "oracle_label"
+    }
+  },
+  "temporal_isolation": {
+    "anchor": "anchor_time_h",
+    "declared": true,
+    "frozen_before_holdout": [
+      "synthetic data-generating process",
+      "valid score",
+      "oracle mixture grid",
+      "LAMP thresholds"
+    ],
+    "passed": true,
+    "valid_features_must_be": "at_or_before_anchor",
+    "valid_score_features": [
+      {
+        "latest_offset_h": 0.0,
+        "name": "latent_reserve_probe"
+      },
+      {
+        "latest_offset_h": 0.0,
+        "name": "visible_severity"
+      },
+      {
+        "latest_offset_h": 0.0,
+        "name": "age_z"
+      }
+    ],
+    "violations": []
+  },
+  "threshold_sensitivity": {
+    "baseline_positive_rate": 0.5009,
+    "evaluated": true,
+    "fragile": false,
+    "thresholds": [
+      {
+        "enrichment_over_baseline": 0.14641412308786905,
+        "positive_rate": 0.6473141230878691,
+        "selected_fraction": 0.70275,
+        "threshold": 0.25
+      },
+      {
+        "enrichment_over_baseline": 0.24945091237216765,
+        "positive_rate": 0.7503509123721677,
+        "selected_fraction": 0.4987,
+        "threshold": 0.5
+      },
+      {
+        "enrichment_over_baseline": 0.3540372242958941,
+        "positive_rate": 0.8549372242958941,
+        "selected_fraction": 0.2947,
+        "threshold": 0.75
+      }
+    ]
+  },
+  "visible_state_matching": {
+    "absolute_matched_observed_state_delta": 0.3065997403657034,
+    "candidate_strata": 16,
+    "evaluated": true,
+    "match_columns": [
+      "visible_severity",
+      "age_z"
+    ],
+    "matched_observed_state_delta": 0.3065997403657034,
+    "matched_rows": 20000,
+    "matched_strata": 16,
+    "min_bin_size": 30,
+    "n_bins": 4
+  }
+}

@@ -1,0 +1,4 @@
+monitor,monitor_id,expected,n_bootstraps,pass_rate,expected_decision_rate,auc_mean,auc_p025,auc_p975,matched_delta_mean,matched_delta_p025,matched_delta_p975,temporal_pass_rate,forbidden_pass_rate,threshold_fragile_rate
+Clean calcium/electrophysiology probe,clean_calcium_probe,PASS,300,0.5033333333333333,0.5033333333333333,0.7061224489795919,0.40816326530612246,0.9494897959183669,0.33395979637646306,-0.18027597402597403,0.8769886363636363,1.0,1.0,0.33666666666666667
+High-calcium protocol shortcut,protocol_shortcut,FAIL,300,0.0,1.0,0.8604761904761905,0.7142857142857143,1.0,0.2430223648973649,-0.1388888888888889,1.0,1.0,0.0,0.0
+Explicit oracle leakage,explicit_oracle_leakage,FAIL,300,0.0,1.0,1.0,1.0,1.0,0.5523049543049543,0.0,1.0,0.0,0.0,0.0

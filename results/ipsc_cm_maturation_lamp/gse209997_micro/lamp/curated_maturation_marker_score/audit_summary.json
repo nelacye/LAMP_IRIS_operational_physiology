@@ -1,0 +1,250 @@
+{
+  "created_at_utc": "2026-06-03T19:59:51.936975+00:00",
+  "dataset": {
+    "monitor_description": "Mean z-scored logCPM over a fixed cardiomyocyte maturation marker panel.",
+    "monitor_id": "curated_maturation_marker_score",
+    "name": "GSE209997 iPSC-CM maturation micro-audit: Curated maturation-marker expression score",
+    "processed_data_url": "https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE209997&format=file",
+    "role": "public iPSC cardiac maturation micro artifact",
+    "source": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE209997",
+    "task": "Audit early/latent maturation-state claim vs protocol/timepoint shortcuts"
+  },
+  "early_window_sensitivity": {
+    "evaluated": false,
+    "reason": "no early-window sensitivity score columns configured"
+  },
+  "failure_mode_dossier": {
+    "audit_pass_candidate": true,
+    "controls_near_null": true,
+    "notes": [],
+    "output_classes": [
+      "audit_pass_candidate",
+      "oracle_label_leakage_sentinel",
+      "protocol_batch_or_donor_shortcut_sentinel",
+      "valid_early_hidden_state_signal"
+    ],
+    "thresholds": {
+      "leakage_auc_gap": 0.1,
+      "matched_collapse_max": 0.005,
+      "matched_delta_min": 0.02,
+      "null_auc_max": 0.58,
+      "oracle_auc_min": 0.95,
+      "valid_auc_min": 0.6
+    }
+  },
+  "forbidden_feature_screen": {
+    "declared_sentinel_columns_present": [
+      "culture_3d",
+      "day_numeric",
+      "endpoint_adjacent_marker_score",
+      "oracle_mature_state_score"
+    ],
+    "forbidden_columns_declared": [
+      "culture_3d",
+      "day_numeric",
+      "endpoint_adjacent_marker_score",
+      "oracle_mature_state_score"
+    ],
+    "interpretation": "Declared sentinel columns are audit comparators, not leakage in the valid model unless they appear in valid_score_features.",
+    "passed": true,
+    "unexpected_forbidden_columns_present": [],
+    "valid_score_feature_violations": []
+  },
+  "input": {
+    "columns": [
+      "anchor_time",
+      "culture",
+      "culture_3d",
+      "curated_maturation_marker_score",
+      "day",
+      "day_numeric",
+      "detected_gene_count",
+      "endpoint_adjacent_marker_score",
+      "geo_sample",
+      "label_d50_3d_mature_state",
+      "library_total_counts",
+      "marker_gene_count",
+      "oracle_mature_state_score",
+      "protocol_shortcut_score",
+      "replicate",
+      "sample_id",
+      "timepoint_shortcut_score"
+    ],
+    "config_path": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\results\\ipsc_cm_maturation_lamp\\gse209997_micro\\configs\\curated_maturation_marker_score.yaml",
+    "input_path": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\results\\ipsc_cm_maturation_lamp\\gse209997_micro\\gse209997_micro_prediction_table.csv",
+    "n_rows": 12,
+    "n_subjects": 12
+  },
+  "negative_controls": {
+    "label_permutation_auc_mean": 0.4877777777777778,
+    "label_permutation_auc_sd": 0.21149144335741876,
+    "n": 12,
+    "n_permutations": 100,
+    "noise_auc_mean": 0.4922222222222222,
+    "noise_auc_sd": 0.20873758426738195,
+    "score_permutation_auc_mean": 0.5037037037037037,
+    "score_permutation_auc_sd": 0.2236517184650155
+  },
+  "outputs": {
+    "report_md": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\results\\ipsc_cm_maturation_lamp\\gse209997_micro\\lamp\\curated_maturation_marker_score\\audit_report.md",
+    "summary_json": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\results\\ipsc_cm_maturation_lamp\\gse209997_micro\\lamp\\curated_maturation_marker_score\\audit_summary.json"
+  },
+  "primary_score": {
+    "auc": 1.0,
+    "column": "curated_maturation_marker_score",
+    "direction_ambiguous": false,
+    "direction_interpretation": "Primary AUC = 1.000; inverted AUC = 0.000. No strong score-direction ambiguity was detected under the default higher-score-means-positive convention.",
+    "inverted_auc": 0.0,
+    "n": 12,
+    "n_negative": 9,
+    "n_positive": 3
+  },
+  "schema_version": "lamp.audit_summary/v1",
+  "sentinel_relations": {
+    "endpoint_adjacent_markers": {
+      "column": "endpoint_adjacent_marker_score",
+      "n": 12,
+      "oracle_proximity_alert": false,
+      "primary_auc": 1.0,
+      "primary_sentinel_pearson": 0.7414228099594762,
+      "primary_sentinel_spearman": 0.7692307692307693,
+      "role": "oracle_label",
+      "sentinel_auc": 1.0,
+      "sentinel_minus_primary_auc": 0.0
+    },
+    "oracle_endpoint": {
+      "column": "oracle_mature_state_score",
+      "n": 12,
+      "oracle_proximity_alert": false,
+      "primary_auc": 1.0,
+      "primary_sentinel_pearson": 0.7293040297473384,
+      "primary_sentinel_spearman": 0.7526178090063818,
+      "role": "oracle_label",
+      "sentinel_auc": 1.0,
+      "sentinel_minus_primary_auc": 0.0
+    },
+    "protocol": {
+      "column": "culture_3d",
+      "n": 12,
+      "oracle_proximity_alert": false,
+      "primary_auc": 1.0,
+      "primary_sentinel_pearson": 0.9210270279443254,
+      "primary_sentinel_spearman": 0.8690481892534816,
+      "role": "protocol_shortcut",
+      "sentinel_auc": 0.8333333333333334,
+      "sentinel_minus_primary_auc": -0.16666666666666663
+    },
+    "timepoint": {
+      "column": "day_numeric",
+      "n": 12,
+      "oracle_proximity_alert": false,
+      "primary_auc": 1.0,
+      "primary_sentinel_pearson": -0.030357325628971022,
+      "primary_sentinel_spearman": 0.0,
+      "role": "future_timepoint",
+      "sentinel_auc": 0.8333333333333334,
+      "sentinel_minus_primary_auc": -0.16666666666666663
+    }
+  },
+  "sentinels": {
+    "endpoint_adjacent_markers": {
+      "auc": 1.0,
+      "column": "endpoint_adjacent_marker_score",
+      "evaluated": true,
+      "expected_signature": "genes selected against endpoint on same tiny table",
+      "n": 12,
+      "n_negative": 9,
+      "n_positive": 3,
+      "role": "oracle_label"
+    },
+    "oracle_endpoint": {
+      "auc": 1.0,
+      "column": "oracle_mature_state_score",
+      "evaluated": true,
+      "expected_signature": "ceiling endpoint comparator",
+      "n": 12,
+      "n_negative": 9,
+      "n_positive": 3,
+      "role": "oracle_label"
+    },
+    "protocol": {
+      "auc": 0.8333333333333334,
+      "column": "culture_3d",
+      "evaluated": true,
+      "expected_signature": "3D-vs-2D culture shortcut, not hidden maturation state",
+      "n": 12,
+      "n_negative": 9,
+      "n_positive": 3,
+      "role": "protocol_shortcut"
+    },
+    "timepoint": {
+      "auc": 0.8333333333333334,
+      "column": "day_numeric",
+      "evaluated": true,
+      "expected_signature": "invalid shortcut for early maturation prediction",
+      "n": 12,
+      "n_negative": 9,
+      "n_positive": 3,
+      "role": "future_timepoint"
+    }
+  },
+  "temporal_isolation": {
+    "anchor": "anchor_time",
+    "declared": true,
+    "frozen_before_holdout": [
+      "GSE209997 accession",
+      "sample metadata parser",
+      "curated marker list",
+      "shortcut/sentinel definitions",
+      "LAMP thresholds"
+    ],
+    "passed": true,
+    "valid_features_must_be": "pre-endpoint expression only for hidden maturation claim",
+    "valid_score_features": [
+      {
+        "latest_offset_h": 0.0,
+        "name": "curated_maturation_marker_panel"
+      }
+    ],
+    "violations": []
+  },
+  "threshold_sensitivity": {
+    "baseline_positive_rate": 0.25,
+    "evaluated": true,
+    "fragile": false,
+    "thresholds": [
+      {
+        "enrichment_over_baseline": 0.08333333333333331,
+        "positive_rate": 0.3333333333333333,
+        "selected_fraction": 0.75,
+        "threshold": -1.0
+      },
+      {
+        "enrichment_over_baseline": 0.25,
+        "positive_rate": 0.5,
+        "selected_fraction": 0.5,
+        "threshold": 0.0
+      },
+      {
+        "enrichment_over_baseline": 0.75,
+        "positive_rate": 1.0,
+        "selected_fraction": 0.25,
+        "threshold": 1.0
+      }
+    ]
+  },
+  "visible_state_matching": {
+    "absolute_matched_observed_state_delta": 0.5,
+    "candidate_strata": 4,
+    "evaluated": true,
+    "match_columns": [
+      "library_total_counts",
+      "detected_gene_count"
+    ],
+    "matched_observed_state_delta": 0.5,
+    "matched_rows": 10,
+    "matched_strata": 2,
+    "min_bin_size": 2,
+    "n_bins": 2
+  }
+}

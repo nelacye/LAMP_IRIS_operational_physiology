@@ -1,0 +1,3 @@
+name,valid_auc,mixed_auc,delta_auc,auc_alert,mi_delta,mi_ci_low,mi_ci_high,mi_p,mi_sig,lamp_pass,temporal,forbidden,classes
+PhysioNet RF,0.81884683017893,0.819784400496704,0.0009375703177739725,False,0.00030410322464795997,-0.0005142196302822439,0.0010673596088418415,0.3222591362126246,False,False,False,False,forbidden_feature_contamination;oracle_label_leakage_sentinel;temporal_isolation_incomplete;valid_early_hidden_state_signal
+Anthropic TF-IDF,0.987259826631325,0.9873805929044689,0.00012076627314383526,False,0.0009086085153561241,-0.00046190415551259354,0.0024362383979575977,0.26578073089701,False,False,False,False,forbidden_feature_contamination;oracle_label_leakage_sentinel;temporal_isolation_incomplete;valid_early_hidden_state_signal

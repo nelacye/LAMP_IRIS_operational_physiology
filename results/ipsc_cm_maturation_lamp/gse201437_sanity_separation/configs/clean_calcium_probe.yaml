@@ -1,0 +1,70 @@
+schema_version: lamp.audit_config/v1
+dataset:
+  name: 'GSE201437 LAMP sanity separation: Clean calcium/electrophysiology probe'
+  task: Controlled separation of clean biology, protocol shortcut, and oracle leakage
+  role: LAMP-Bio implementation sanity check
+  source: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE201437
+  processed_data_url: https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE201437&format=file&file=GSE201437%5FGoPro%5FGeneCounts%2Ecsv%2Egz
+  monitor_id: clean_calcium_probe
+  monitor_description: A disjoint expression panel predicts a structural maturation-panel
+    label.
+  expected_result: PASS
+columns:
+  subject_id: sample_id
+  label: label_structural_maturation_high
+  positive_value: 1
+  score: clean_calcium_probe_score
+  anchor_time: anchor_time
+temporal_isolation:
+  anchor: anchor_time
+  valid_features_must_be: disjoint expression probe only for clean model
+  frozen_before_holdout:
+  - GSE201437 accession
+  - structural truth panel
+  - disjoint calcium/electrophysiology probe panel
+  - protocol shortcut definitions
+  - oracle leakage definition
+  - LAMP thresholds
+  valid_score_features:
+  - name: clean_calcium_electrophysiology_probe_panel
+    latest_offset_h: 0
+forbidden_features:
+  columns:
+  - high_calcium_shortcut_score
+  - hcrp_protocol_shortcut_score
+  - oracle_structural_maturity_score
+  valid_score_features:
+  - clean_calcium_electrophysiology_probe_panel
+sentinels:
+  high_calcium:
+    column: high_calcium_shortcut_score
+    role: protocol_shortcut
+    expected_signature: high-calcium metadata should fail as a monitor
+  hcrp_protocol:
+    column: hcrp_protocol_shortcut_score
+    role: protocol_shortcut
+    expected_signature: exact HCRP condition should remain a protocol sentinel
+  oracle_truth:
+    column: oracle_structural_maturity_score
+    role: oracle_label
+    expected_signature: direct label leakage ceiling
+negative_controls:
+  n_permutations: 100
+  seed: 20260604
+visible_state_matching:
+  columns:
+  - library_total_counts
+  - detected_gene_count
+  n_bins: 2
+  min_bin_size: 2
+thresholds:
+  null_auc_max: 0.58
+  valid_auc_min: 0.65
+  oracle_auc_min: 0.95
+  leakage_auc_gap: 0.1
+  matched_delta_min: 0.02
+  matched_collapse_max: 0.005
+  score_thresholds:
+  - -0.5
+  - 0.0
+  - 0.5

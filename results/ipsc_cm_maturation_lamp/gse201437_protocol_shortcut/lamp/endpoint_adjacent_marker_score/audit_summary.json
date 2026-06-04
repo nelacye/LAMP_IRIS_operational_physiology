@@ -1,0 +1,281 @@
+{
+  "created_at_utc": "2026-06-03T20:13:40.456134+00:00",
+  "dataset": {
+    "monitor_description": "Top genes selected against the HCRP endpoint on the same tiny table.",
+    "monitor_id": "endpoint_adjacent_marker_score",
+    "name": "GSE201437 protocol-shortcut audit: Endpoint-adjacent marker-selection score",
+    "processed_data_url": "https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE201437&format=file&file=GSE201437%5FGoPro%5FGeneCounts%2Ecsv%2Egz",
+    "role": "LAMP-Bio public iPSC-CM protocol-shortcut artifact",
+    "source": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE201437",
+    "task": "Audit iPSC-CM maturation claim vs calcium/pacing intervention shortcuts"
+  },
+  "early_window_sensitivity": {
+    "evaluated": false,
+    "reason": "no early-window sensitivity score columns configured"
+  },
+  "failure_mode_dossier": {
+    "audit_pass_candidate": false,
+    "controls_near_null": true,
+    "notes": [],
+    "output_classes": [
+      "forbidden_feature_contamination",
+      "oracle_label_leakage_sentinel",
+      "protocol_batch_or_donor_shortcut_sentinel",
+      "temporal_isolation_incomplete",
+      "valid_early_hidden_state_signal"
+    ],
+    "thresholds": {
+      "leakage_auc_gap": 0.1,
+      "matched_collapse_max": 0.005,
+      "matched_delta_min": 0.02,
+      "null_auc_max": 0.58,
+      "oracle_auc_min": 0.95,
+      "valid_auc_min": 0.6
+    }
+  },
+  "forbidden_feature_screen": {
+    "declared_sentinel_columns_present": [
+      "combined_intervention_shortcut_score",
+      "endpoint_adjacent_marker_score",
+      "high_calcium",
+      "oracle_hcrp_label_score",
+      "ramp_pacing"
+    ],
+    "forbidden_columns_declared": [
+      "combined_intervention_shortcut_score",
+      "endpoint_adjacent_marker_score",
+      "high_calcium",
+      "oracle_hcrp_label_score",
+      "ramp_pacing"
+    ],
+    "interpretation": "Declared sentinel columns are audit comparators, not leakage in the valid model unless they appear in valid_score_features.",
+    "passed": false,
+    "unexpected_forbidden_columns_present": [],
+    "valid_score_feature_violations": [
+      "endpoint_adjacent_marker_score"
+    ]
+  },
+  "input": {
+    "columns": [
+      "anchor_time",
+      "combined_intervention_shortcut_score",
+      "curated_maturation_marker_score",
+      "detected_gene_count",
+      "endpoint_adjacent_marker_score",
+      "group",
+      "high_calcium",
+      "high_calcium_shortcut_score",
+      "label_hcrp_mature_intervention",
+      "library_total_counts",
+      "marker_gene_count",
+      "oracle_hcrp_label_score",
+      "ramp_pacing",
+      "ramp_pacing_shortcut_score",
+      "replicate",
+      "sample_id"
+    ],
+    "config_path": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\results\\ipsc_cm_maturation_lamp\\gse201437_protocol_shortcut\\configs\\endpoint_adjacent_marker_score.yaml",
+    "input_path": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\results\\ipsc_cm_maturation_lamp\\gse201437_protocol_shortcut\\gse201437_protocol_shortcut_prediction_table.csv",
+    "n_rows": 14,
+    "n_subjects": 14
+  },
+  "negative_controls": {
+    "label_permutation_auc_mean": 0.52,
+    "label_permutation_auc_sd": 0.1756661204062578,
+    "n": 14,
+    "n_permutations": 100,
+    "noise_auc_mean": 0.479,
+    "noise_auc_sd": 0.16616287494534093,
+    "score_permutation_auc_mean": 0.502,
+    "score_permutation_auc_sd": 0.1752948454127583
+  },
+  "outputs": {
+    "report_md": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\results\\ipsc_cm_maturation_lamp\\gse201437_protocol_shortcut\\lamp\\endpoint_adjacent_marker_score\\audit_report.md",
+    "summary_json": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\results\\ipsc_cm_maturation_lamp\\gse201437_protocol_shortcut\\lamp\\endpoint_adjacent_marker_score\\audit_summary.json"
+  },
+  "primary_score": {
+    "auc": 1.0,
+    "column": "endpoint_adjacent_marker_score",
+    "direction_ambiguous": false,
+    "direction_interpretation": "Primary AUC = 1.000; inverted AUC = 0.000. No strong score-direction ambiguity was detected under the default higher-score-means-positive convention.",
+    "inverted_auc": 0.0,
+    "n": 14,
+    "n_negative": 10,
+    "n_positive": 4
+  },
+  "schema_version": "lamp.audit_summary/v1",
+  "sentinel_relations": {
+    "combined_intervention": {
+      "column": "combined_intervention_shortcut_score",
+      "n": 14,
+      "oracle_proximity_alert": false,
+      "primary_auc": 1.0,
+      "primary_sentinel_pearson": 0.9848939805620488,
+      "primary_sentinel_spearman": 0.7844645405527361,
+      "role": "protocol_shortcut",
+      "sentinel_auc": 1.0,
+      "sentinel_minus_primary_auc": 0.0
+    },
+    "endpoint_adjacent_markers": {
+      "column": "endpoint_adjacent_marker_score",
+      "n": 14,
+      "oracle_proximity_alert": false,
+      "primary_auc": 1.0,
+      "primary_sentinel_pearson": 1.0,
+      "primary_sentinel_spearman": 1.0,
+      "role": "oracle_label",
+      "sentinel_auc": 1.0,
+      "sentinel_minus_primary_auc": 0.0
+    },
+    "high_calcium": {
+      "column": "high_calcium",
+      "n": 14,
+      "oracle_proximity_alert": false,
+      "primary_auc": 1.0,
+      "primary_sentinel_pearson": 0.6454767735955778,
+      "primary_sentinel_spearman": 0.5847351773491256,
+      "role": "protocol_shortcut",
+      "sentinel_auc": 0.85,
+      "sentinel_minus_primary_auc": -0.15000000000000002
+    },
+    "oracle_endpoint": {
+      "column": "oracle_hcrp_label_score",
+      "n": 14,
+      "oracle_proximity_alert": false,
+      "primary_auc": 1.0,
+      "primary_sentinel_pearson": 0.9848939805620488,
+      "primary_sentinel_spearman": 0.7844645405527361,
+      "role": "oracle_label",
+      "sentinel_auc": 1.0,
+      "sentinel_minus_primary_auc": 0.0
+    },
+    "ramp_pacing": {
+      "column": "ramp_pacing",
+      "n": 14,
+      "oracle_proximity_alert": false,
+      "primary_auc": 1.0,
+      "primary_sentinel_pearson": 0.6728218895750069,
+      "primary_sentinel_spearman": 0.7264891597367924,
+      "role": "protocol_shortcut",
+      "sentinel_auc": 0.85,
+      "sentinel_minus_primary_auc": -0.15000000000000002
+    }
+  },
+  "sentinels": {
+    "combined_intervention": {
+      "auc": 1.0,
+      "column": "combined_intervention_shortcut_score",
+      "evaluated": true,
+      "expected_signature": "exact HCRP intervention code is a protocol shortcut",
+      "n": 14,
+      "n_negative": 10,
+      "n_positive": 4,
+      "role": "protocol_shortcut"
+    },
+    "endpoint_adjacent_markers": {
+      "auc": 1.0,
+      "column": "endpoint_adjacent_marker_score",
+      "evaluated": true,
+      "expected_signature": "genes selected against endpoint on same tiny table",
+      "n": 14,
+      "n_negative": 10,
+      "n_positive": 4,
+      "role": "oracle_label"
+    },
+    "high_calcium": {
+      "auc": 0.85,
+      "column": "high_calcium",
+      "evaluated": true,
+      "expected_signature": "high-calcium intervention should not count as hidden maturation inference",
+      "n": 14,
+      "n_negative": 10,
+      "n_positive": 4,
+      "role": "protocol_shortcut"
+    },
+    "oracle_endpoint": {
+      "auc": 1.0,
+      "column": "oracle_hcrp_label_score",
+      "evaluated": true,
+      "expected_signature": "ceiling endpoint comparator",
+      "n": 14,
+      "n_negative": 10,
+      "n_positive": 4,
+      "role": "oracle_label"
+    },
+    "ramp_pacing": {
+      "auc": 0.85,
+      "column": "ramp_pacing",
+      "evaluated": true,
+      "expected_signature": "ramp-pacing intervention should not count as hidden maturation inference",
+      "n": 14,
+      "n_negative": 10,
+      "n_positive": 4,
+      "role": "protocol_shortcut"
+    }
+  },
+  "temporal_isolation": {
+    "anchor": "anchor_time",
+    "declared": true,
+    "frozen_before_holdout": [
+      "GSE201437 accession",
+      "GEO processed counts",
+      "sample group parser",
+      "curated marker list",
+      "protocol sentinel definitions",
+      "LAMP thresholds"
+    ],
+    "passed": false,
+    "valid_features_must_be": "pre-claim expression features only; intervention codes must be sentinels",
+    "valid_score_features": [
+      {
+        "latest_offset_h": 999.0,
+        "name": "endpoint_adjacent_marker_score"
+      }
+    ],
+    "violations": [
+      {
+        "latest_offset_h": 999.0,
+        "name": "endpoint_adjacent_marker_score"
+      }
+    ]
+  },
+  "threshold_sensitivity": {
+    "baseline_positive_rate": 0.2857142857142857,
+    "evaluated": true,
+    "fragile": false,
+    "thresholds": [
+      {
+        "enrichment_over_baseline": 0.0,
+        "positive_rate": 0.2857142857142857,
+        "selected_fraction": 1.0,
+        "threshold": -1.0
+      },
+      {
+        "enrichment_over_baseline": 0.7142857142857143,
+        "positive_rate": 1.0,
+        "selected_fraction": 0.2857142857142857,
+        "threshold": 0.0
+      },
+      {
+        "enrichment_over_baseline": 0.7142857142857143,
+        "positive_rate": 1.0,
+        "selected_fraction": 0.2857142857142857,
+        "threshold": 1.0
+      }
+    ]
+  },
+  "visible_state_matching": {
+    "absolute_matched_observed_state_delta": 0.4642857142857143,
+    "candidate_strata": 4,
+    "evaluated": true,
+    "match_columns": [
+      "library_total_counts",
+      "detected_gene_count"
+    ],
+    "matched_observed_state_delta": 0.4642857142857143,
+    "matched_rows": 14,
+    "matched_strata": 4,
+    "min_bin_size": 2,
+    "n_bins": 2
+  }
+}

@@ -1,0 +1,76 @@
+schema_version: lamp.audit_config/v1
+dataset:
+  name: 'GSE209997 iPSC-CM maturation micro-audit: Protocol shortcut score'
+  task: Audit early/latent maturation-state claim vs protocol/timepoint shortcuts
+  role: public iPSC cardiac maturation micro artifact
+  source: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE209997
+  processed_data_url: https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE209997&format=file
+  monitor_id: protocol_shortcut_score
+  monitor_description: Uses 3D-vs-2D culture protocol directly instead of hidden biological
+    state.
+columns:
+  subject_id: sample_id
+  label: label_d50_3d_mature_state
+  positive_value: 1
+  score: protocol_shortcut_score
+  anchor_time: anchor_time
+temporal_isolation:
+  anchor: anchor_time
+  valid_features_must_be: pre-endpoint expression only for hidden maturation claim
+  frozen_before_holdout:
+  - GSE209997 accession
+  - sample metadata parser
+  - curated marker list
+  - shortcut/sentinel definitions
+  - LAMP thresholds
+  valid_score_features:
+  - name: culture_3d
+    latest_offset_h: 0
+forbidden_features:
+  columns:
+  - day_numeric
+  - culture_3d
+  - oracle_mature_state_score
+  - endpoint_adjacent_marker_score
+  allowed_metadata_columns:
+  - day_numeric
+  - culture_3d
+  valid_score_features:
+  - culture_3d
+sentinels:
+  timepoint:
+    column: day_numeric
+    role: future_timepoint
+    expected_signature: invalid shortcut for early maturation prediction
+  protocol:
+    column: culture_3d
+    role: protocol_shortcut
+    expected_signature: 3D-vs-2D culture shortcut, not hidden maturation state
+  oracle_endpoint:
+    column: oracle_mature_state_score
+    role: oracle_label
+    expected_signature: ceiling endpoint comparator
+  endpoint_adjacent_markers:
+    column: endpoint_adjacent_marker_score
+    role: oracle_label
+    expected_signature: genes selected against endpoint on same tiny table
+negative_controls:
+  n_permutations: 100
+  seed: 20260604
+visible_state_matching:
+  columns:
+  - library_total_counts
+  - detected_gene_count
+  n_bins: 2
+  min_bin_size: 2
+thresholds:
+  null_auc_max: 0.58
+  valid_auc_min: 0.6
+  oracle_auc_min: 0.95
+  leakage_auc_gap: 0.1
+  matched_delta_min: 0.02
+  matched_collapse_max: 0.005
+  score_thresholds:
+  - -1.0
+  - 0.0
+  - 1.0

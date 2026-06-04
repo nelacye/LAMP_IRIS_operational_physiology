@@ -65,12 +65,67 @@ window.
   future-window leaky 0.686, and Transformer future-window leaky 0.692.
 - Low-dose oracle mixtures at 1%, 5%, and 10% show graded AUC lift while LAMP
   flags forbidden/oracle-adjacent information contracts.
+- A controlled synthetic metric-blind leakage experiment shows the same pattern
+  without a clinical dataset: the first nonzero oracle dose breaks the declared
+  information contract even when the AUC movement remains below a simple
+  0.01-delta metric alert.
+- NASA C-MAPSS FD001 adds a physical degradation control: valid current-cycle
+  monitors pass (HGB AUC 0.902, RF AUC 0.907), while 0.1% true-RUL oracle
+  contamination moves AUC by only 0.0004 and is not significant by incremental
+  MI bootstrap (p=0.096), yet fails the information-contract audit.
+- A pair of public LAMP-Bio iPSC-CM maturation artifacts converts biological
+  hidden-state claims into audit objects: GEO `GSE209997` separates maturation
+  markers from timepoint/3D-protocol shortcuts, while GEO `GSE201437` exposes
+  high-calcium and ramp-pacing intervention shortcuts around an HCRP maturation
+  claim.
+- A controlled GSE201437 separation sanity check shows LAMP can return PASS on
+  biological expression rows: clean disjoint maturation probe PASS (AUC 0.694),
+  high-calcium protocol shortcut FAIL (AUC 0.857), and oracle leakage FAIL
+  (AUC 1.000).
+- Robustness checks on that GSE201437 sanity PASS show the correct caution:
+  clean bootstrap PASS rate is 0.503 over 300 stratified resamples, 4/5
+  alternative disjoint probe panels pass, and shortcut/leakage rejection remains
+  stable at 1.000 expected-decision rate.
+- The iPSC-CM biological contract layer maps raw LAMP outputs into maturation
+  interpretation levels: clean GSE201437 probe -> `valid_biological_signal_fragile`,
+  high-calcium shortcut -> `protocol_confounded_signal`, oracle leakage ->
+  `endpoint_adjacent_contamination`.
+- A first LAMP-Pharm public artifact on GEO `GSE114686` asks whether a
+  hiPSC-CM cardiotoxicity monitor detects pharmacological response biology or
+  experimental structure; drug identity and dose sentinels outperform a modest
+  signed stress/cardiac-program biology panel.
 - Internal representation probes are auditable: LSTM hidden probe AUC 0.649
   passed, while LSTM future hidden probe AUC 0.680 failed; Transformer hidden
   probe AUC 0.672 passed, while Transformer future hidden probe AUC 0.706 failed.
 
 See `notebooks/cinc2019_lamp_neural_audit.ipynb` for tables, ROC curves,
 leakage-dose ablations, horizon/architecture ablations, and timeline examples.
+See `results/metric_blind_leakage_control/metric_blind_leakage_report.md` for
+the synthetic control.
+See `results/cmapss_lamp/cmapss_lamp_report.md` for the NASA C-MAPSS physical
+degradation control.
+See
+`results/ipsc_cm_maturation_lamp/gse209997_micro/gse209997_micro_lamp_report.md`
+for the first iPSC-CM maturation audit artifact. This is intentionally a
+12-sample public-data smoke test, not a benchmark-level biological claim; the
+important result is the protocol/timepoint/leaky-marker separation pattern.
+See
+`results/ipsc_cm_maturation_lamp/gse201437_protocol_shortcut/gse201437_protocol_shortcut_lamp_report.md`
+for the LAMP-Bio protocol-shortcut artifact on high-calcium/ramp-pacing iPSC-CM
+maturation.
+See `results/ipsc_cm_maturation_lamp/lamp_bio_summary.md` for the two-artifact
+LAMP-Bio summary.
+See `configs/ipsc_cm_maturation_contract.yaml`,
+`docs/ipsc_cm_maturation_contract.md`, and
+`results/ipsc_cm_maturation_lamp/bio_contract_diagnosis/ipsc_cm_bio_contract_diagnosis.md`
+for the biological interpretation contract.
+See
+`results/lamp_pharm/gse114686_tki_cardiotoxicity/gse114686_lamp_pharm_report.md`
+and `results/lamp_pharm/lamp_pharm_summary.md` for the first LAMP-Pharm
+cardiotoxicity shortcut audit.
+See `paper/metric_blind_leakage_preprint.md` for the short metric-blind leakage
+preprint draft and `results/metric_blind_preprint/preprint_extra_rows.csv` for
+the real-domain lambda=0.001 table rows.
 
 The LLM-safety toy battery audits 896 matched visible-behavior episodes across
 11 monitors:
@@ -122,6 +177,13 @@ open `model-written-evals` sycophancy data:
 See `notebooks/anthropic_sycophancy_lamp_audit.ipynb` and
 `results/anthropic_sycophancy_lamp/anthropic_sycophancy_lamp_report.md`.
 
+A small public agent-monitoring smoke test on ScaleAI/MRT converts 16
+`american_airlines_2` transcript JSON files into a LAMP prediction table. The
+parsed monitor verdict is score-direction ambiguous on this tiny slice
+(primary AUC 0.071, inverted AUC 0.929), while oracle side-task sentinels behave
+as expected. See
+`results/mrt_lamp_micro/mrt_lamp_micro_report.md`.
+
 ## Alignment Relevance
 
 LAMP is directly transferable to auditing:
@@ -147,6 +209,33 @@ pip install -e .
 # Synthetic deception demo (recommended)
 python scripts/run_synthetic_deception_experiment.py
 
+# Controlled metric-blind leakage experiment
+python scripts/run_metric_blind_leakage_control.py
+
+# NASA C-MAPSS physical degradation benchmark
+python scripts/run_cmapss_lamp_bench.py
+
+# Public iPSC-CM maturation micro-audit
+python scripts/run_ipsc_cm_maturation_lamp_micro_audit.py
+
+# Public iPSC-CM protocol-shortcut audit
+python scripts/run_gse201437_protocol_shortcut_lamp_audit.py
+
+# Controlled GSE201437 PASS/FAIL sanity separation
+python scripts/run_gse201437_lamp_sanity_separation.py
+
+# Robustness for the GSE201437 sanity separation
+python scripts/run_gse201437_sanity_robustness.py
+
+# Apply the iPSC-CM biological interpretation contract
+python scripts/run_ipsc_cm_bio_contract_diagnosis.py
+
+# Public LAMP-Pharm cardiotoxicity shortcut audit
+python scripts/run_gse114686_lamp_pharm_audit.py
+
+# Rebuild the real-domain metric-blind leakage preprint table
+python scripts/build_metric_blind_preprint_table.py
+
 # Alignment-native LLM-safety toy battery
 python scripts/run_llm_safety_lamp_bench.py
 
@@ -158,6 +247,9 @@ lamp-inspect-import inspect_export.jsonl results/inspect_lamp/events.csv
 
 # Public real LLM-evaluation dataset benchmark
 python scripts/run_anthropic_sycophancy_lamp_bench.py
+
+# Public MRT agent-monitoring micro audit
+python scripts/run_mrt_lamp_micro_audit.py
 
 # Real clinical ML benchmark on exported sepsis feature tables
 python scripts/run_sepsis_ml_lamp_bench.py

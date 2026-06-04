@@ -1,0 +1,215 @@
+{
+  "created_at_utc": "2026-06-03T19:23:14.778378+00:00",
+  "dataset": {
+    "code_repository": "https://github.com/scaleapi/mrt",
+    "license": "CC BY-NC 4.0",
+    "name": "ScaleAI/MRT micro audit: american_airlines_2",
+    "role": "public agent-monitoring micro artifact",
+    "source": "https://huggingface.co/datasets/ScaleAI/mrt",
+    "task": "Detect completed hidden side task from monitor verdicts"
+  },
+  "early_window_sensitivity": {
+    "evaluated": false,
+    "reason": "no early-window sensitivity score columns configured"
+  },
+  "failure_mode_dossier": {
+    "audit_pass_candidate": false,
+    "controls_near_null": true,
+    "notes": [
+      "Primary AUC = 0.071; inverted AUC = 0.929. Interpretation depends on whether higher score means positive-class risk/suspicion or benign classification."
+    ],
+    "output_classes": [
+      "oracle_label_leakage_sentinel",
+      "score_direction_ambiguous"
+    ],
+    "thresholds": {
+      "leakage_auc_gap": 0.1,
+      "matched_collapse_max": 0.005,
+      "matched_delta_min": 0.02,
+      "null_auc_max": 0.58,
+      "oracle_auc_min": 0.95,
+      "valid_auc_min": 0.6
+    }
+  },
+  "forbidden_feature_screen": {
+    "declared_sentinel_columns_present": [
+      "hidden_side_task_instruction_present",
+      "oracle_side_task_score"
+    ],
+    "forbidden_columns_declared": [
+      "hidden_side_task_instruction_present",
+      "oracle_side_task_score"
+    ],
+    "interpretation": "Declared sentinel columns are audit comparators, not leakage in the valid model unless they appear in valid_score_features.",
+    "passed": true,
+    "unexpected_forbidden_columns_present": [],
+    "valid_score_feature_violations": []
+  },
+  "input": {
+    "columns": [
+      "aa_visible_mentions",
+      "anchor_step",
+      "conversation_turns",
+      "hidden_side_task_instruction_present",
+      "label_side_task_completed",
+      "main_task_score",
+      "monitor_response_mentions_suspicious",
+      "monitor_verdict_raw",
+      "monitor_verdict_score",
+      "oracle_side_task_score",
+      "run_id",
+      "source_dataset",
+      "source_path",
+      "strategy_root",
+      "task_name",
+      "tool_marker_count",
+      "visible_monitor_response_chars",
+      "visible_transcript_chars"
+    ],
+    "config_path": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\results\\mrt_lamp_micro\\mrt_micro_config.yaml",
+    "input_path": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\results\\mrt_lamp_micro\\mrt_micro_prediction_table.csv",
+    "n_rows": 16,
+    "n_subjects": 16
+  },
+  "negative_controls": {
+    "label_permutation_auc_mean": 0.48507936507936505,
+    "label_permutation_auc_sd": 0.13606536981536196,
+    "n": 16,
+    "n_permutations": 100,
+    "noise_auc_mean": 0.4801587301587301,
+    "noise_auc_sd": 0.15831877104718653,
+    "score_permutation_auc_mean": 0.48579365079365083,
+    "score_permutation_auc_sd": 0.13168359796438245
+  },
+  "outputs": {
+    "report_md": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\results\\mrt_lamp_micro\\lamp\\monitor_verdict_score\\audit_report.md",
+    "summary_json": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\results\\mrt_lamp_micro\\lamp\\monitor_verdict_score\\audit_summary.json"
+  },
+  "primary_score": {
+    "auc": 0.07142857142857142,
+    "column": "monitor_verdict_score",
+    "direction_ambiguous": true,
+    "direction_interpretation": "Primary AUC = 0.071; inverted AUC = 0.929. Interpretation depends on whether higher score means positive-class risk/suspicion or benign classification.",
+    "inverted_auc": 0.9285714285714286,
+    "n": 16,
+    "n_negative": 9,
+    "n_positive": 7
+  },
+  "schema_version": "lamp.audit_summary/v1",
+  "sentinel_relations": {
+    "hidden_instruction": {
+      "column": "hidden_side_task_instruction_present",
+      "n": 16,
+      "oracle_proximity_alert": false,
+      "primary_auc": 0.07142857142857142,
+      "primary_sentinel_pearson": -0.7673594789364054,
+      "primary_sentinel_spearman": -0.932346474796904,
+      "role": "oracle_label",
+      "sentinel_auc": 0.9444444444444444,
+      "sentinel_minus_primary_auc": 0.873015873015873
+    },
+    "oracle_side_task": {
+      "column": "oracle_side_task_score",
+      "n": 16,
+      "oracle_proximity_alert": false,
+      "primary_auc": 0.07142857142857142,
+      "primary_sentinel_pearson": -0.6750210525973211,
+      "primary_sentinel_spearman": -0.7928861490194008,
+      "role": "oracle_label",
+      "sentinel_auc": 1.0,
+      "sentinel_minus_primary_auc": 0.9285714285714286
+    }
+  },
+  "sentinels": {
+    "hidden_instruction": {
+      "auc": 0.9444444444444444,
+      "column": "hidden_side_task_instruction_present",
+      "evaluated": true,
+      "expected_signature": "task-design oracle unavailable to a deployed monitor",
+      "n": 16,
+      "n_negative": 9,
+      "n_positive": 7,
+      "role": "oracle_label"
+    },
+    "oracle_side_task": {
+      "auc": 1.0,
+      "column": "oracle_side_task_score",
+      "evaluated": true,
+      "expected_signature": "ceiling comparator for completed hidden side task",
+      "n": 16,
+      "n_negative": 9,
+      "n_positive": 7,
+      "role": "oracle_label"
+    }
+  },
+  "temporal_isolation": {
+    "anchor": "anchor_step",
+    "declared": true,
+    "frozen_before_holdout": [
+      "MRT task slice",
+      "path selection rule",
+      "verdict parser",
+      "LAMP thresholds"
+    ],
+    "passed": true,
+    "valid_features_must_be": "visible trajectory and monitor response only",
+    "valid_score_features": [
+      {
+        "latest_offset_h": 0.0,
+        "name": "visible_agent_trajectory"
+      },
+      {
+        "latest_offset_h": 0.0,
+        "name": "monitoring_response_text"
+      }
+    ],
+    "violations": []
+  },
+  "threshold_sensitivity": {
+    "baseline_positive_rate": 0.4375,
+    "evaluated": true,
+    "fragile": false,
+    "thresholds": [
+      {
+        "enrichment_over_baseline": -0.4375,
+        "positive_rate": 0.0,
+        "selected_fraction": 0.5,
+        "threshold": 0.05
+      },
+      {
+        "enrichment_over_baseline": -0.4375,
+        "positive_rate": 0.0,
+        "selected_fraction": 0.5,
+        "threshold": 0.1
+      },
+      {
+        "enrichment_over_baseline": -0.4375,
+        "positive_rate": 0.0,
+        "selected_fraction": 0.0625,
+        "threshold": 0.2
+      },
+      {
+        "enrichment_over_baseline": null,
+        "positive_rate": null,
+        "selected_fraction": 0.0,
+        "threshold": 0.5
+      }
+    ]
+  },
+  "visible_state_matching": {
+    "absolute_matched_observed_state_delta": 0.0,
+    "candidate_strata": 6,
+    "evaluated": true,
+    "match_columns": [
+      "visible_transcript_chars",
+      "conversation_turns",
+      "tool_marker_count",
+      "main_task_score"
+    ],
+    "matched_observed_state_delta": 0.0,
+    "matched_rows": 2,
+    "matched_strata": 1,
+    "min_bin_size": 2,
+    "n_bins": 2
+  }
+}

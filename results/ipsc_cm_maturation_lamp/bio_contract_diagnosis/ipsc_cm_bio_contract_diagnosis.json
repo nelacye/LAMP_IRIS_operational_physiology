@@ -1,0 +1,111 @@
+[
+  {
+    "allowed_probe_axes": [
+      "calcium_handling_electrophysiology"
+    ],
+    "audit_pass_candidate": true,
+    "claim": "A disjoint calcium/electrophysiology expression probe predicts high structural maturation state.\n",
+    "claim_id": "structural_endpoint_calcium_probe",
+    "diagnosis": "valid_biological_signal_fragile",
+    "endpoint_axis": "structural_maturation",
+    "flags": [],
+    "interpretation": "The claim has a plausible disjoint biological signal, but robustness or sentinel-dominance warnings limit interpretation.",
+    "model_id": "clean_calcium_probe",
+    "model_name": "Clean calcium/electrophysiology probe",
+    "output_classes": [
+      "audit_pass_candidate",
+      "oracle_label_leakage_sentinel",
+      "protocol_batch_or_donor_shortcut_sentinel",
+      "valid_early_hidden_state_signal"
+    ],
+    "primary_auc": 0.6938775510204082,
+    "protocol_sentinel_dominance": true,
+    "schema_version": "lamp.bio_diagnosis/v1",
+    "score_axis": "calcium_handling_electrophysiology",
+    "stability": {
+      "alternative_panel_pass_rate": 0.8,
+      "bootstrap_auc_mean": 0.7061224489795919,
+      "bootstrap_auc_p025": 0.4081632653061224,
+      "bootstrap_auc_p975": 0.9494897959183668,
+      "bootstrap_pass_rate": 0.5033333333333333,
+      "donor_heldout_status": "not_evaluable",
+      "leave_group_out_pass_rate": 0.75,
+      "protocol_heldout_status": "not_evaluable",
+      "threshold_grid_pass_rate": 0.6666666666666666
+    },
+    "warnings": [
+      "bootstrap_pass_rate_below_stable_threshold",
+      "donor_heldout_not_evaluable",
+      "leave_group_out_pass_rate_below_stable_threshold",
+      "oracle_sentinel_present",
+      "protocol_heldout_not_evaluable",
+      "protocol_sentinel_dominance_present",
+      "threshold_grid_not_fully_stable"
+    ]
+  },
+  {
+    "allowed_probe_axes": [
+      "calcium_handling_electrophysiology"
+    ],
+    "audit_pass_candidate": false,
+    "claim": "A disjoint calcium/electrophysiology expression probe predicts high structural maturation state.\n",
+    "claim_id": "structural_endpoint_calcium_probe",
+    "diagnosis": "protocol_confounded_signal",
+    "endpoint_axis": "structural_maturation",
+    "flags": [
+      "forbidden_protocol_feature_used_by_score",
+      "score_axis_not_declared_as_allowed_probe"
+    ],
+    "interpretation": "The signal is not cleanly separable from protocol or intervention structure.",
+    "model_id": "protocol_shortcut",
+    "model_name": "High-calcium protocol shortcut",
+    "output_classes": [
+      "forbidden_feature_contamination",
+      "oracle_label_leakage_sentinel",
+      "protocol_batch_or_donor_shortcut_sentinel",
+      "valid_early_hidden_state_signal"
+    ],
+    "primary_auc": 0.8571428571428571,
+    "protocol_sentinel_dominance": true,
+    "schema_version": "lamp.bio_diagnosis/v1",
+    "score_axis": "intervention_protocol_structure",
+    "stability": {},
+    "warnings": [
+      "oracle_sentinel_present",
+      "protocol_sentinel_dominance_present"
+    ]
+  },
+  {
+    "allowed_probe_axes": [
+      "calcium_handling_electrophysiology"
+    ],
+    "audit_pass_candidate": false,
+    "claim": "A disjoint calcium/electrophysiology expression probe predicts high structural maturation state.\n",
+    "claim_id": "structural_endpoint_calcium_probe",
+    "diagnosis": "endpoint_adjacent_contamination",
+    "endpoint_axis": "structural_maturation",
+    "flags": [
+      "endpoint_axis_reused_as_score_axis",
+      "score_axis_not_declared_as_allowed_probe",
+      "temporal_isolation_failed"
+    ],
+    "interpretation": "The score violates endpoint, oracle, or temporal isolation.",
+    "model_id": "explicit_oracle_leakage",
+    "model_name": "Explicit oracle leakage",
+    "output_classes": [
+      "forbidden_feature_contamination",
+      "oracle_label_leakage_sentinel",
+      "protocol_batch_or_donor_shortcut_sentinel",
+      "temporal_isolation_incomplete",
+      "valid_early_hidden_state_signal"
+    ],
+    "primary_auc": 1.0,
+    "protocol_sentinel_dominance": false,
+    "schema_version": "lamp.bio_diagnosis/v1",
+    "score_axis": "structural_maturation",
+    "stability": {},
+    "warnings": [
+      "oracle_sentinel_present"
+    ]
+  }
+]

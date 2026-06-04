@@ -144,9 +144,13 @@ class LAMP_Audit:
         scores: list[float],
     ) -> dict[str, Any]:
         primary_auc = auc_score(labels, scores)
+        direction = score_direction_sanity(primary_auc)
         return {
             "column": self.score_col,
             "auc": primary_auc,
+            "inverted_auc": direction["inverted_auc"],
+            "direction_ambiguous": direction["direction_ambiguous"],
+            "direction_interpretation": direction["interpretation"],
             "n": len(labels),
             "n_positive": sum(labels),
             "n_negative": len(labels) - sum(labels),
@@ -287,6 +291,43 @@ def load_csv(path: Path) -> tuple[list[dict[str, str]], list[str]]:
         return rows, list(reader.fieldnames)
 
 
+def score_direction_sanity(auc: float | None) -> dict[str, Any]:
+    """Flag cases where the score orientation is semantically unresolved.
+
+    LAMP treats higher score as higher predicted positive risk. Some public
+    monitoring datasets encode verdicts in the opposite direction, or use scales
+    whose semantics are not documented enough to interpret a low AUC as failure.
+    This diagnostic keeps those cases explicit instead of silently calling them
+    null monitors.
+    """
+
+    if auc is None:
+        return {
+            "inverted_auc": None,
+            "direction_ambiguous": False,
+            "interpretation": "AUC is not evaluable; score direction cannot be checked.",
+        }
+    inverted_auc = 1.0 - auc
+    direction_ambiguous = bool(auc < 0.5 and inverted_auc >= 0.60)
+    if direction_ambiguous:
+        interpretation = (
+            f"Primary AUC = {auc:.3f}; inverted AUC = {inverted_auc:.3f}. "
+            "Interpretation depends on whether higher score means positive-class "
+            "risk/suspicion or benign classification."
+        )
+    else:
+        interpretation = (
+            f"Primary AUC = {auc:.3f}; inverted AUC = {inverted_auc:.3f}. "
+            "No strong score-direction ambiguity was detected under the default "
+            "higher-score-means-positive convention."
+        )
+    return {
+        "inverted_auc": float(inverted_auc),
+        "direction_ambiguous": direction_ambiguous,
+        "interpretation": interpretation,
+    }
+
+
 def classify_failure_modes(
     primary: dict[str, Any],
     forbidden: dict[str, Any],
@@ -306,11 +347,16 @@ def classify_failure_modes(
     matched_collapse_max = float(thresholds.get("matched_collapse_max", 0.01))
 
     auc = primary.get("auc")
+    direction_ambiguous = bool(primary.get("direction_ambiguous"))
     output_classes: list[str] = []
     notes: list[str] = []
 
     if auc is None or auc <= null_auc_max:
-        output_classes.append("null_or_destroyed_signal")
+        if direction_ambiguous:
+            output_classes.append("score_direction_ambiguous")
+            notes.append(str(primary.get("direction_interpretation")))
+        else:
+            output_classes.append("null_or_destroyed_signal")
 
     if not temporal.get("passed"):
         output_classes.append("temporal_isolation_incomplete")
@@ -338,6 +384,16 @@ def classify_failure_modes(
         if "future" in role or "future" in name.lower():
             if auc is not None and sentinel_auc >= auc + leakage_auc_gap:
                 output_classes.append("future_physiology_invalid_comparator")
+        if (
+            "protocol" in role
+            or "protocol" in name.lower()
+            or "batch" in role
+            or "batch" in name.lower()
+            or "donor" in role
+            or "donor" in name.lower()
+        ):
+            if sentinel_auc >= valid_auc_min:
+                output_classes.append("protocol_batch_or_donor_shortcut_sentinel")
 
     if threshold_sensitivity_result.get("fragile"):
         output_classes.append("threshold_fragile_claim")

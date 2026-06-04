@@ -1,0 +1,90 @@
+schema_version: lamp.audit_config/v1
+dataset:
+  name: 'GSE114686 LAMP-Pharm audit: Combined drug-dose shortcut score'
+  task: Audit cardiotoxic drug-response claim vs dose/drug/time shortcuts
+  role: LAMP-Pharm public hiPSC-CM cardiotoxicity artifact
+  source: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE114686
+  processed_data_url: https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE114686&file=GSE114686_ProcessedData.csv.gz&format=file
+  monitor_id: combined_drug_dose_shortcut_score
+  monitor_description: Uses the exact severe-TKI-at-high-dose endpoint rule.
+columns:
+  subject_id: sample_id
+  label: label_severe_highdose_tki
+  positive_value: 1
+  score: combined_drug_dose_shortcut_score
+  anchor_time: anchor_time
+temporal_isolation:
+  anchor: anchor_time
+  valid_features_must_be: expression response features only; drug/dose/time codes
+    are sentinels
+  frozen_before_holdout:
+  - GSE114686 accession
+  - processed RNA-seq table
+  - sample ID parser
+  - signed cardiotoxic-response panel
+  - drug/dose/time sentinel definitions
+  - LAMP thresholds
+  valid_score_features:
+  - name: combined_drug_dose_shortcut_score
+    latest_offset_h: 0
+forbidden_features:
+  columns:
+  - severe_tki_identity
+  - dose_uM
+  - exposure_time_h
+  - high_dose_ge3
+  - combined_drug_dose_shortcut_score
+  - oracle_severe_highdose_tki_score
+  - endpoint_adjacent_marker_score
+  allowed_metadata_columns:
+  - severe_tki_identity
+  - dose_uM
+  - exposure_time_h
+  - high_dose_ge3
+  valid_score_features:
+  - combined_drug_dose_shortcut_score
+sentinels:
+  severe_tki_identity:
+    column: severe_tki_identity_shortcut_score
+    role: protocol_drug_identity_shortcut
+    expected_signature: drug identity should not substitute for response biology
+  dose:
+    column: dose_shortcut_score
+    role: protocol_dose_shortcut
+    expected_signature: administered dose is experimental structure
+  exposure_time:
+    column: exposure_time_shortcut_score
+    role: protocol_time_shortcut
+    expected_signature: exposure duration is experimental structure
+  combined_drug_dose:
+    column: combined_drug_dose_shortcut_score
+    role: protocol_shortcut
+    expected_signature: exact endpoint rule encoded as drug+dose structure
+  oracle_endpoint:
+    column: oracle_severe_highdose_tki_score
+    role: oracle_label
+    expected_signature: ceiling endpoint comparator
+  endpoint_adjacent_markers:
+    column: endpoint_adjacent_marker_score
+    role: oracle_label
+    expected_signature: genes selected against endpoint on same table
+negative_controls:
+  n_permutations: 100
+  seed: 20260604
+visible_state_matching:
+  columns:
+  - sample_mean_expression
+  - detected_gene_count
+  n_bins: 4
+  min_bin_size: 4
+thresholds:
+  null_auc_max: 0.58
+  valid_auc_min: 0.6
+  oracle_auc_min: 0.95
+  leakage_auc_gap: 0.1
+  matched_delta_min: 0.02
+  matched_collapse_max: 0.005
+  score_thresholds:
+  - -1.0
+  - 0.0
+  - 1.0

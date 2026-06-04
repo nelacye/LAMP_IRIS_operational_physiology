@@ -1,3 +1,4 @@
+from lamp.audit import score_direction_sanity
 from lamp.controls import auc_score, negative_controls
 
 
@@ -17,3 +18,11 @@ def test_negative_controls_destroy_ordered_signal_on_average():
     assert controls["noise_auc_mean"] < 0.58
     assert controls["score_permutation_auc_mean"] < 0.58
     assert controls["label_permutation_auc_mean"] < 0.58
+
+
+def test_score_direction_sanity_flags_strong_inversion():
+    diagnostic = score_direction_sanity(0.0714285714)
+
+    assert diagnostic["inverted_auc"] > 0.92
+    assert diagnostic["direction_ambiguous"] is True
+    assert "Interpretation depends" in diagnostic["interpretation"]

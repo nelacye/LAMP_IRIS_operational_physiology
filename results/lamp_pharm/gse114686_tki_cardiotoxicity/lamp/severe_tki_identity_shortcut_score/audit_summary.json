@@ -1,0 +1,303 @@
+{
+  "created_at_utc": "2026-06-04T00:50:21.429618+00:00",
+  "dataset": {
+    "monitor_description": "Uses Sorafenib/Sunitinib identity as a shortcut.",
+    "monitor_id": "severe_tki_identity_shortcut_score",
+    "name": "GSE114686 LAMP-Pharm audit: Severe-TKI drug-identity shortcut score",
+    "processed_data_url": "https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE114686&file=GSE114686_ProcessedData.csv.gz&format=file",
+    "role": "LAMP-Pharm public hiPSC-CM cardiotoxicity artifact",
+    "source": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE114686",
+    "task": "Audit cardiotoxic drug-response claim vs dose/drug/time shortcuts"
+  },
+  "early_window_sensitivity": {
+    "evaluated": false,
+    "reason": "no early-window sensitivity score columns configured"
+  },
+  "failure_mode_dossier": {
+    "audit_pass_candidate": false,
+    "controls_near_null": true,
+    "notes": [],
+    "output_classes": [
+      "forbidden_feature_contamination",
+      "oracle_label_leakage_sentinel",
+      "protocol_batch_or_donor_shortcut_sentinel",
+      "valid_early_hidden_state_signal"
+    ],
+    "thresholds": {
+      "leakage_auc_gap": 0.1,
+      "matched_collapse_max": 0.005,
+      "matched_delta_min": 0.02,
+      "null_auc_max": 0.58,
+      "oracle_auc_min": 0.95,
+      "valid_auc_min": 0.6
+    }
+  },
+  "forbidden_feature_screen": {
+    "declared_sentinel_columns_present": [
+      "combined_drug_dose_shortcut_score",
+      "endpoint_adjacent_marker_score",
+      "oracle_severe_highdose_tki_score"
+    ],
+    "forbidden_columns_declared": [
+      "combined_drug_dose_shortcut_score",
+      "dose_uM",
+      "endpoint_adjacent_marker_score",
+      "exposure_time_h",
+      "high_dose_ge3",
+      "oracle_severe_highdose_tki_score",
+      "severe_tki_identity"
+    ],
+    "interpretation": "Declared sentinel columns are audit comparators, not leakage in the valid model unless they appear in valid_score_features.",
+    "passed": false,
+    "unexpected_forbidden_columns_present": [],
+    "valid_score_feature_violations": [
+      "severe_tki_identity"
+    ]
+  },
+  "input": {
+    "columns": [
+      "anchor_time",
+      "cardiac_program_panel_score",
+      "combined_drug_dose_shortcut_score",
+      "detected_gene_count",
+      "dose_code",
+      "dose_shortcut_score",
+      "dose_uM",
+      "drug",
+      "drug_code",
+      "endpoint_adjacent_marker_score",
+      "exposure_time_h",
+      "exposure_time_shortcut_score",
+      "high_dose_ge3",
+      "label_severe_highdose_tki",
+      "oracle_severe_highdose_tki_score",
+      "replicate",
+      "sample_id",
+      "sample_mean_expression",
+      "severe_tki_identity",
+      "severe_tki_identity_shortcut_score",
+      "signed_cardiotoxic_response_score",
+      "stress_apoptosis_panel_score",
+      "time_code"
+    ],
+    "config_path": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\results\\lamp_pharm\\gse114686_tki_cardiotoxicity\\configs\\severe_tki_identity_shortcut_score.yaml",
+    "input_path": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\results\\lamp_pharm\\gse114686_tki_cardiotoxicity\\gse114686_lamp_pharm_prediction_table.csv",
+    "n_rows": 80,
+    "n_subjects": 80
+  },
+  "negative_controls": {
+    "label_permutation_auc_mean": 0.48956043956043954,
+    "label_permutation_auc_sd": 0.06314155236615017,
+    "n": 80,
+    "n_permutations": 100,
+    "noise_auc_mean": 0.5004739010989011,
+    "noise_auc_sd": 0.06454284947701429,
+    "score_permutation_auc_mean": 0.5041208791208791,
+    "score_permutation_auc_sd": 0.060287374368053905
+  },
+  "outputs": {
+    "report_md": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\results\\lamp_pharm\\gse114686_tki_cardiotoxicity\\lamp\\severe_tki_identity_shortcut_score\\audit_report.md",
+    "summary_json": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\results\\lamp_pharm\\gse114686_tki_cardiotoxicity\\lamp\\severe_tki_identity_shortcut_score\\audit_summary.json"
+  },
+  "primary_score": {
+    "auc": 0.9423076923076923,
+    "column": "severe_tki_identity_shortcut_score",
+    "direction_ambiguous": false,
+    "direction_interpretation": "Primary AUC = 0.942; inverted AUC = 0.058. No strong score-direction ambiguity was detected under the default higher-score-means-positive convention.",
+    "inverted_auc": 0.05769230769230771,
+    "n": 80,
+    "n_negative": 52,
+    "n_positive": 28
+  },
+  "schema_version": "lamp.audit_summary/v1",
+  "sentinel_relations": {
+    "combined_drug_dose": {
+      "column": "combined_drug_dose_shortcut_score",
+      "n": 80,
+      "oracle_proximity_alert": false,
+      "primary_auc": 0.9423076923076923,
+      "primary_sentinel_pearson": 0.8535260905973038,
+      "primary_sentinel_spearman": 0.8535260905973037,
+      "role": "protocol_shortcut",
+      "sentinel_auc": 1.0,
+      "sentinel_minus_primary_auc": 0.05769230769230771
+    },
+    "dose": {
+      "column": "dose_shortcut_score",
+      "n": 80,
+      "oracle_proximity_alert": false,
+      "primary_auc": 0.9423076923076923,
+      "primary_sentinel_pearson": 0.31966540472860044,
+      "primary_sentinel_spearman": 0.21099362991714715,
+      "role": "protocol_dose_shortcut",
+      "sentinel_auc": 0.7132554945054945,
+      "sentinel_minus_primary_auc": -0.22905219780219777
+    },
+    "endpoint_adjacent_markers": {
+      "column": "endpoint_adjacent_marker_score",
+      "n": 80,
+      "oracle_proximity_alert": false,
+      "primary_auc": 0.9423076923076923,
+      "primary_sentinel_pearson": 0.7614897988924827,
+      "primary_sentinel_spearman": 0.8201589174676692,
+      "role": "oracle_label",
+      "sentinel_auc": 0.9972527472527473,
+      "sentinel_minus_primary_auc": 0.05494505494505497
+    },
+    "exposure_time": {
+      "column": "exposure_time_shortcut_score",
+      "n": 80,
+      "oracle_proximity_alert": false,
+      "primary_auc": 0.9423076923076923,
+      "primary_sentinel_pearson": -0.011763107812934864,
+      "primary_sentinel_spearman": -0.011109860794959243,
+      "role": "protocol_time_shortcut",
+      "sentinel_auc": 0.5182005494505495,
+      "sentinel_minus_primary_auc": -0.4241071428571428
+    },
+    "oracle_endpoint": {
+      "column": "oracle_severe_highdose_tki_score",
+      "n": 80,
+      "oracle_proximity_alert": false,
+      "primary_auc": 0.9423076923076923,
+      "primary_sentinel_pearson": 0.8535260905973038,
+      "primary_sentinel_spearman": 0.8535260905973037,
+      "role": "oracle_label",
+      "sentinel_auc": 1.0,
+      "sentinel_minus_primary_auc": 0.05769230769230771
+    },
+    "severe_tki_identity": {
+      "column": "severe_tki_identity_shortcut_score",
+      "n": 80,
+      "oracle_proximity_alert": false,
+      "primary_auc": 0.9423076923076923,
+      "primary_sentinel_pearson": 1.0,
+      "primary_sentinel_spearman": 0.9999999999999999,
+      "role": "protocol_drug_identity_shortcut",
+      "sentinel_auc": 0.9423076923076923,
+      "sentinel_minus_primary_auc": 0.0
+    }
+  },
+  "sentinels": {
+    "combined_drug_dose": {
+      "auc": 1.0,
+      "column": "combined_drug_dose_shortcut_score",
+      "evaluated": true,
+      "expected_signature": "exact endpoint rule encoded as drug+dose structure",
+      "n": 80,
+      "n_negative": 52,
+      "n_positive": 28,
+      "role": "protocol_shortcut"
+    },
+    "dose": {
+      "auc": 0.7132554945054945,
+      "column": "dose_shortcut_score",
+      "evaluated": true,
+      "expected_signature": "administered dose is experimental structure",
+      "n": 80,
+      "n_negative": 52,
+      "n_positive": 28,
+      "role": "protocol_dose_shortcut"
+    },
+    "endpoint_adjacent_markers": {
+      "auc": 0.9972527472527473,
+      "column": "endpoint_adjacent_marker_score",
+      "evaluated": true,
+      "expected_signature": "genes selected against endpoint on same table",
+      "n": 80,
+      "n_negative": 52,
+      "n_positive": 28,
+      "role": "oracle_label"
+    },
+    "exposure_time": {
+      "auc": 0.5182005494505495,
+      "column": "exposure_time_shortcut_score",
+      "evaluated": true,
+      "expected_signature": "exposure duration is experimental structure",
+      "n": 80,
+      "n_negative": 52,
+      "n_positive": 28,
+      "role": "protocol_time_shortcut"
+    },
+    "oracle_endpoint": {
+      "auc": 1.0,
+      "column": "oracle_severe_highdose_tki_score",
+      "evaluated": true,
+      "expected_signature": "ceiling endpoint comparator",
+      "n": 80,
+      "n_negative": 52,
+      "n_positive": 28,
+      "role": "oracle_label"
+    },
+    "severe_tki_identity": {
+      "auc": 0.9423076923076923,
+      "column": "severe_tki_identity_shortcut_score",
+      "evaluated": true,
+      "expected_signature": "drug identity should not substitute for response biology",
+      "n": 80,
+      "n_negative": 52,
+      "n_positive": 28,
+      "role": "protocol_drug_identity_shortcut"
+    }
+  },
+  "temporal_isolation": {
+    "anchor": "anchor_time",
+    "declared": true,
+    "frozen_before_holdout": [
+      "GSE114686 accession",
+      "processed RNA-seq table",
+      "sample ID parser",
+      "signed cardiotoxic-response panel",
+      "drug/dose/time sentinel definitions",
+      "LAMP thresholds"
+    ],
+    "passed": true,
+    "valid_features_must_be": "expression response features only; drug/dose/time codes are sentinels",
+    "valid_score_features": [
+      {
+        "latest_offset_h": 0.0,
+        "name": "severe_tki_identity"
+      }
+    ],
+    "violations": []
+  },
+  "threshold_sensitivity": {
+    "baseline_positive_rate": 0.35,
+    "evaluated": true,
+    "fragile": false,
+    "thresholds": [
+      {
+        "enrichment_over_baseline": 0.0,
+        "positive_rate": 0.35,
+        "selected_fraction": 1.0,
+        "threshold": -1.0
+      },
+      {
+        "enrichment_over_baseline": 0.0,
+        "positive_rate": 0.35,
+        "selected_fraction": 1.0,
+        "threshold": 0.0
+      },
+      {
+        "enrichment_over_baseline": 0.47352941176470587,
+        "positive_rate": 0.8235294117647058,
+        "selected_fraction": 0.425,
+        "threshold": 1.0
+      }
+    ]
+  },
+  "visible_state_matching": {
+    "absolute_matched_observed_state_delta": 0.40202702702702703,
+    "candidate_strata": 14,
+    "evaluated": true,
+    "match_columns": [
+      "sample_mean_expression",
+      "detected_gene_count"
+    ],
+    "matched_observed_state_delta": 0.40202702702702703,
+    "matched_rows": 74,
+    "matched_strata": 12,
+    "min_bin_size": 4,
+    "n_bins": 4
+  }
+}

@@ -1,0 +1,354 @@
+{
+  "created_at_utc": "2026-05-31T18:41:47.194131+00:00",
+  "dataset": {
+    "monitor_type": "random forest current-cycle monitor",
+    "name": "NASA C-MAPSS FD001: rf_valid",
+    "role": "physical degradation benchmark",
+    "task": "near-failure within 120 cycles"
+  },
+  "early_window_sensitivity": {
+    "evaluated": false,
+    "reason": "no early-window sensitivity score columns configured"
+  },
+  "failure_mode_dossier": {
+    "audit_pass_candidate": true,
+    "controls_near_null": true,
+    "notes": [],
+    "output_classes": [
+      "audit_pass_candidate",
+      "oracle_label_leakage_sentinel",
+      "valid_early_hidden_state_signal"
+    ],
+    "thresholds": {
+      "leakage_auc_gap": 0.1,
+      "matched_collapse_max": 0.005,
+      "matched_delta_min": 0.015,
+      "null_auc_max": 0.58,
+      "oracle_auc_min": 0.95,
+      "valid_auc_min": 0.6
+    }
+  },
+  "forbidden_feature_screen": {
+    "declared_sentinel_columns_present": [
+      "future_sensor_mean",
+      "future_sensor_slope",
+      "oracle_rul_score"
+    ],
+    "forbidden_columns_declared": [
+      "future_sensor_mean",
+      "future_sensor_slope",
+      "oracle_rul_score"
+    ],
+    "interpretation": "Declared sentinel columns are audit comparators, not leakage in the valid model unless they appear in valid_score_features.",
+    "passed": true,
+    "unexpected_forbidden_columns_present": [],
+    "valid_score_feature_violations": []
+  },
+  "input": {
+    "columns": [
+      "cycle",
+      "cycle_frac",
+      "future_rul_leaky_score",
+      "future_sensor_mean",
+      "future_sensor_slope",
+      "label",
+      "oracle_mix_l0p0",
+      "oracle_mix_l0p001",
+      "oracle_mix_l0p002",
+      "oracle_mix_l0p005",
+      "oracle_mix_l0p01",
+      "oracle_mix_l0p02",
+      "oracle_mix_l0p05",
+      "oracle_mix_l0p1",
+      "oracle_rul_score",
+      "rf_valid_score",
+      "row_id",
+      "sensor_1",
+      "sensor_10",
+      "sensor_11",
+      "sensor_12",
+      "sensor_13",
+      "sensor_14",
+      "sensor_15",
+      "sensor_16",
+      "sensor_17",
+      "sensor_18",
+      "sensor_19",
+      "sensor_2",
+      "sensor_20",
+      "sensor_21",
+      "sensor_3",
+      "sensor_4",
+      "sensor_5",
+      "sensor_6",
+      "sensor_7",
+      "sensor_8",
+      "sensor_9",
+      "setting_1",
+      "setting_2",
+      "setting_3",
+      "unit",
+      "valid_score"
+    ],
+    "config_path": null,
+    "input_path": null,
+    "n_rows": 2400,
+    "n_subjects": 2400
+  },
+  "negative_controls": {
+    "label_permutation_auc_mean": 0.500105298755787,
+    "label_permutation_auc_sd": 0.012990064434687093,
+    "n": 2400,
+    "n_permutations": 100,
+    "noise_auc_mean": 0.4992233651620371,
+    "noise_auc_sd": 0.011877763409232203,
+    "score_permutation_auc_mean": 0.49885133463541664,
+    "score_permutation_auc_sd": 0.011499260925416257
+  },
+  "outputs": {
+    "report_md": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\results\\cmapss_lamp\\lamp\\rf_valid\\audit_report.md",
+    "summary_json": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\results\\cmapss_lamp\\lamp\\rf_valid\\audit_summary.json"
+  },
+  "primary_score": {
+    "auc": 0.9068330439814815,
+    "column": "rf_valid_score",
+    "n": 2400,
+    "n_negative": 960,
+    "n_positive": 1440
+  },
+  "schema_version": "lamp.audit_summary/v1",
+  "sentinel_relations": {
+    "future_physiology": {
+      "auc_leakage_proximity": -0.0,
+      "baseline_auc": 0.9068330439814815,
+      "baseline_score_column": "rf_valid_score",
+      "column": "future_sensor_mean",
+      "n": 2400,
+      "oracle_proximity_alert": false,
+      "oracle_proximity_alert_min": 0.01,
+      "primary_auc": 0.9068330439814815,
+      "primary_sentinel_pearson": 0.863325267435714,
+      "primary_sentinel_spearman": 0.9189933388511261,
+      "role": "future_physiology",
+      "sentinel_auc": 0.896607349537037,
+      "sentinel_minus_primary_auc": -0.010225694444444433
+    },
+    "future_physiology_slope": {
+      "auc_leakage_proximity": -0.0,
+      "baseline_auc": 0.9068330439814815,
+      "baseline_score_column": "rf_valid_score",
+      "column": "future_sensor_slope",
+      "n": 2400,
+      "oracle_proximity_alert": false,
+      "oracle_proximity_alert_min": 0.01,
+      "primary_auc": 0.9068330439814815,
+      "primary_sentinel_pearson": 0.2632421540320316,
+      "primary_sentinel_spearman": 0.2538194889058468,
+      "role": "future_physiology",
+      "sentinel_auc": 0.6782591869212963,
+      "sentinel_minus_primary_auc": -0.22857385706018518
+    },
+    "oracle_label": {
+      "auc_leakage_proximity": 0.0,
+      "baseline_auc": 0.9068330439814815,
+      "baseline_score_column": "rf_valid_score",
+      "column": "oracle_rul_score",
+      "n": 2400,
+      "oracle_proximity_alert": false,
+      "oracle_proximity_alert_min": 0.01,
+      "primary_auc": 0.9068330439814815,
+      "primary_sentinel_pearson": 0.6988131871317265,
+      "primary_sentinel_spearman": 0.6906669572026811,
+      "role": "oracle_label",
+      "sentinel_auc": 1.0,
+      "sentinel_minus_primary_auc": 0.09316695601851854
+    }
+  },
+  "sentinels": {
+    "future_physiology": {
+      "auc": 0.896607349537037,
+      "column": "future_sensor_mean",
+      "evaluated": true,
+      "expected_signature": "post-anchor sensor trajectory comparator",
+      "n": 2400,
+      "n_negative": 960,
+      "n_positive": 1440,
+      "role": "future_physiology"
+    },
+    "future_physiology_slope": {
+      "auc": 0.6782591869212963,
+      "column": "future_sensor_slope",
+      "evaluated": true,
+      "expected_signature": "post-anchor sensor trajectory slope comparator",
+      "n": 2400,
+      "n_negative": 960,
+      "n_positive": 1440,
+      "role": "future_physiology"
+    },
+    "oracle_label": {
+      "auc": 1.0,
+      "column": "oracle_rul_score",
+      "evaluated": true,
+      "expected_signature": "true remaining-useful-life derived comparator",
+      "n": 2400,
+      "n_negative": 960,
+      "n_positive": 1440,
+      "role": "oracle_label"
+    }
+  },
+  "temporal_isolation": {
+    "anchor": "cycle",
+    "declared": true,
+    "frozen_before_holdout": [
+      "FD001 engine-level split",
+      "near-failure horizon",
+      "valid current-cycle feature set",
+      "oracle mixture grid",
+      "LAMP thresholds"
+    ],
+    "passed": true,
+    "valid_features_must_be": "at_or_before_anchor",
+    "valid_score_features": [
+      {
+        "latest_offset_h": 0.0,
+        "name": "setting_1"
+      },
+      {
+        "latest_offset_h": 0.0,
+        "name": "setting_2"
+      },
+      {
+        "latest_offset_h": 0.0,
+        "name": "setting_3"
+      },
+      {
+        "latest_offset_h": 0.0,
+        "name": "sensor_1"
+      },
+      {
+        "latest_offset_h": 0.0,
+        "name": "sensor_2"
+      },
+      {
+        "latest_offset_h": 0.0,
+        "name": "sensor_3"
+      },
+      {
+        "latest_offset_h": 0.0,
+        "name": "sensor_4"
+      },
+      {
+        "latest_offset_h": 0.0,
+        "name": "sensor_5"
+      },
+      {
+        "latest_offset_h": 0.0,
+        "name": "sensor_6"
+      },
+      {
+        "latest_offset_h": 0.0,
+        "name": "sensor_7"
+      },
+      {
+        "latest_offset_h": 0.0,
+        "name": "sensor_8"
+      },
+      {
+        "latest_offset_h": 0.0,
+        "name": "sensor_9"
+      },
+      {
+        "latest_offset_h": 0.0,
+        "name": "sensor_10"
+      },
+      {
+        "latest_offset_h": 0.0,
+        "name": "sensor_11"
+      },
+      {
+        "latest_offset_h": 0.0,
+        "name": "sensor_12"
+      },
+      {
+        "latest_offset_h": 0.0,
+        "name": "sensor_13"
+      },
+      {
+        "latest_offset_h": 0.0,
+        "name": "sensor_14"
+      },
+      {
+        "latest_offset_h": 0.0,
+        "name": "sensor_15"
+      },
+      {
+        "latest_offset_h": 0.0,
+        "name": "sensor_16"
+      },
+      {
+        "latest_offset_h": 0.0,
+        "name": "sensor_17"
+      },
+      {
+        "latest_offset_h": 0.0,
+        "name": "sensor_18"
+      },
+      {
+        "latest_offset_h": 0.0,
+        "name": "sensor_19"
+      },
+      {
+        "latest_offset_h": 0.0,
+        "name": "sensor_20"
+      },
+      {
+        "latest_offset_h": 0.0,
+        "name": "sensor_21"
+      }
+    ],
+    "violations": []
+  },
+  "threshold_sensitivity": {
+    "baseline_positive_rate": 0.6,
+    "evaluated": true,
+    "fragile": false,
+    "thresholds": [
+      {
+        "enrichment_over_baseline": 0.049977241693218044,
+        "positive_rate": 0.649977241693218,
+        "selected_fraction": 0.9154166666666667,
+        "threshold": 0.25
+      },
+      {
+        "enrichment_over_baseline": 0.17371832645845608,
+        "positive_rate": 0.7737183264584561,
+        "selected_fraction": 0.7070833333333333,
+        "threshold": 0.5
+      },
+      {
+        "enrichment_over_baseline": 0.3431920649233544,
+        "positive_rate": 0.9431920649233544,
+        "selected_fraction": 0.46208333333333335,
+        "threshold": 0.75
+      }
+    ]
+  },
+  "visible_state_matching": {
+    "absolute_matched_observed_state_delta": 0.02660594439117929,
+    "candidate_strata": 520,
+    "evaluated": true,
+    "match_columns": [
+      "cycle_frac",
+      "setting_1",
+      "setting_2",
+      "sensor_2",
+      "sensor_3",
+      "sensor_4"
+    ],
+    "matched_observed_state_delta": 0.02660594439117929,
+    "matched_rows": 596,
+    "matched_strata": 17,
+    "min_bin_size": 20,
+    "n_bins": 3
+  }
+}

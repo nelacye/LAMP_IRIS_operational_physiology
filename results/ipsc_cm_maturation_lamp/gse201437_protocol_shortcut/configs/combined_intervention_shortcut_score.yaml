@@ -1,0 +1,81 @@
+schema_version: lamp.audit_config/v1
+dataset:
+  name: 'GSE201437 protocol-shortcut audit: Combined HCRP intervention shortcut score'
+  task: Audit iPSC-CM maturation claim vs calcium/pacing intervention shortcuts
+  role: LAMP-Bio public iPSC-CM protocol-shortcut artifact
+  source: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE201437
+  processed_data_url: https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE201437&format=file&file=GSE201437%5FGoPro%5FGeneCounts%2Ecsv%2Egz
+  monitor_id: combined_intervention_shortcut_score
+  monitor_description: Uses the exact high-calcium plus ramp-pacing condition code.
+columns:
+  subject_id: sample_id
+  label: label_hcrp_mature_intervention
+  positive_value: 1
+  score: combined_intervention_shortcut_score
+  anchor_time: anchor_time
+temporal_isolation:
+  anchor: anchor_time
+  valid_features_must_be: pre-claim expression features only; intervention codes must
+    be sentinels
+  frozen_before_holdout:
+  - GSE201437 accession
+  - GEO processed counts
+  - sample group parser
+  - curated marker list
+  - protocol sentinel definitions
+  - LAMP thresholds
+  valid_score_features:
+  - name: combined_intervention_shortcut_score
+    latest_offset_h: 0
+forbidden_features:
+  columns:
+  - high_calcium
+  - ramp_pacing
+  - combined_intervention_shortcut_score
+  - oracle_hcrp_label_score
+  - endpoint_adjacent_marker_score
+  valid_score_features:
+  - combined_intervention_shortcut_score
+sentinels:
+  high_calcium:
+    column: high_calcium
+    role: protocol_shortcut
+    expected_signature: high-calcium intervention should not count as hidden maturation
+      inference
+  ramp_pacing:
+    column: ramp_pacing
+    role: protocol_shortcut
+    expected_signature: ramp-pacing intervention should not count as hidden maturation
+      inference
+  combined_intervention:
+    column: combined_intervention_shortcut_score
+    role: protocol_shortcut
+    expected_signature: exact HCRP intervention code is a protocol shortcut
+  oracle_endpoint:
+    column: oracle_hcrp_label_score
+    role: oracle_label
+    expected_signature: ceiling endpoint comparator
+  endpoint_adjacent_markers:
+    column: endpoint_adjacent_marker_score
+    role: oracle_label
+    expected_signature: genes selected against endpoint on same tiny table
+negative_controls:
+  n_permutations: 100
+  seed: 20260604
+visible_state_matching:
+  columns:
+  - library_total_counts
+  - detected_gene_count
+  n_bins: 2
+  min_bin_size: 2
+thresholds:
+  null_auc_max: 0.58
+  valid_auc_min: 0.6
+  oracle_auc_min: 0.95
+  leakage_auc_gap: 0.1
+  matched_delta_min: 0.02
+  matched_collapse_max: 0.005
+  score_thresholds:
+  - -1.0
+  - 0.0
+  - 1.0
