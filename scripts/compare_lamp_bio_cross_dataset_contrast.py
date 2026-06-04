@@ -48,6 +48,13 @@ GSE175634_COUNTS = (
     / "gse175634_counts"
     / "gse175634_scrna_counts_lamp_summary.csv"
 )
+GSE175634_PSEUDOBULK = (
+    ROOT
+    / "results"
+    / "lamp_bio_scrna"
+    / "gse175634_pseudobulk_rescue"
+    / "gse175634_pseudobulk_rescue_summary.csv"
+)
 
 
 def main() -> int:
@@ -76,6 +83,7 @@ def build_contrast_rows() -> list[dict[str, Any]]:
     g201_boot = pd.read_csv(GSE201437_BOOTSTRAP)
     g201_leave = pd.read_csv(GSE201437_LEAVE_GROUP)
     g175 = pd.read_csv(GSE175634_COUNTS)
+    g175_pb = pd.read_csv(GSE175634_PSEUDOBULK)
 
     clean_201 = one(g201, "monitor_id", "clean_calcium_probe")
     shortcut_201 = one(g201, "monitor_id", "protocol_shortcut")
@@ -90,6 +98,16 @@ def build_contrast_rows() -> list[dict[str, Any]]:
     pseudo_175 = one(g175, "monitor_id", "published_pseudotime_shortcut")
     annotation_175 = one(g175, "monitor_id", "published_annotation_shortcut")
     oracle_175 = one(g175, "monitor_id", "structural_endpoint_adjacent_oracle")
+    calcium_175_pb = one(g175_pb, "monitor_id", "pseudobulk_calcium_to_structural")
+    metabolic_175_pb = one(g175_pb, "monitor_id", "pseudobulk_metabolic_to_structural")
+    combined_175_pb = one(
+        g175_pb,
+        "monitor_id",
+        "pseudobulk_combined_biology_to_structural",
+    )
+    day_175_pb = one(g175_pb, "monitor_id", "pseudobulk_day_shortcut")
+    pseudo_175_pb = one(g175_pb, "monitor_id", "pseudobulk_pseudotime_shortcut")
+    annotation_175_pb = one(g175_pb, "monitor_id", "pseudobulk_annotation_shortcut")
 
     best_175_allowed = max(
         [calcium_175, metabolic_175, combined_175],
@@ -98,6 +116,14 @@ def build_contrast_rows() -> list[dict[str, Any]]:
     best_175_shortcut = max(
         [day_175, pseudo_175, annotation_175],
         key=lambda row: float(row["auc"]),
+    )
+    best_175_pb_allowed = max(
+        [calcium_175_pb, metabolic_175_pb, combined_175_pb],
+        key=lambda row: float(row["pseudobulk_auc"]),
+    )
+    best_175_pb_shortcut = max(
+        [day_175_pb, pseudo_175_pb, annotation_175_pb],
+        key=lambda row: float(row["pseudobulk_auc"]),
     )
 
     return [
@@ -143,6 +169,28 @@ def build_contrast_rows() -> list[dict[str, Any]]:
                 "single-cell contract, while day and pseudotime remain predictive."
             ),
         },
+        {
+            "dataset": "GSE175634",
+            "resolution": "sample pseudo-bulk scRNA",
+            "rows": 28,
+            "endpoint_axis": "top-30% pseudo-bulk structural marker-panel score",
+            "allowed_biology_monitor": best_175_pb_allowed["monitor_id"],
+            "allowed_biology_auc": best_175_pb_allowed["pseudobulk_auc"],
+            "allowed_biology_lamp_pass": best_175_pb_allowed["pseudobulk_audit_pass"],
+            "diagnosis": best_175_pb_allowed["rescue_diagnosis"],
+            "fragility_evidence": (
+                f"bootstrap PASS rate {float(best_175_pb_allowed['bootstrap_pass_rate_auc_ge_0p60']):.3f}; "
+                f"leave-individual min AUC {float(best_175_pb_allowed['leave_individual_auc_min']):.3f}"
+            ),
+            "best_forbidden_shortcut": best_175_pb_shortcut["monitor_id"],
+            "best_forbidden_shortcut_auc": best_175_pb_shortcut["pseudobulk_auc"],
+            "oracle_auc": 1.0,
+            "interpretation": (
+                "Aggregation partially rescues the calcium/electrophysiology axis, "
+                "but the rescue is fragile and forbidden annotation/pseudotime "
+                "channels strengthen more."
+            ),
+        },
     ]
 
 
@@ -177,21 +225,22 @@ def build_hypothesis_rows() -> list[dict[str, Any]]:
         {
             "hypothesis": "C_single_cell_noise_collapses_cross_axis_signal",
             "current_evidence": (
-                "Plausible: cell-level calcium/metabolic AUCs are near null, while "
-                "published annotation only reaches AUC 0.654 against the strict "
-                "structural endpoint, consistent with transitional/noisy cells."
+                "Strengthened: calcium/electrophysiology rises from cell-level AUC "
+                "0.571 to pseudo-bulk AUC 0.626, but the rescue is fragile "
+                "(bootstrap pass rate about 0.60; leave-individual min AUC 0.542)."
             ),
             "next_test": (
-                "Aggregate pseudo-bulk by individual x collection x day x cell type; "
-                "compare cell-level, pseudo-bulk, and sample-level contracts."
+                "Run donor/collection-held-out pseudo-bulk and compare sample-level, "
+                "collection-level, and annotation-free aggregation contracts."
             ),
             "status": "strong_candidate",
         },
         {
             "hypothesis": "D_time_and_trajectory_channels_dominate",
             "current_evidence": (
-                "Strong: in GSE175634, day AUC 0.771 and pseudotime AUC 0.781 beat "
-                "all allowed disjoint biology panels (best AUC 0.571)."
+                "Strong: in GSE175634, day and pseudotime beat all allowed biology "
+                "panels at cell level, and pseudo-bulk aggregation strengthens "
+                "forbidden channels even more (pseudotime AUC 0.942; annotation AUC 0.947)."
             ),
             "next_test": (
                 "Evaluate day-held-out, pseudotime-withheld, and reconstruction-free "
@@ -208,7 +257,7 @@ def write_report(
     hypothesis_rows: list[dict[str, Any]],
     plot_path: Path,
 ) -> None:
-    g201, g175 = rows
+    g201, g175, g175_pb = rows
     lines = [
         "# LAMP-Bio Cross-Dataset Contrast: GSE201437 vs GSE175634",
         "",
@@ -240,11 +289,13 @@ def write_report(
             "",
             f"- **GSE201437**: {g201['interpretation']} {g201['fragility_evidence']}.",
             f"- **GSE175634**: {g175['interpretation']} {g175['fragility_evidence']}.",
+            f"- **GSE175634 pseudo-bulk**: {g175_pb['interpretation']} {g175_pb['fragility_evidence']}.",
             "",
             "The contrast is the result. LAMP is not mechanically saying all biology",
             "fails, and it is not rewarding every high-AUC biological score. It separates",
-            "a small fragile sample-level signal from a large single-cell setting where",
-            "timepoint and trajectory-derived channels dominate the declared contract.",
+            "a small fragile sample-level signal, a cell-level scRNA collapse, and a",
+            "partial pseudo-bulk rescue where shortcut/trajectory channels strengthen",
+            "even more than the allowed biology axis.",
             "",
             "## Why Published Annotation AUC 0.654 Matters",
             "",
@@ -259,11 +310,12 @@ def write_report(
             "## Working Formulation",
             "",
             "> In a large real-world hiPSC differentiation dataset, independent biological",
-            "> axes failed to reproduce structural maturation labels under a strict",
-            "> disjoint-axis contract. Temporal and trajectory-derived channels remained",
-            "> highly predictive. This suggests that apparent maturation performance may",
-            "> be dominated by timepoint and reconstruction structure rather than",
-            "> transferable biological state information.",
+            "> axes failed at cell level but showed a fragile calcium/electrophysiology",
+            "> pseudo-bulk rescue. Temporal, annotation, and trajectory-derived channels",
+            "> strengthened more than the allowed biology axis. This suggests that",
+            "> apparent maturation performance can be dominated by timepoint and",
+            "> reconstruction structure even when some independent biology is recoverable",
+            "> after aggregation.",
             "",
             "## Hypotheses",
             "",

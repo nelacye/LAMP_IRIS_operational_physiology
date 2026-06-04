@@ -1,0 +1,79 @@
+schema_version: lamp.audit_config/v1
+dataset:
+  name: 'GSE175634 pseudo-bulk rescue: Pseudo-bulk calcium/ephys -> structural endpoint'
+  task: Pseudo-bulk rescue test for disjoint biological axes
+  role: LAMP-Bio scRNA aggregation sensitivity analysis
+  source: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE175634
+  monitor_id: pseudobulk_calcium_to_structural
+  expected_result: FRAGILE_RESCUE_OR_FAIL
+columns:
+  subject_id: pseudobulk_id
+  label: label_structural_maturity_high
+  positive_value: 1
+  score: calcium_ephys_panel_score
+  anchor_time: diffday_num
+temporal_isolation:
+  anchor: diffday_num
+  valid_features_must_be: pseudo-bulk score must not use day, pseudotime, annotation,
+    or endpoint-axis features
+  frozen_before_holdout:
+  - GSE175634 count-level pilot
+  - pseudo-bulk grouping columns
+  - structural endpoint definition
+  - forbidden day/pseudotime/annotation channels
+  - LAMP thresholds
+  valid_score_features:
+  - name: calcium_ephys_panel_score
+    latest_offset_h: 0.0
+forbidden_features:
+  columns:
+  - structural_panel_score
+  - diffday_numeric_score
+  - dpt_pseudotime_score
+  - annotation_cm_score
+  valid_score_features:
+  - calcium_ephys_panel_score
+sentinels:
+  structural_endpoint_oracle:
+    column: structural_panel_score
+    role: endpoint_adjacent_oracle
+    expected_signature: same marker axis that defines the endpoint
+  day_protocol:
+    column: diffday_numeric_score
+    role: timepoint_protocol_shortcut
+    expected_signature: differentiation day / protocol timing
+  published_pseudotime:
+    column: dpt_pseudotime_score
+    role: endpoint_adjacent_oracle
+    expected_signature: full-trajectory pseudotime
+  published_annotation:
+    column: annotation_cm_score
+    role: annotation_shortcut
+    expected_signature: published CM annotation fraction
+negative_controls:
+  n_permutations: 200
+  seed: 20260605
+visible_state_matching:
+  columns:
+  - diffday_numeric_score
+  n_bins: 5
+  min_bin_size: 2
+early_window_sensitivity:
+  score_columns:
+  - calcium_ephys_panel_score
+  - metabolic_panel_score
+  - combined_disjoint_biology_score
+  - diffday_numeric_score
+  - dpt_pseudotime_score
+  - annotation_cm_score
+thresholds:
+  null_auc_max: 0.58
+  valid_auc_min: 0.6
+  oracle_auc_min: 0.95
+  leakage_auc_gap: 0.1
+  matched_delta_min: 0.02
+  matched_collapse_max: 0.005
+  score_thresholds:
+  - -0.05
+  - 0.0
+  - 0.05

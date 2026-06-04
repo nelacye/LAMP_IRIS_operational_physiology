@@ -1,0 +1,24 @@
+{
+  "accession": "GSE175634",
+  "geo_record": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE175634",
+  "cell_rows": 60000,
+  "pseudobulk_rows": 28,
+  "group_by": [
+    "sample"
+  ],
+  "n_individuals": 6,
+  "diffday_counts": {
+    "day1": 6,
+    "day11": 5,
+    "day3": 6,
+    "day5": 5,
+    "day7": 6
+  },
+  "n_cells_per_group": {
+    "min": 434,
+    "median": 2037.5,
+    "max": 6146
+  },
+  "endpoint_positive_groups": 9,
+  "endpoint_total_groups": 28
+}
