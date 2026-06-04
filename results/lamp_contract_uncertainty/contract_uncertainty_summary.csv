@@ -1,0 +1,6 @@
+scenario,condition,n_rows,mean_auc,mean_matched_delta,audit_pass_rate,oracle_proximity_alert_rate
+incomplete_provenance,complete_declared,8,0.8413422490208204,0.5018521137815075,0.125,0.75
+incomplete_provenance,score_only,8,0.8413422490208204,0.5018521137815075,1.0,0.0
+incomplete_provenance,sentinel_only,8,0.8413422490208204,0.5018521137815075,0.25,0.75
+noisy_biological_contract,endpoint_axis_label_noise,6,0.6595639140221411,0.20758610447054782,0.6666666666666666,0.0
+partially_observed_confounding,observed_confounder_fraction,5,0.7816035972697322,0.2593333333333333,0.8,0.0

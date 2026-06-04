@@ -1,0 +1,12 @@
+{
+  "summary": "results/lamp_contract_uncertainty/contract_uncertainty_summary.csv",
+  "provenance_uncertainty": "results/lamp_contract_uncertainty/provenance_uncertainty.csv",
+  "biological_contract_noise": "results/lamp_contract_uncertainty/biological_contract_noise.csv",
+  "partial_confounding": "results/lamp_contract_uncertainty/partial_confounding.csv",
+  "report": "results/lamp_contract_uncertainty/contract_uncertainty_report.md",
+  "figures": [
+    "results/lamp_contract_uncertainty/figures/provenance_uncertainty.png",
+    "results/lamp_contract_uncertainty/figures/biological_contract_noise.png",
+    "results/lamp_contract_uncertainty/figures/partial_confounding.png"
+  ]
+}

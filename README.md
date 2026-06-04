@@ -59,6 +59,12 @@ Given that contract, LAMP checks:
 - Threshold robustness
 - Score-direction sanity checks
 
+A separate contract-uncertainty stress analysis tests what happens when this
+contract is imperfect: incomplete provenance creates false-pass risk, noisy
+biological contracts create fragility/interpretability risk, and partially
+observed confounding creates the strongest shortcut risk. See
+`results/lamp_contract_uncertainty/contract_uncertainty_report.md`.
+
 The output dossier assigns failure-mode classes such as:
 
 - `audit_pass_candidate`
@@ -171,6 +177,9 @@ python scripts/run_physionet_sepsis_oracle_injection_analysis.py
 
 # Controlled synthetic metric-blind leakage experiment
 python scripts/run_metric_blind_leakage_control.py
+
+# Contract uncertainty: incomplete provenance, noisy biology, partial confounding
+python scripts/run_lamp_contract_uncertainty_analysis.py
 
 # NASA C-MAPSS physical degradation benchmark
 python scripts/run_cmapss_lamp_bench.py
