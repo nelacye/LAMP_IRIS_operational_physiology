@@ -1,0 +1,200 @@
+schema_version: lamp.bio_lab_integration_contract/v1
+name: LAMP-Bio lab integration contract
+domain: iPSC and single-cell multimodal biology
+description: >
+  Lab-facing contract for turning single-cell QC, biological annotation,
+  experimental context, cross-modal evidence, and hypothesis generation into
+  auditable LAMP-Bio objects.
+
+claim_template:
+  form: Early multimodal measurements predict a later or latent biological state.
+  example: >
+    Early iPSC-CM RNA, phosphoproteomics, morphology, and calcium-trace summaries
+    predict later functional readiness without relying on QC artifacts, donor,
+    batch, protocol, plate, passage, medium, or endpoint-adjacent readouts.
+
+qc_decisions:
+  role: preprocessing_provenance_and_possible_shortcut
+  required_metrics:
+    - n_genes
+    - n_counts
+    - pct_mito
+    - doublet_score
+    - ambient_rna_score
+    - stress_signature_score
+  decision_states: [keep, review, drop]
+  default_policy:
+    min_genes: 500
+    max_genes: 6500
+    max_pct_mito: 20.0
+    max_doublet_score: 0.35
+    max_ambient_rna_score: 0.25
+    max_stress_signature_score: 2.5
+    review_margin_fraction: 0.10
+  audit_outputs:
+    - per_cell_decision
+    - per_sample_qc_burden
+    - threshold_near_miss_rate
+    - qc_sentinel_score
+  failure_modes:
+    qc_artifact_shortcut: >
+      A monitor performs because retained cells, mitochondrial burden, doublets,
+      ambient RNA, stress, or filtering thresholds correlate with the endpoint.
+    qc_threshold_fragility: >
+      Biological conclusions change when reasonable QC thresholds are perturbed.
+
+biological_annotation:
+  role: probabilistic_cell_identity_layer
+  required_inputs:
+    - cluster_id
+    - marker_panel_scores
+    - reference_label_scores
+    - contamination_markers
+  labels:
+    - immature_cm
+    - ventricular_cm
+    - atrial_cm
+    - stressed_cm
+    - fibroblast_contamination
+    - endothelial_contamination
+    - unknown_or_mixed
+  ambiguity_policy:
+    min_top_confidence: 0.55
+    min_top_minus_second_margin: 0.12
+    ambiguous_label: unknown_or_mixed
+  audit_outputs:
+    - cluster_label
+    - confidence
+    - second_best_label
+    - ambiguity_flag
+    - contamination_flag
+  failure_modes:
+    annotation_shortcut: >
+      A monitor learns manual labels, cluster IDs, or reference atlas artifacts
+      instead of a disjoint biological state.
+    contamination_as_signal: >
+      Apparent maturation or toxicity signal is explained by fibroblast,
+      endothelial, stressed-cell, or low-quality-cell composition.
+
+experimental_context:
+  role: required_metadata_and_forbidden_structure
+  required_fields:
+    - donor_id
+    - batch_id
+    - protocol
+    - plate_id
+    - passage
+    - medium
+    - stimulation
+    - timepoint
+    - replicate
+  context_sources:
+    - sample_sheet
+    - sequencing_run_metadata
+    - plate_map
+    - instrument_export
+    - lab_notebook
+  audit_outputs:
+    - context_completeness
+    - donor_protocol_balance
+    - batch_protocol_balance
+    - plate_protocol_balance
+    - context_sentinel_scores
+  forbidden_as_evidence:
+    - donor_id
+    - batch_id
+    - protocol
+    - plate_id
+    - passage
+    - medium
+    - stimulation
+    - sequencing_lane
+  failure_modes:
+    protocol_shortcut: >
+      Score tracks intervention, medium, stimulation, day, or pacing/calcium
+      protocol instead of latent biological readiness.
+    donor_batch_plate_shortcut: >
+      Score tracks donor, clone, batch, plate, passage, or run identity.
+
+cross_modal_integration:
+  role: disjoint_axis_evidence
+  modalities:
+    rna:
+      allowed_axes:
+        - structural_maturation
+        - calcium_handling
+        - metabolic_maturation
+        - stress_response
+        - cell_cycle
+    phosphoproteomics:
+      allowed_axes:
+        - kinase_signaling
+        - stress_kinase_persistence
+        - proteostasis_control
+    morphology:
+      allowed_axes:
+        - sarcomere_alignment
+        - cell_area
+        - shape_regularization
+    calcium_traces:
+      allowed_axes:
+        - transient_amplitude
+        - decay_tau
+        - beat_regularization
+        - arrhythmia_burden
+  disjointness_rules:
+    - endpoint_axis_must_not_equal_score_axis
+    - future_trace_features_are_sentinels_unless explicitly allowed by anchor
+    - context_fields_are_sentinels_not_biological_evidence
+    - qc_burden_is_a_sentinel_or_covariate_not_primary_evidence
+  audit_outputs:
+    - modality_concordance_table
+    - modality_disagreement_table
+    - cross_modal_score
+    - modality_sentinel_scores
+    - axis_disjointness_flags
+
+hypothesis_generation:
+  role: post_audit_scientific_interpretation
+  allowed_outputs:
+    - hidden_state_transition_hypothesis
+    - localized_modal_axis
+    - alternative_shortcut_explanation
+    - prospective_perturbation_or_holdout_test
+  required_caveat: >
+    A generated hypothesis is not validation. It must be tested after removing,
+    balancing, hiding, or prospectively perturbing the channel that generated it.
+  hypothesis_classes:
+    calcium_handling_maturation:
+      evidence:
+        - calcium_handling_rna_axis
+        - phospho_kinase_axis
+        - calcium_trace_axis
+      prospective_test: >
+        Hold out future calcium traces, perturb early kinase/calcium pathways,
+        and test whether a disjoint structural or electrophysiology endpoint
+        changes prospectively.
+    stress_or_qc_artifact:
+      evidence:
+        - pct_mito
+        - stress_signature_score
+        - ambient_rna_score
+        - low_gene_count_fraction
+      prospective_test: >
+        Re-run with matched QC burden, ambient RNA correction, and stress-heldout
+        strata.
+    protocol_or_batch_shortcut:
+      evidence:
+        - protocol_sentinel_score
+        - batch_sentinel_score
+        - plate_sentinel_score
+      prospective_test: >
+        Cross donor, batch, protocol, plate, medium, and stimulation in a balanced
+        design and evaluate protocol-heldout performance.
+    contamination_composition_shift:
+      evidence:
+        - fibroblast_fraction
+        - stressed_cm_fraction
+        - endothelial_fraction
+      prospective_test: >
+        Match or purify cell-type composition and retest the hidden-state monitor.

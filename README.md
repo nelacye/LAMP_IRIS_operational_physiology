@@ -141,6 +141,9 @@ protocol, donor, timepoint, or endpoint-adjacent features are forbidden.
 
 Current artifacts include:
 
+- LAMP-Bio lab integration demo: turns single-cell QC decisions, cluster
+  annotation, context metadata, cross-modal evidence, and hypothesis generation
+  into auditable outputs.
 - GEO `GSE201437`: clean disjoint maturation probe PASS (AUC 0.694),
   high-calcium protocol shortcut FAIL (AUC 0.857), oracle leakage FAIL
   (AUC 1.000), with robustness analysis.
@@ -154,6 +157,8 @@ Current artifacts include:
 
 Key reports:
 
+- `docs/lamp_bio_lab_integration.md`
+- `results/lamp_bio_lab_integration/lamp_bio_lab_integration_report.md`
 - `results/ipsc_cm_maturation_lamp/gse201437_protocol_shortcut/gse201437_protocol_shortcut_lamp_report.md`
 - `results/ipsc_cm_maturation_lamp/bio_contract_diagnosis/ipsc_cm_bio_contract_diagnosis.md`
 - `results/ipsc_molecular_code/synthetic_kinase_folding/synthetic_ipsc_molecular_code_report.md`
@@ -202,6 +207,9 @@ python scripts/run_llm_safety_lamp_bench.py
 
 # iPSC-CM biological contract diagnosis
 python scripts/run_ipsc_cm_bio_contract_diagnosis.py
+
+# LAMP-Bio lab integration: QC, annotation, context, multimodal evidence, hypotheses
+python scripts/run_lamp_bio_lab_integration_demo.py
 
 # Run a small bundled audit
 lamp audit --config examples/synthetic/config.yaml --data examples/synthetic/input.csv --output audit_results/

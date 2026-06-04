@@ -1,0 +1,96 @@
+schema_version: lamp.audit_config/v1
+dataset:
+  name: Synthetic LAMP-Bio lab integration demo
+  task: early multimodal iPSC-CM readiness audit
+  role: lab-facing integration artifact
+columns:
+  subject_id: subject_id
+  label: outcome
+  positive_value: 1
+  score: cross_modal_maturation_score
+  anchor_time: anchor_time_h
+temporal_isolation:
+  anchor: anchor_time_h
+  valid_features_must_be: at_or_before_anchor
+  frozen_before_holdout:
+  - QC policy
+  - annotation policy
+  - context manifest fields
+  - cross-modal score formula
+  - sentinel definitions
+  valid_score_features:
+  - name: early_rna_calcium_axis
+    latest_offset_h: 0
+  - name: early_rna_structural_axis
+    latest_offset_h: 0
+  - name: early_phospho_kinase_axis
+    latest_offset_h: 0
+  - name: early_morphology_sarcomere_axis
+    latest_offset_h: 0
+forbidden_features:
+  columns:
+  - future_calcium_trace_score
+  - endpoint_oracle_score
+  - protocol_context_sentinel_score
+  - qc_burden_sentinel_score
+  - annotation_contamination_sentinel_score
+  allowed_metadata_columns:
+  - donor_id
+  - batch_id
+  - protocol
+  - plate_id
+  - passage
+  - medium
+  - stimulation
+  valid_score_features:
+  - early_rna_calcium_axis
+  - early_rna_structural_axis
+  - early_phospho_kinase_axis
+  - early_morphology_sarcomere_axis
+sentinels:
+  future_calcium_trace:
+    column: future_calcium_trace_score
+    role: future_physiology
+    expected_signature: future functional calcium comparator
+  endpoint_oracle:
+    column: endpoint_oracle_score
+    role: oracle_label
+    expected_signature: endpoint-adjacent readiness comparator
+  protocol_context:
+    column: protocol_context_sentinel_score
+    role: protocol_shortcut
+    expected_signature: protocol, medium, stimulation context comparator
+  qc_burden:
+    column: qc_burden_sentinel_score
+    role: qc_artifact_shortcut
+    expected_signature: QC filtering and low-quality-cell comparator
+  annotation_contamination:
+    column: annotation_contamination_sentinel_score
+    role: annotation_contamination_shortcut
+    expected_signature: fibroblast/stressed-cell composition comparator
+negative_controls:
+  n_permutations: 100
+  seed: 703
+visible_state_matching:
+  columns:
+  - early_rna_structural_axis
+  - qc_burden_sentinel_score
+  - annotation_contamination_sentinel_score
+  n_bins: 3
+  min_bin_size: 8
+thresholds:
+  null_auc_max: 0.58
+  valid_auc_min: 0.6
+  oracle_auc_min: 0.95
+  leakage_auc_gap: 0.1
+  matched_delta_min: 0.02
+  matched_collapse_max: 0.01
+  score_thresholds:
+  - -1.0
+  - 0.0
+  - 1.0
+early_window_sensitivity:
+  score_columns:
+  - early_rna_calcium_axis
+  - early_phospho_kinase_axis
+  - early_morphology_sarcomere_axis

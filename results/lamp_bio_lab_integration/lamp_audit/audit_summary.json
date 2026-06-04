@@ -1,0 +1,310 @@
+{
+  "created_at_utc": "2026-06-04T22:21:16.702279+00:00",
+  "dataset": {
+    "name": "Synthetic LAMP-Bio lab integration demo",
+    "role": "lab-facing integration artifact",
+    "task": "early multimodal iPSC-CM readiness audit"
+  },
+  "early_window_sensitivity": {
+    "evaluated": true,
+    "score_columns": [
+      {
+        "auc": 0.9292429490351312,
+        "column": "early_rna_calcium_axis",
+        "evaluated": true,
+        "n": 180,
+        "n_positive": 94
+      },
+      {
+        "auc": 0.8738248391885205,
+        "column": "early_phospho_kinase_axis",
+        "evaluated": true,
+        "n": 180,
+        "n_positive": 94
+      },
+      {
+        "auc": 0.8602177140029689,
+        "column": "early_morphology_sarcomere_axis",
+        "evaluated": true,
+        "n": 180,
+        "n_positive": 94
+      }
+    ]
+  },
+  "failure_mode_dossier": {
+    "audit_pass_candidate": true,
+    "controls_near_null": true,
+    "notes": [],
+    "output_classes": [
+      "audit_pass_candidate",
+      "oracle_label_leakage_sentinel",
+      "protocol_batch_or_donor_shortcut_sentinel",
+      "valid_early_hidden_state_signal"
+    ],
+    "thresholds": {
+      "leakage_auc_gap": 0.1,
+      "matched_collapse_max": 0.01,
+      "matched_delta_min": 0.02,
+      "null_auc_max": 0.58,
+      "oracle_auc_min": 0.95,
+      "valid_auc_min": 0.6
+    }
+  },
+  "forbidden_feature_screen": {
+    "declared_sentinel_columns_present": [
+      "annotation_contamination_sentinel_score",
+      "endpoint_oracle_score",
+      "future_calcium_trace_score",
+      "protocol_context_sentinel_score",
+      "qc_burden_sentinel_score"
+    ],
+    "forbidden_columns_declared": [
+      "annotation_contamination_sentinel_score",
+      "endpoint_oracle_score",
+      "future_calcium_trace_score",
+      "protocol_context_sentinel_score",
+      "qc_burden_sentinel_score"
+    ],
+    "interpretation": "Declared sentinel columns are audit comparators, not leakage in the valid model unless they appear in valid_score_features.",
+    "passed": true,
+    "unexpected_forbidden_columns_present": [],
+    "valid_score_feature_violations": []
+  },
+  "input": {
+    "columns": [
+      "anchor_time_h",
+      "annotation_contamination_sentinel_score",
+      "batch_id",
+      "cross_modal_maturation_score",
+      "donor_id",
+      "drop_rate",
+      "early_morphology_sarcomere_axis",
+      "early_phospho_kinase_axis",
+      "early_rna_calcium_axis",
+      "early_rna_structural_axis",
+      "endpoint_oracle_score",
+      "future_calcium_trace_score",
+      "medium",
+      "outcome",
+      "passage",
+      "plate_id",
+      "protocol",
+      "protocol_context_sentinel_score",
+      "qc_burden_sentinel_score",
+      "review_rate",
+      "stimulation",
+      "stressed_cm_fraction",
+      "subject_id"
+    ],
+    "config_path": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\results\\lamp_bio_lab_integration\\lamp_bio_lab_audit_config.yaml",
+    "input_path": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\results\\lamp_bio_lab_integration\\cross_modal_sample_table.csv",
+    "n_rows": 180,
+    "n_subjects": 180
+  },
+  "negative_controls": {
+    "label_permutation_auc_mean": 0.5033523008411678,
+    "label_permutation_auc_sd": 0.042526393124371516,
+    "n": 180,
+    "n_permutations": 100,
+    "noise_auc_mean": 0.49343270658090055,
+    "noise_auc_sd": 0.04384294015336812,
+    "score_permutation_auc_mean": 0.5069285007422067,
+    "score_permutation_auc_sd": 0.0443938616458658
+  },
+  "outputs": {
+    "report_md": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\results\\lamp_bio_lab_integration\\lamp_audit\\audit_report.md",
+    "summary_json": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\results\\lamp_bio_lab_integration\\lamp_audit\\audit_summary.json"
+  },
+  "primary_score": {
+    "auc": 0.9506432459178624,
+    "column": "cross_modal_maturation_score",
+    "direction_ambiguous": false,
+    "direction_interpretation": "Primary AUC = 0.951; inverted AUC = 0.049. No strong score-direction ambiguity was detected under the default higher-score-means-positive convention.",
+    "inverted_auc": 0.04935675408213758,
+    "n": 180,
+    "n_negative": 86,
+    "n_positive": 94
+  },
+  "schema_version": "lamp.audit_summary/v1",
+  "sentinel_relations": {
+    "annotation_contamination": {
+      "column": "annotation_contamination_sentinel_score",
+      "n": 180,
+      "oracle_proximity_alert": false,
+      "primary_auc": 0.9506432459178624,
+      "primary_sentinel_pearson": -0.7395913789741377,
+      "primary_sentinel_spearman": -0.7590624335374481,
+      "role": "annotation_contamination_shortcut",
+      "sentinel_auc": 0.17052201880257298,
+      "sentinel_minus_primary_auc": -0.7801212271152894
+    },
+    "endpoint_oracle": {
+      "column": "endpoint_oracle_score",
+      "n": 180,
+      "oracle_proximity_alert": false,
+      "primary_auc": 0.9506432459178624,
+      "primary_sentinel_pearson": 0.7198236976379664,
+      "primary_sentinel_spearman": 0.6688478039445662,
+      "role": "oracle_label",
+      "sentinel_auc": 1.0,
+      "sentinel_minus_primary_auc": 0.04935675408213758
+    },
+    "future_calcium_trace": {
+      "column": "future_calcium_trace_score",
+      "n": 180,
+      "oracle_proximity_alert": false,
+      "primary_auc": 0.9506432459178624,
+      "primary_sentinel_pearson": 0.8244002103737041,
+      "primary_sentinel_spearman": 0.8521127195283806,
+      "role": "future_physiology",
+      "sentinel_auc": 0.997897080653142,
+      "sentinel_minus_primary_auc": 0.047253834735279554
+    },
+    "protocol_context": {
+      "column": "protocol_context_sentinel_score",
+      "n": 180,
+      "oracle_proximity_alert": false,
+      "primary_auc": 0.9506432459178624,
+      "primary_sentinel_pearson": 0.2931702177955834,
+      "primary_sentinel_spearman": 0.2818635903787263,
+      "role": "protocol_shortcut",
+      "sentinel_auc": 0.6203612073231074,
+      "sentinel_minus_primary_auc": -0.330282038594755
+    },
+    "qc_burden": {
+      "column": "qc_burden_sentinel_score",
+      "n": 180,
+      "oracle_proximity_alert": false,
+      "primary_auc": 0.9506432459178624,
+      "primary_sentinel_pearson": -0.7331741167993714,
+      "primary_sentinel_spearman": -0.6878922898425506,
+      "role": "qc_artifact_shortcut",
+      "sentinel_auc": 0.20206580900544285,
+      "sentinel_minus_primary_auc": -0.7485774369124196
+    }
+  },
+  "sentinels": {
+    "annotation_contamination": {
+      "auc": 0.17052201880257298,
+      "column": "annotation_contamination_sentinel_score",
+      "evaluated": true,
+      "expected_signature": "fibroblast/stressed-cell composition comparator",
+      "n": 180,
+      "n_negative": 86,
+      "n_positive": 94,
+      "role": "annotation_contamination_shortcut"
+    },
+    "endpoint_oracle": {
+      "auc": 1.0,
+      "column": "endpoint_oracle_score",
+      "evaluated": true,
+      "expected_signature": "endpoint-adjacent readiness comparator",
+      "n": 180,
+      "n_negative": 86,
+      "n_positive": 94,
+      "role": "oracle_label"
+    },
+    "future_calcium_trace": {
+      "auc": 0.997897080653142,
+      "column": "future_calcium_trace_score",
+      "evaluated": true,
+      "expected_signature": "future functional calcium comparator",
+      "n": 180,
+      "n_negative": 86,
+      "n_positive": 94,
+      "role": "future_physiology"
+    },
+    "protocol_context": {
+      "auc": 0.6203612073231074,
+      "column": "protocol_context_sentinel_score",
+      "evaluated": true,
+      "expected_signature": "protocol, medium, stimulation context comparator",
+      "n": 180,
+      "n_negative": 86,
+      "n_positive": 94,
+      "role": "protocol_shortcut"
+    },
+    "qc_burden": {
+      "auc": 0.20206580900544285,
+      "column": "qc_burden_sentinel_score",
+      "evaluated": true,
+      "expected_signature": "QC filtering and low-quality-cell comparator",
+      "n": 180,
+      "n_negative": 86,
+      "n_positive": 94,
+      "role": "qc_artifact_shortcut"
+    }
+  },
+  "temporal_isolation": {
+    "anchor": "anchor_time_h",
+    "declared": true,
+    "frozen_before_holdout": [
+      "QC policy",
+      "annotation policy",
+      "context manifest fields",
+      "cross-modal score formula",
+      "sentinel definitions"
+    ],
+    "passed": true,
+    "valid_features_must_be": "at_or_before_anchor",
+    "valid_score_features": [
+      {
+        "latest_offset_h": 0.0,
+        "name": "early_rna_calcium_axis"
+      },
+      {
+        "latest_offset_h": 0.0,
+        "name": "early_rna_structural_axis"
+      },
+      {
+        "latest_offset_h": 0.0,
+        "name": "early_phospho_kinase_axis"
+      },
+      {
+        "latest_offset_h": 0.0,
+        "name": "early_morphology_sarcomere_axis"
+      }
+    ],
+    "violations": []
+  },
+  "threshold_sensitivity": {
+    "baseline_positive_rate": 0.5222222222222223,
+    "evaluated": true,
+    "fragile": false,
+    "thresholds": [
+      {
+        "enrichment_over_baseline": 0.09215686274509804,
+        "positive_rate": 0.6143790849673203,
+        "selected_fraction": 0.85,
+        "threshold": -1.0
+      },
+      {
+        "enrichment_over_baseline": 0.33492063492063484,
+        "positive_rate": 0.8571428571428571,
+        "selected_fraction": 0.5444444444444444,
+        "threshold": 0.0
+      },
+      {
+        "enrichment_over_baseline": 0.47777777777777775,
+        "positive_rate": 1.0,
+        "selected_fraction": 0.13333333333333333,
+        "threshold": 1.0
+      }
+    ]
+  },
+  "visible_state_matching": {
+    "absolute_matched_observed_state_delta": 0.10026570048309179,
+    "candidate_strata": 25,
+    "evaluated": true,
+    "match_columns": [
+      "early_rna_structural_axis",
+      "qc_burden_sentinel_score",
+      "annotation_contamination_sentinel_score"
+    ],
+    "matched_observed_state_delta": 0.10026570048309179,
+    "matched_rows": 115,
+    "matched_strata": 6,
+    "min_bin_size": 8,
+    "n_bins": 3
+  }
+}

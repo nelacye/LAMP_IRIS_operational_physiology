@@ -1,0 +1,15 @@
+{
+  "contract": "configs/lamp_bio_lab_integration_contract.yaml",
+  "report": "results/lamp_bio_lab_integration/lamp_bio_lab_integration_report.md",
+  "qc_decisions": "results/lamp_bio_lab_integration/qc_decisions.csv",
+  "cluster_annotation": "results/lamp_bio_lab_integration/cluster_annotation.csv",
+  "context_manifest_audit": "results/lamp_bio_lab_integration/context_manifest_audit.csv",
+  "cross_modal_sample_table": "results/lamp_bio_lab_integration/cross_modal_sample_table.csv",
+  "hypothesis_dossier": "results/lamp_bio_lab_integration/hypothesis_dossier.csv",
+  "lamp_audit_summary": "results/lamp_bio_lab_integration/lamp_audit/audit_summary.json",
+  "lamp_audit_report": "results/lamp_bio_lab_integration/lamp_audit/audit_report.md",
+  "figures": [
+    "results/lamp_bio_lab_integration/figures/qc_decision_summary.png",
+    "results/lamp_bio_lab_integration/figures/hypothesis_support.png"
+  ]
+}
