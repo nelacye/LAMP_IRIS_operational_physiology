@@ -96,6 +96,11 @@ window.
   shortcut FAIL despite usable AUC 0.663, future folding leakage FAIL (AUC
   0.957), oracle leakage FAIL (AUC 1.000), and 0.5% oracle contamination changes
   AUC only from 0.914 to 0.916 while failing the declared information contract.
+- LAMP-Discovery turns those audits into localized hypotheses and experiment
+  sketches: clean hybrid -> candidate latent-state signal localized to
+  `early_mapk_phospho_slope`; protocol shortcut -> balanced donor/batch/protocol
+  plate design; future folding leakage -> time-lagged kinase-to-folding
+  hypothesis with 15/30/60/120 minute readouts.
 - A first LAMP-Pharm public artifact on GEO `GSE114686` asks whether a
   hiPSC-CM cardiotoxicity monitor detects pharmacological response biology or
   experimental structure; drug identity and dose sentinels outperform a modest
@@ -129,6 +134,9 @@ See `configs/ipsc_molecular_code_contract.yaml`,
 `docs/ipsc_molecular_code_contract.md`, and
 `results/ipsc_molecular_code/synthetic_kinase_folding/synthetic_ipsc_molecular_code_report.md`
 for the kinase/phosphosignaling plus protein-folding molecular-code control.
+See `docs/lamp_discovery.md` and
+`results/ipsc_molecular_code/synthetic_kinase_folding/synthetic_ipsc_molecular_code_discovery_report.md`
+for the first discovery-oriented emulator artifact.
 See
 `results/lamp_pharm/gse114686_tki_cardiotoxicity/gse114686_lamp_pharm_report.md`
 and `results/lamp_pharm/lamp_pharm_summary.md` for the first LAMP-Pharm
@@ -243,6 +251,9 @@ python scripts/run_ipsc_cm_bio_contract_diagnosis.py
 # Synthetic kinase/protein-folding molecular-code contract
 python scripts/run_synthetic_ipsc_molecular_code_audit.py
 
+# Discovery dossiers for the molecular-code audit
+python scripts/run_ipsc_molecular_code_discovery.py
+
 # Public LAMP-Pharm cardiotoxicity shortcut audit
 python scripts/run_gse114686_lamp_pharm_audit.py
 
@@ -279,6 +290,9 @@ python scripts/build_cinc2019_lamp_neural_notebook.py
 
 # Run a custom audit
 lamp audit --config configs/iris_antarctic.yaml --data results/predictions.csv --output audit_results/
+
+# Turn an audit into localized hypotheses and a follow-up experiment sketch
+lamp discover --audit-summary audit_results/audit_summary.json --config configs/iris_antarctic.yaml --data results/predictions.csv --output discovery_results/
 ```
 
 See `notebooks/synthetic_deception_demo.ipynb`,

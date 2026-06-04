@@ -1,0 +1,312 @@
+{
+  "schema_version": "lamp.discovery_dossier/v1",
+  "audit_summary_path": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\results\\ipsc_molecular_code\\synthetic_kinase_folding\\lamp\\protocol_stressor_shortcut\\audit_summary.json",
+  "config_path": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\results\\ipsc_molecular_code\\synthetic_kinase_folding\\configs\\protocol_stressor_shortcut.yaml",
+  "data_path": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\results\\ipsc_molecular_code\\synthetic_kinase_folding\\synthetic_ipsc_molecular_code_predictions.csv",
+  "contract_path": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\configs\\ipsc_molecular_code_contract.yaml",
+  "monitor": {
+    "score_column": "protocol_stressor_shortcut_score",
+    "label_column": "label_later_folding_execution_stable",
+    "primary_auc": 0.6632632620355835,
+    "audit_pass_candidate": false
+  },
+  "failure_localization": {
+    "failure_type": "protocol_shortcut",
+    "output_classes": [
+      "forbidden_feature_contamination",
+      "future_physiology_invalid_comparator",
+      "oracle_label_leakage_sentinel",
+      "protocol_batch_or_donor_shortcut_sentinel",
+      "valid_early_hidden_state_signal"
+    ],
+    "temporal_passed": true,
+    "forbidden_passed": false,
+    "valid_score_feature_violations": [
+      "protocol_stressor_shortcut_score"
+    ],
+    "sentinel_evidence": [
+      {
+        "sentinel": "oracle_endpoint",
+        "role": "oracle_label",
+        "sentinel_auc": 1.0,
+        "sentinel_minus_primary_auc": 0.3367367379644165,
+        "primary_sentinel_spearman": 0.2825540221611454
+      },
+      {
+        "sentinel": "future_folding",
+        "role": "future_folding_execution",
+        "sentinel_auc": 0.9567246369701727,
+        "sentinel_minus_primary_auc": 0.29346137493458924,
+        "primary_sentinel_spearman": 0.012046388070314612
+      },
+      {
+        "sentinel": "late_aggregate_burden",
+        "role": "future_folding_execution",
+        "sentinel_auc": 0.07317626569858712,
+        "sentinel_minus_primary_auc": -0.5900869963369964,
+        "primary_sentinel_spearman": -0.025476100461567286
+      },
+      {
+        "sentinel": "protocol_stressor",
+        "role": "protocol_shortcut",
+        "sentinel_auc": 0.6632632620355835,
+        "sentinel_minus_primary_auc": 0.0,
+        "primary_sentinel_spearman": 0.9999999999999999
+      }
+    ]
+  },
+  "localized_features": [
+    {
+      "feature": "protocol_stressor_shortcut_score",
+      "source": "sentinel",
+      "sentinel": "protocol_stressor",
+      "role": "protocol_shortcut",
+      "auc": 0.6632632620355835,
+      "inverted_auc": 0.3367367379644165,
+      "absolute_auc_distance_from_null": 0.1632632620355835,
+      "primary_feature_pearson": 1.0,
+      "axis_hint": "stress-kinase persistence"
+    },
+    {
+      "feature": "differentiation_day",
+      "source": "forbidden_feature",
+      "auc": 0.5364368704212454,
+      "inverted_auc": 0.46356312957875456,
+      "absolute_auc_distance_from_null": 0.03643687042124544,
+      "primary_feature_pearson": 0.33274318018383653,
+      "axis_hint": "protocol/batch structure"
+    },
+    {
+      "feature": "protocol_arm",
+      "source": "forbidden_feature",
+      "auc": 0.4339085393772894,
+      "inverted_auc": 0.5660914606227105,
+      "absolute_auc_distance_from_null": 0.0660914606227106,
+      "primary_feature_pearson": -0.20090216332437197,
+      "axis_hint": "protocol/batch structure"
+    },
+    {
+      "feature": "stressor_dose",
+      "source": "forbidden_feature",
+      "auc": 0.44206035779696495,
+      "inverted_auc": 0.557939642203035,
+      "absolute_auc_distance_from_null": 0.05793964220303505,
+      "primary_feature_pearson": -0.20260079381767032,
+      "axis_hint": "stress-kinase persistence"
+    },
+    {
+      "feature": "protocol_intensity_score",
+      "source": "forbidden_feature",
+      "auc": 0.440676510989011,
+      "inverted_auc": 0.559323489010989,
+      "absolute_auc_distance_from_null": 0.059323489010988995,
+      "primary_feature_pearson": -0.09758693885640012,
+      "axis_hint": "protocol/batch structure"
+    },
+    {
+      "feature": "mass_spec_run_score",
+      "source": "sentinel",
+      "sentinel": "donor_batch",
+      "role": "donor_batch_shortcut",
+      "auc": 0.5051163494243851,
+      "inverted_auc": 0.4948836505756149,
+      "absolute_auc_distance_from_null": 0.005116349424385103,
+      "primary_feature_pearson": 0.04522286134212305,
+      "axis_hint": "protocol/batch structure"
+    },
+    {
+      "feature": "donor_id",
+      "source": "forbidden_feature",
+      "auc": 0.4827468848116169,
+      "inverted_auc": 0.517253115188383,
+      "absolute_auc_distance_from_null": 0.017253115188383072,
+      "primary_feature_pearson": 0.0236503641797378,
+      "axis_hint": "protocol/batch structure"
+    },
+    {
+      "feature": "batch_id",
+      "source": "forbidden_feature",
+      "auc": 0.5048087143511251,
+      "inverted_auc": 0.49519128564887493,
+      "absolute_auc_distance_from_null": 0.004808714351125065,
+      "primary_feature_pearson": 0.008272817434881641,
+      "axis_hint": "protocol/batch structure"
+    },
+    {
+      "feature": "future_folding_execution_score",
+      "source": "sentinel",
+      "sentinel": "future_folding",
+      "role": "future_folding_execution",
+      "auc": 0.9567246369701727,
+      "inverted_auc": 0.04327536302982726,
+      "absolute_auc_distance_from_null": 0.45672463697017274,
+      "primary_feature_pearson": 0.02347871909979035,
+      "axis_hint": "folding execution"
+    },
+    {
+      "feature": "late_aggregate_burden_score",
+      "source": "sentinel",
+      "sentinel": "late_aggregate_burden",
+      "role": "future_folding_execution",
+      "auc": 0.07317626569858712,
+      "inverted_auc": 0.9268237343014128,
+      "absolute_auc_distance_from_null": 0.42682373430141285,
+      "primary_feature_pearson": -0.03660017345815401,
+      "axis_hint": "aggregate burden"
+    },
+    {
+      "feature": "clean_hybrid_kinase_folding_score",
+      "source": "molecular_axis_scan",
+      "auc": 0.9141279107796965,
+      "inverted_auc": 0.08587208922030354,
+      "absolute_auc_distance_from_null": 0.41412791077969646,
+      "primary_feature_pearson": 0.009034870996978046,
+      "axis_hint": "folding execution"
+    },
+    {
+      "feature": "kinase_only_score",
+      "source": "molecular_axis_scan",
+      "auc": 0.9060803407901622,
+      "inverted_auc": 0.0939196592098378,
+      "absolute_auc_distance_from_null": 0.4060803407901622,
+      "primary_feature_pearson": 0.01130754348339137,
+      "axis_hint": null
+    }
+  ],
+  "mechanism_hypotheses": [
+    {
+      "title": "Protocol-conditioned biology rather than latent-state inference",
+      "confidence": "actionable_qc",
+      "localized_features": [
+        {
+          "feature": "protocol_stressor_shortcut_score",
+          "auc": 0.6632632620355835,
+          "axis_hint": "stress-kinase persistence",
+          "source": "sentinel"
+        },
+        {
+          "feature": "differentiation_day",
+          "auc": 0.5364368704212454,
+          "axis_hint": "protocol/batch structure",
+          "source": "forbidden_feature"
+        },
+        {
+          "feature": "protocol_arm",
+          "auc": 0.4339085393772894,
+          "axis_hint": "protocol/batch structure",
+          "source": "forbidden_feature"
+        },
+        {
+          "feature": "stressor_dose",
+          "auc": 0.44206035779696495,
+          "axis_hint": "stress-kinase persistence",
+          "source": "forbidden_feature"
+        },
+        {
+          "feature": "protocol_intensity_score",
+          "auc": 0.440676510989011,
+          "axis_hint": "protocol/batch structure",
+          "source": "forbidden_feature"
+        },
+        {
+          "feature": "mass_spec_run_score",
+          "auc": 0.5051163494243851,
+          "axis_hint": "protocol/batch structure",
+          "source": "sentinel"
+        },
+        {
+          "feature": "donor_id",
+          "auc": 0.4827468848116169,
+          "axis_hint": "protocol/batch structure",
+          "source": "forbidden_feature"
+        },
+        {
+          "feature": "batch_id",
+          "auc": 0.5048087143511251,
+          "axis_hint": "protocol/batch structure",
+          "source": "forbidden_feature"
+        }
+      ],
+      "mechanism": "The monitor reads protocol or stressor assignment. The shortcut may still be biologically informative, but it cannot support the declared hidden-state claim without a balanced perturbation design.",
+      "testable_prediction": "After crossing protocol arms across donors and batches, the shortcut score should collapse while a genuine molecular-code signal remains."
+    },
+    {
+      "title": "Sentinel-driven hypothesis: protocol_stressor",
+      "confidence": "sentinel_supported",
+      "localized_features": [
+        {
+          "feature": "protocol_stressor_shortcut_score",
+          "auc": 0.6632632620355835,
+          "role": "protocol_shortcut"
+        }
+      ],
+      "mechanism": "The monitor is reading intervention, timing, donor, batch, or run structure rather than the declared latent biology.",
+      "testable_prediction": "Use a balanced factorial plate with protocol, donor, and batch crossed against the perturbation of interest."
+    },
+    {
+      "title": "Sentinel-driven hypothesis: future_folding",
+      "confidence": "sentinel_supported",
+      "localized_features": [
+        {
+          "feature": "future_folding_execution_score",
+          "auc": 0.9567246369701727,
+          "role": "future_folding_execution"
+        }
+      ],
+      "mechanism": "The score is close to post-anchor folding/proteostasis state. This can be an invalid future channel, but the localized feature can also define a time-lagged biological hypothesis.",
+      "testable_prediction": "Run a time-course perturbation with early kinase modulation and measure folding/proteostasis markers at 15, 30, 60, and 120 minutes."
+    },
+    {
+      "title": "Sentinel-driven hypothesis: late_aggregate_burden",
+      "confidence": "sentinel_supported",
+      "localized_features": [
+        {
+          "feature": "late_aggregate_burden_score",
+          "auc": 0.07317626569858712,
+          "role": "future_folding_execution"
+        }
+      ],
+      "mechanism": "The score is close to post-anchor folding/proteostasis state. This can be an invalid future channel, but the localized feature can also define a time-lagged biological hypothesis.",
+      "testable_prediction": "Run a time-course perturbation with early kinase modulation and measure folding/proteostasis markers at 15, 30, 60, and 120 minutes."
+    }
+  ],
+  "experiment_design": {
+    "goal": "After crossing protocol arms across donors and batches, the shortcut score should collapse while a genuine molecular-code signal remains.",
+    "format": "96-well balanced time-course sketch",
+    "timepoints_min": [
+      0,
+      15,
+      30,
+      60,
+      120
+    ],
+    "perturbations": [
+      "protocol arm A",
+      "protocol arm B",
+      "stressor low",
+      "stressor high"
+    ],
+    "readouts": [
+      "declared early kinase/proteostasis panel",
+      "held-out folding endpoint panel",
+      "batch/donor sentinel panel"
+    ],
+    "controls": [
+      "vehicle controls in every plate quadrant",
+      "donor-balanced wells",
+      "batch/run randomized acquisition order",
+      "endpoint markers hidden from monitor scoring"
+    ],
+    "opentrons_sketch": {
+      "plate": "96-well flat-bottom plate",
+      "replicates_per_condition": 4,
+      "liquid_classes": [
+        "vehicle",
+        "kinase_modulator",
+        "stressor",
+        "lysis_or_fixation_buffer"
+      ],
+      "notes": "This is a design sketch, not a wet-lab protocol. Volumes, cell density, compound identity, and biosafety constraints must be set by the experimental team."
+    }
+  }
+}

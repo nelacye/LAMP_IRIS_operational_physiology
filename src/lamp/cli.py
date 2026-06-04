@@ -9,6 +9,7 @@ from pathlib import Path
 import click
 
 from .audit import run_audit
+from .discovery import run_discovery
 
 
 @click.group(context_settings={"help_option_names": ["-h", "--help"]})
@@ -64,6 +65,77 @@ def audit(
         config_path=config_path,
         input_path=data_path,
         out_dir=output_dir,
+    )
+    if print_json:
+        click.echo(json.dumps(result, indent=2, sort_keys=True))
+
+
+@main.command()
+@click.option(
+    "--audit-summary",
+    "audit_summary_path",
+    type=click.Path(exists=True, dir_okay=False, path_type=Path),
+    required=True,
+    help="Path to an existing LAMP audit_summary.json.",
+)
+@click.option(
+    "--config",
+    "config_path",
+    type=click.Path(exists=True, dir_okay=False, path_type=Path),
+    required=True,
+    help="Path to the LAMP YAML config used for the audit.",
+)
+@click.option(
+    "--data",
+    "--input",
+    "data_path",
+    type=click.Path(exists=True, dir_okay=False, path_type=Path),
+    required=True,
+    help="Path to the CSV score table used for the audit.",
+)
+@click.option(
+    "--output",
+    "--out",
+    "output_dir",
+    type=click.Path(file_okay=False, path_type=Path),
+    required=True,
+    help="Directory where discovery_dossier.json and discovery_report.md are written.",
+)
+@click.option(
+    "--contract",
+    "contract_path",
+    type=click.Path(exists=True, dir_okay=False, path_type=Path),
+    default=None,
+    help="Optional LAMP-Bio biological contract YAML.",
+)
+@click.option(
+    "--top-n",
+    default=12,
+    show_default=True,
+    help="Number of localized features to keep.",
+)
+@click.option(
+    "--print-json",
+    is_flag=True,
+    help="Print the discovery dossier JSON to stdout.",
+)
+def discover(
+    audit_summary_path: Path,
+    config_path: Path,
+    data_path: Path,
+    output_dir: Path,
+    contract_path: Path | None,
+    top_n: int,
+    print_json: bool,
+) -> None:
+    """Turn an audit result into localized hypotheses and experiments."""
+    result = run_discovery(
+        audit_summary_path=audit_summary_path,
+        config_path=config_path,
+        data_path=data_path,
+        out_dir=output_dir,
+        contract_path=contract_path,
+        top_n=top_n,
     )
     if print_json:
         click.echo(json.dumps(result, indent=2, sort_keys=True))

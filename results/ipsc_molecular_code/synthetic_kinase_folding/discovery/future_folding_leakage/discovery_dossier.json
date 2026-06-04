@@ -1,0 +1,279 @@
+{
+  "schema_version": "lamp.discovery_dossier/v1",
+  "audit_summary_path": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\results\\ipsc_molecular_code\\synthetic_kinase_folding\\lamp\\future_folding_leakage\\audit_summary.json",
+  "config_path": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\results\\ipsc_molecular_code\\synthetic_kinase_folding\\configs\\future_folding_leakage.yaml",
+  "data_path": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\results\\ipsc_molecular_code\\synthetic_kinase_folding\\synthetic_ipsc_molecular_code_predictions.csv",
+  "contract_path": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\configs\\ipsc_molecular_code_contract.yaml",
+  "monitor": {
+    "score_column": "future_folding_execution_score",
+    "label_column": "label_later_folding_execution_stable",
+    "primary_auc": 0.9567246369701727,
+    "audit_pass_candidate": false
+  },
+  "failure_localization": {
+    "failure_type": "future_folding",
+    "output_classes": [
+      "forbidden_feature_contamination",
+      "leakage_contaminated_candidate",
+      "oracle_label_leakage_sentinel",
+      "oracle_leakage_proximity_shift",
+      "protocol_batch_or_donor_shortcut_sentinel",
+      "temporal_isolation_incomplete",
+      "valid_early_hidden_state_signal"
+    ],
+    "temporal_passed": false,
+    "forbidden_passed": false,
+    "valid_score_feature_violations": [
+      "future_folding_execution_score"
+    ],
+    "sentinel_evidence": [
+      {
+        "sentinel": "oracle_endpoint",
+        "role": "oracle_label",
+        "sentinel_auc": 1.0,
+        "sentinel_minus_primary_auc": 0.04327536302982726,
+        "primary_sentinel_spearman": 0.7904373683767556
+      },
+      {
+        "sentinel": "future_folding",
+        "role": "future_folding_execution",
+        "sentinel_auc": 0.9567246369701727,
+        "sentinel_minus_primary_auc": 0.0,
+        "primary_sentinel_spearman": 0.9999999999999999
+      },
+      {
+        "sentinel": "late_aggregate_burden",
+        "role": "future_folding_execution",
+        "sentinel_auc": 0.07317626569858712,
+        "sentinel_minus_primary_auc": -0.8835483712715856,
+        "primary_sentinel_spearman": -0.9406047976846634
+      },
+      {
+        "sentinel": "protocol_stressor",
+        "role": "protocol_shortcut",
+        "sentinel_auc": 0.6632632620355835,
+        "sentinel_minus_primary_auc": -0.29346137493458924,
+        "primary_sentinel_spearman": 0.012046388070314612
+      }
+    ]
+  },
+  "localized_features": [
+    {
+      "feature": "future_folding_execution_score",
+      "source": "sentinel",
+      "sentinel": "future_folding",
+      "role": "future_folding_execution",
+      "auc": 0.9567246369701727,
+      "inverted_auc": 0.04327536302982726,
+      "absolute_auc_distance_from_null": 0.45672463697017274,
+      "primary_feature_pearson": 1.0,
+      "axis_hint": "folding execution"
+    },
+    {
+      "feature": "late_aggregate_burden_score",
+      "source": "sentinel",
+      "sentinel": "late_aggregate_burden",
+      "role": "future_folding_execution",
+      "auc": 0.07317626569858712,
+      "inverted_auc": 0.9268237343014128,
+      "absolute_auc_distance_from_null": 0.42682373430141285,
+      "primary_feature_pearson": -0.9464999665755582,
+      "axis_hint": "aggregate burden"
+    },
+    {
+      "feature": "clean_hybrid_kinase_folding_score",
+      "source": "molecular_axis_scan",
+      "auc": 0.9141279107796965,
+      "inverted_auc": 0.08587208922030354,
+      "absolute_auc_distance_from_null": 0.41412791077969646,
+      "primary_feature_pearson": 0.9232173453192589,
+      "axis_hint": "folding execution"
+    },
+    {
+      "feature": "oracle_folding_label_score",
+      "source": "sentinel",
+      "sentinel": "oracle_endpoint",
+      "role": "oracle_label",
+      "auc": 1.0,
+      "inverted_auc": 0.0,
+      "absolute_auc_distance_from_null": 0.5,
+      "primary_feature_pearson": 0.7405392163598694,
+      "axis_hint": "folding execution"
+    },
+    {
+      "feature": "label_later_folding_execution_stable",
+      "source": "molecular_axis_scan",
+      "auc": 1.0,
+      "inverted_auc": 0.0,
+      "absolute_auc_distance_from_null": 0.5,
+      "primary_feature_pearson": 0.7405392163598694,
+      "axis_hint": "folding execution"
+    },
+    {
+      "feature": "early_mapk_phospho_slope",
+      "source": "molecular_axis_scan",
+      "auc": 0.8559675071951858,
+      "inverted_auc": 0.14403249280481423,
+      "absolute_auc_distance_from_null": 0.3559675071951858,
+      "primary_feature_pearson": 0.8147120547205746,
+      "axis_hint": "MAPK/ERK axis"
+    },
+    {
+      "feature": "early_stress_kinase_persistence",
+      "source": "molecular_axis_scan",
+      "auc": 0.23971824306645736,
+      "inverted_auc": 0.7602817569335426,
+      "absolute_auc_distance_from_null": 0.2602817569335426,
+      "primary_feature_pearson": -0.5831725045656425,
+      "axis_hint": "stress-kinase persistence"
+    },
+    {
+      "feature": "early_autophagy_flux",
+      "source": "molecular_axis_scan",
+      "auc": 0.739141810570382,
+      "inverted_auc": 0.260858189429618,
+      "absolute_auc_distance_from_null": 0.23914181057038197,
+      "primary_feature_pearson": 0.5668884774037838,
+      "axis_hint": "autophagy/proteasome axis"
+    },
+    {
+      "feature": "protocol_stressor_shortcut_score",
+      "source": "sentinel",
+      "sentinel": "protocol_stressor",
+      "role": "protocol_shortcut",
+      "auc": 0.6632632620355835,
+      "inverted_auc": 0.3367367379644165,
+      "absolute_auc_distance_from_null": 0.1632632620355835,
+      "primary_feature_pearson": 0.02347871909979035,
+      "axis_hint": "stress-kinase persistence"
+    },
+    {
+      "feature": "stressor_dose",
+      "source": "forbidden_feature",
+      "auc": 0.44206035779696495,
+      "inverted_auc": 0.557939642203035,
+      "absolute_auc_distance_from_null": 0.05793964220303505,
+      "primary_feature_pearson": -0.058288517587171414,
+      "axis_hint": "stress-kinase persistence"
+    },
+    {
+      "feature": "kinase_only_score",
+      "source": "molecular_axis_scan",
+      "auc": 0.9060803407901622,
+      "inverted_auc": 0.0939196592098378,
+      "absolute_auc_distance_from_null": 0.4060803407901622,
+      "primary_feature_pearson": 0.892483899252672,
+      "axis_hint": null
+    },
+    {
+      "feature": "early_upr_load",
+      "source": "molecular_axis_scan",
+      "auc": 0.23367592229199372,
+      "inverted_auc": 0.7663240777080063,
+      "absolute_auc_distance_from_null": 0.26632407770800626,
+      "primary_feature_pearson": -0.6412405048720321,
+      "axis_hint": "unfolded-protein response"
+    }
+  ],
+  "mechanism_hypotheses": [
+    {
+      "title": "Time-lagged kinase-to-folding coupling",
+      "confidence": "hypothesis_generating",
+      "localized_features": [
+        {
+          "feature": "early_mapk_phospho_slope",
+          "auc": 0.8559675071951858,
+          "axis_hint": "MAPK/ERK axis",
+          "source": "molecular_axis_scan"
+        },
+        {
+          "feature": "future_folding_execution_score",
+          "auc": 0.9567246369701727,
+          "axis_hint": "folding execution",
+          "source": "sentinel"
+        }
+      ],
+      "mechanism": "The monitor is invalid as an early predictor because it uses post-anchor folding state, but the same localized channel can suggest a causal time-lag: early kinase dynamics may precede later proteostasis/folding execution.",
+      "testable_prediction": "Modulating the localized kinase axis should alter the localized folding/proteostasis readout at later 15/30/60/120 minute windows."
+    },
+    {
+      "title": "Sentinel-driven hypothesis: protocol_stressor",
+      "confidence": "sentinel_supported",
+      "localized_features": [
+        {
+          "feature": "protocol_stressor_shortcut_score",
+          "auc": 0.6632632620355835,
+          "role": "protocol_shortcut"
+        }
+      ],
+      "mechanism": "The monitor is reading intervention, timing, donor, batch, or run structure rather than the declared latent biology.",
+      "testable_prediction": "Use a balanced factorial plate with protocol, donor, and batch crossed against the perturbation of interest."
+    },
+    {
+      "title": "Sentinel-driven hypothesis: future_folding",
+      "confidence": "sentinel_supported",
+      "localized_features": [
+        {
+          "feature": "future_folding_execution_score",
+          "auc": 0.9567246369701727,
+          "role": "future_folding_execution"
+        }
+      ],
+      "mechanism": "The score is close to post-anchor folding/proteostasis state. This can be an invalid future channel, but the localized feature can also define a time-lagged biological hypothesis.",
+      "testable_prediction": "Run a time-course perturbation with early kinase modulation and measure folding/proteostasis markers at 15, 30, 60, and 120 minutes."
+    },
+    {
+      "title": "Sentinel-driven hypothesis: late_aggregate_burden",
+      "confidence": "sentinel_supported",
+      "localized_features": [
+        {
+          "feature": "late_aggregate_burden_score",
+          "auc": 0.07317626569858712,
+          "role": "future_folding_execution"
+        }
+      ],
+      "mechanism": "The score is close to post-anchor folding/proteostasis state. This can be an invalid future channel, but the localized feature can also define a time-lagged biological hypothesis.",
+      "testable_prediction": "Run a time-course perturbation with early kinase modulation and measure folding/proteostasis markers at 15, 30, 60, and 120 minutes."
+    }
+  ],
+  "experiment_design": {
+    "goal": "Modulating the localized kinase axis should alter the localized folding/proteostasis readout at later 15/30/60/120 minute windows.",
+    "format": "96-well balanced time-course sketch",
+    "timepoints_min": [
+      0,
+      15,
+      30,
+      60,
+      120
+    ],
+    "perturbations": [
+      "AKT/mTOR inhibitor",
+      "GSK3/CDK modulation",
+      "HSP90 chaperone modulation",
+      "vehicle control"
+    ],
+    "readouts": [
+      "phospho-kinase panel",
+      "HSP90/HSPA5 chaperone panel",
+      "UPR/autophagy panel",
+      "aggregate/folding endpoint panel"
+    ],
+    "controls": [
+      "vehicle controls in every plate quadrant",
+      "donor-balanced wells",
+      "batch/run randomized acquisition order",
+      "endpoint markers hidden from monitor scoring"
+    ],
+    "opentrons_sketch": {
+      "plate": "96-well flat-bottom plate",
+      "replicates_per_condition": 4,
+      "liquid_classes": [
+        "vehicle",
+        "kinase_modulator",
+        "stressor",
+        "lysis_or_fixation_buffer"
+      ],
+      "notes": "This is a design sketch, not a wet-lab protocol. Volumes, cell density, compound identity, and biosafety constraints must be set by the experimental team."
+    }
+  }
+}
