@@ -1,0 +1,346 @@
+{
+  "created_at_utc": "2026-06-04T15:59:42.148149+00:00",
+  "dataset": {
+    "expected_result": "FAIL",
+    "leakage_lambda": 1e-05,
+    "leakage_percent": 0.001,
+    "monitor_id": "oracle_mix_geometry_only_lambda_0p00001",
+    "name": "Synthetic iPSC molecular-code audit: geometry_only oracle mixture lambda=1e-05",
+    "role": "LAMP-Bio molecular-code control",
+    "sensitivity_mode": "geometry_only",
+    "task": "Early kinase/phosphosignaling dynamics plus early proteostasis buffering predict later folding execution"
+  },
+  "early_window_sensitivity": {
+    "evaluated": false,
+    "reason": "no early-window sensitivity score columns configured"
+  },
+  "failure_mode_dossier": {
+    "audit_pass_candidate": true,
+    "controls_near_null": true,
+    "notes": [],
+    "output_classes": [
+      "audit_pass_candidate",
+      "oracle_label_leakage_sentinel",
+      "protocol_batch_or_donor_shortcut_sentinel",
+      "valid_early_hidden_state_signal"
+    ],
+    "thresholds": {
+      "leakage_auc_gap": 0.1,
+      "matched_collapse_max": 0.01,
+      "matched_delta_min": 0.02,
+      "null_auc_max": 0.58,
+      "oracle_auc_min": 0.95,
+      "valid_auc_min": 0.65
+    }
+  },
+  "forbidden_feature_screen": {
+    "declared_sentinel_columns_present": [
+      "future_folding_execution_score",
+      "late_aggregate_burden_score",
+      "mass_spec_run_score",
+      "oracle_folding_label_score",
+      "protocol_stressor_shortcut_score"
+    ],
+    "forbidden_columns_declared": [
+      "batch_id",
+      "differentiation_day",
+      "donor_id",
+      "future_folding_execution_score",
+      "late_aggregate_burden_score",
+      "mass_spec_run_score",
+      "oracle_folding_label_score",
+      "protocol_arm",
+      "protocol_intensity_score",
+      "protocol_stressor_shortcut_score",
+      "stressor_dose"
+    ],
+    "interpretation": "Declared sentinel columns are audit comparators, not leakage in the valid model unless they appear in valid_score_features.",
+    "passed": true,
+    "unexpected_forbidden_columns_present": [],
+    "valid_score_feature_violations": []
+  },
+  "input": {
+    "columns": [
+      "anchor_time",
+      "batch_id",
+      "cell_density_score",
+      "cell_id",
+      "clean_hybrid_kinase_folding_score",
+      "differentiation_day",
+      "donor_id",
+      "early_akt_mtor_pulse",
+      "early_autophagy_flux",
+      "early_chaperone_buffer",
+      "early_gsk3_cdk_balance",
+      "early_mapk_phospho_slope",
+      "early_stress_kinase_persistence",
+      "early_upr_load",
+      "early_viability_score",
+      "future_folding_execution_score",
+      "kinase_only_score",
+      "label_later_folding_execution_stable",
+      "late_aggregate_burden_score",
+      "lowdose_oracle_mix_005_score",
+      "mass_spec_run_score",
+      "oracle_folding_label_score",
+      "oracle_mix_lambda_0p00000_score",
+      "oracle_mix_lambda_0p00001_score",
+      "oracle_mix_lambda_0p00005_score",
+      "oracle_mix_lambda_0p00010_score",
+      "oracle_mix_lambda_0p00050_score",
+      "oracle_mix_lambda_0p00100_score",
+      "oracle_mix_lambda_0p00200_score",
+      "oracle_mix_lambda_0p00500_score",
+      "oracle_mix_lambda_0p01000_score",
+      "oracle_mix_lambda_0p02000_score",
+      "oracle_mix_lambda_0p05000_score",
+      "oracle_mix_lambda_0p10000_score",
+      "protocol_arm",
+      "protocol_intensity_score",
+      "protocol_stressor_shortcut_score",
+      "stressor_dose",
+      "visible_morphology_score"
+    ],
+    "config_path": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\results\\ipsc_molecular_code\\synthetic_kinase_folding\\leakage_sensitivity\\configs\\geometry_only\\lambda_0p00001.yaml",
+    "input_path": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\results\\ipsc_molecular_code\\synthetic_kinase_folding\\leakage_sensitivity\\oracle_leakage_sensitivity_prediction_table.csv",
+    "n_rows": 1400,
+    "n_subjects": 1400
+  },
+  "negative_controls": {
+    "label_permutation_auc_mean": 0.500752734988226,
+    "label_permutation_auc_sd": 0.01442269539100976,
+    "n": 1400,
+    "n_permutations": 100,
+    "noise_auc_mean": 0.500532116692831,
+    "noise_auc_sd": 0.01577990912461958,
+    "score_permutation_auc_mean": 0.49851836407639977,
+    "score_permutation_auc_sd": 0.01496256012167722
+  },
+  "outputs": {
+    "report_md": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\results\\ipsc_molecular_code\\synthetic_kinase_folding\\leakage_sensitivity\\lamp\\geometry_only\\lambda_0p00001\\audit_report.md",
+    "summary_json": "C:\\Users\\User\\.codex\\worktrees\\92ac\\LAMP_IRIS_operational_physiology\\results\\ipsc_molecular_code\\synthetic_kinase_folding\\leakage_sensitivity\\lamp\\geometry_only\\lambda_0p00001\\audit_summary.json"
+  },
+  "primary_score": {
+    "auc": 0.9141319989534276,
+    "column": "oracle_mix_lambda_0p00001_score",
+    "direction_ambiguous": false,
+    "direction_interpretation": "Primary AUC = 0.914; inverted AUC = 0.086. No strong score-direction ambiguity was detected under the default higher-score-means-positive convention.",
+    "inverted_auc": 0.08586800104657244,
+    "n": 1400,
+    "n_negative": 728,
+    "n_positive": 672
+  },
+  "schema_version": "lamp.audit_summary/v1",
+  "sentinel_relations": {
+    "donor_batch": {
+      "auc_leakage_proximity": -9.995252255343558e-06,
+      "baseline_auc": 0.9141279107796965,
+      "baseline_score_column": "clean_hybrid_kinase_folding_score",
+      "column": "mass_spec_run_score",
+      "n": 1400,
+      "oracle_proximity_alert": false,
+      "oracle_proximity_alert_min": 0.001,
+      "primary_auc": 0.9141319989534276,
+      "primary_sentinel_pearson": 0.0011972849700433196,
+      "primary_sentinel_spearman": 0.0029386982923387786,
+      "role": "donor_batch_shortcut",
+      "sentinel_auc": 0.5051163494243851,
+      "sentinel_minus_primary_auc": -0.40901564952904246
+    },
+    "future_folding": {
+      "auc_leakage_proximity": 9.597389510211455e-05,
+      "baseline_auc": 0.9141279107796965,
+      "baseline_score_column": "clean_hybrid_kinase_folding_score",
+      "column": "future_folding_execution_score",
+      "n": 1400,
+      "oracle_proximity_alert": false,
+      "oracle_proximity_alert_min": 0.001,
+      "primary_auc": 0.9141319989534276,
+      "primary_sentinel_pearson": 0.9232184275532795,
+      "primary_sentinel_spearman": 0.9171999096500996,
+      "role": "future_folding_execution",
+      "sentinel_auc": 0.9567246369701727,
+      "sentinel_minus_primary_auc": 0.04259263801674518
+    },
+    "late_aggregate_burden": {
+      "auc_leakage_proximity": -4.861365995311138e-06,
+      "baseline_auc": 0.9141279107796965,
+      "baseline_score_column": "clean_hybrid_kinase_folding_score",
+      "column": "late_aggregate_burden_score",
+      "n": 1400,
+      "oracle_proximity_alert": false,
+      "oracle_proximity_alert_min": 0.001,
+      "primary_auc": 0.9141319989534276,
+      "primary_sentinel_pearson": -0.8576544015232673,
+      "primary_sentinel_spearman": -0.8488088135321934,
+      "role": "future_folding_execution",
+      "sentinel_auc": 0.07317626569858712,
+      "sentinel_minus_primary_auc": -0.8409557332548404
+    },
+    "oracle_endpoint": {
+      "auc_leakage_proximity": 4.7607712450201584e-05,
+      "baseline_auc": 0.9141279107796965,
+      "baseline_score_column": "clean_hybrid_kinase_folding_score",
+      "column": "oracle_folding_label_score",
+      "n": 1400,
+      "oracle_proximity_alert": false,
+      "oracle_proximity_alert_min": 0.001,
+      "primary_auc": 0.9141319989534276,
+      "primary_sentinel_pearson": 0.684907632214934,
+      "primary_sentinel_spearman": 0.7167237782154732,
+      "role": "oracle_label",
+      "sentinel_auc": 1.0,
+      "sentinel_minus_primary_auc": 0.08586800104657244
+    },
+    "protocol_stressor": {
+      "auc_leakage_proximity": -1.6296332510637183e-05,
+      "baseline_auc": 0.9141279107796965,
+      "baseline_score_column": "clean_hybrid_kinase_folding_score",
+      "column": "protocol_stressor_shortcut_score",
+      "n": 1400,
+      "oracle_proximity_alert": false,
+      "oracle_proximity_alert_min": 0.001,
+      "primary_auc": 0.9141319989534276,
+      "primary_sentinel_pearson": 0.00903783349647327,
+      "primary_sentinel_spearman": 0.0006423895405777538,
+      "role": "protocol_shortcut",
+      "sentinel_auc": 0.6632632620355835,
+      "sentinel_minus_primary_auc": -0.25086873691784406
+    }
+  },
+  "sentinels": {
+    "donor_batch": {
+      "auc": 0.5051163494243851,
+      "column": "mass_spec_run_score",
+      "evaluated": true,
+      "expected_signature": "run or donor/batch structure should remain a sentinel",
+      "n": 1400,
+      "n_negative": 728,
+      "n_positive": 672,
+      "role": "donor_batch_shortcut"
+    },
+    "future_folding": {
+      "auc": 0.9567246369701727,
+      "column": "future_folding_execution_score",
+      "evaluated": true,
+      "expected_signature": "post-anchor folding state should be a future invalid comparator",
+      "n": 1400,
+      "n_negative": 728,
+      "n_positive": 672,
+      "role": "future_folding_execution"
+    },
+    "late_aggregate_burden": {
+      "auc": 0.07317626569858712,
+      "column": "late_aggregate_burden_score",
+      "evaluated": true,
+      "expected_signature": "late aggregate burden is endpoint-adjacent future state",
+      "n": 1400,
+      "n_negative": 728,
+      "n_positive": 672,
+      "role": "future_folding_execution"
+    },
+    "oracle_endpoint": {
+      "auc": 1.0,
+      "column": "oracle_folding_label_score",
+      "evaluated": true,
+      "expected_signature": "endpoint label leakage ceiling",
+      "n": 1400,
+      "n_negative": 728,
+      "n_positive": 672,
+      "role": "oracle_label"
+    },
+    "protocol_stressor": {
+      "auc": 0.6632632620355835,
+      "column": "protocol_stressor_shortcut_score",
+      "evaluated": true,
+      "expected_signature": "protocol/stressor metadata should not be sufficient evidence",
+      "n": 1400,
+      "n_negative": 728,
+      "n_positive": 672,
+      "role": "protocol_shortcut"
+    }
+  },
+  "temporal_isolation": {
+    "anchor": "anchor_time",
+    "declared": true,
+    "frozen_before_holdout": [
+      "synthetic generator seed",
+      "molecular-code biological contract",
+      "monitor score family definitions",
+      "LAMP thresholds"
+    ],
+    "passed": true,
+    "valid_features_must_be": "provenance-blind geometry-only run: score internals are not declared",
+    "valid_score_features": [
+      {
+        "latest_offset_h": 0.0,
+        "name": "early_mapk_phospho_slope"
+      },
+      {
+        "latest_offset_h": 0.0,
+        "name": "early_akt_mtor_pulse"
+      },
+      {
+        "latest_offset_h": 0.0,
+        "name": "early_gsk3_cdk_balance"
+      },
+      {
+        "latest_offset_h": 0.0,
+        "name": "early_stress_kinase_persistence"
+      },
+      {
+        "latest_offset_h": 0.0,
+        "name": "early_chaperone_buffer"
+      },
+      {
+        "latest_offset_h": 0.0,
+        "name": "early_upr_load"
+      },
+      {
+        "latest_offset_h": 0.0,
+        "name": "early_autophagy_flux"
+      }
+    ],
+    "violations": []
+  },
+  "threshold_sensitivity": {
+    "baseline_positive_rate": 0.48,
+    "evaluated": true,
+    "fragile": false,
+    "thresholds": [
+      {
+        "enrichment_over_baseline": 0.08816257408975448,
+        "positive_rate": 0.5681625740897545,
+        "selected_fraction": 0.8435714285714285,
+        "threshold": -1.0
+      },
+      {
+        "enrichment_over_baseline": 0.3252325581395349,
+        "positive_rate": 0.8052325581395349,
+        "selected_fraction": 0.49142857142857144,
+        "threshold": 0.0
+      },
+      {
+        "enrichment_over_baseline": 0.5024561403508772,
+        "positive_rate": 0.9824561403508771,
+        "selected_fraction": 0.16285714285714287,
+        "threshold": 1.0
+      }
+    ]
+  },
+  "visible_state_matching": {
+    "absolute_matched_observed_state_delta": 0.6107347393461022,
+    "candidate_strata": 27,
+    "evaluated": true,
+    "match_columns": [
+      "visible_morphology_score",
+      "cell_density_score",
+      "early_viability_score"
+    ],
+    "matched_observed_state_delta": 0.6107347393461022,
+    "matched_rows": 1400,
+    "matched_strata": 27,
+    "min_bin_size": 12,
+    "n_bins": 3
+  }
+}

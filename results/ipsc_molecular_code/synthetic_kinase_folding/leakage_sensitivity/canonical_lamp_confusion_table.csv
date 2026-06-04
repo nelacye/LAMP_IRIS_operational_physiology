@@ -1,0 +1,7 @@
+monitor_id,ground_truth_contract,lamp_decision,correct,auc,matched_delta,bio_diagnosis
+clean_hybrid_kinase_folding,valid,valid,True,0.9141279107796965,0.6107347393461022,valid_biological_signal_stable
+kinase_only_probe,valid,valid,True,0.9060803407901622,0.6050179341389029,valid_biological_signal_fragile
+protocol_stressor_shortcut,invalid,invalid,True,0.6632632620355835,0.2106521821061964,protocol_confounded_signal
+future_folding_leakage,invalid,invalid,True,0.9567246369701727,0.6993228550555667,endpoint_adjacent_contamination
+oracle_endpoint_leakage,invalid,invalid,True,1.0,1.0,endpoint_adjacent_contamination
+lowdose_oracle_mix_005,invalid,invalid,True,0.915910354526426,0.6107347393461022,endpoint_adjacent_contamination

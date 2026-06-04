@@ -101,6 +101,12 @@ window.
   `early_mapk_phospho_slope`; protocol shortcut -> balanced donor/batch/protocol
   plate design; future folding leakage -> time-lagged kinase-to-folding
   hypothesis with 15/30/60/120 minute readouts.
+- The molecular-code leakage analysis adds ROC overlays, a known-truth confusion
+  matrix, and lambda sensitivity: clean AUC 0.9141 vs 0.5% oracle mix AUC
+  0.9159 (delta 0.0018); canonical synthetic LAMP decisions reach sensitivity
+  1.000 and specificity 1.000; strict declared-provenance mode detects the
+  lowest tested leakage dose (0.001%), while geometry-only proximity detects
+  from 0.05%.
 - A first LAMP-Pharm public artifact on GEO `GSE114686` asks whether a
   hiPSC-CM cardiotoxicity monitor detects pharmacological response biology or
   experimental structure; drug identity and dose sentinels outperform a modest
@@ -137,6 +143,11 @@ for the kinase/phosphosignaling plus protein-folding molecular-code control.
 See `docs/lamp_discovery.md` and
 `results/ipsc_molecular_code/synthetic_kinase_folding/synthetic_ipsc_molecular_code_discovery_report.md`
 for the first discovery-oriented emulator artifact.
+See
+`results/ipsc_molecular_code/synthetic_kinase_folding/leakage_sensitivity/ipsc_molecular_code_leakage_analysis_report.md`
+and the PNG figures in
+`results/ipsc_molecular_code/synthetic_kinase_folding/leakage_sensitivity/figures/`
+for ROC overlap, confusion matrix, and leakage-dose sensitivity.
 See
 `results/lamp_pharm/gse114686_tki_cardiotoxicity/gse114686_lamp_pharm_report.md`
 and `results/lamp_pharm/lamp_pharm_summary.md` for the first LAMP-Pharm
@@ -253,6 +264,9 @@ python scripts/run_synthetic_ipsc_molecular_code_audit.py
 
 # Discovery dossiers for the molecular-code audit
 python scripts/run_ipsc_molecular_code_discovery.py
+
+# ROC, confusion matrix, and leakage-dose sensitivity for molecular-code audit
+python scripts/run_ipsc_molecular_code_leakage_analysis.py
 
 # Public LAMP-Pharm cardiotoxicity shortcut audit
 python scripts/run_gse114686_lamp_pharm_audit.py

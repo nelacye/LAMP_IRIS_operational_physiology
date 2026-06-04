@@ -73,6 +73,29 @@ Current synthetic results:
 | future folding leakage | `future_folding` | `future_folding_execution_score` | treat leakage as a time-lagged kinase-to-folding hypothesis |
 | low-dose oracle mix | `future_folding` | `oracle_folding_label_score` | remove endpoint channel, then prospectively retest disjoint early panel |
 
+## Leakage Sensitivity Add-On
+
+Run:
+
+```bash
+python scripts/run_ipsc_molecular_code_leakage_analysis.py
+```
+
+This writes:
+
+- ROC overlay for clean hybrid vs 0.5% oracle contamination
+- known-truth LAMP confusion matrix
+- lambda sweep for strict declared-provenance and geometry-only detection
+
+Current result:
+
+- Clean AUC: `0.9141`
+- 0.5% oracle AUC: `0.9159`
+- Delta AUC: `0.0018`
+- Canonical synthetic sensitivity/specificity: `1.000` / `1.000`
+- Strict declared-provenance detection floor: `0.001%` oracle leakage
+- Geometry-only detection floor: `0.05%` oracle leakage
+
 ## Design Principle
 
 A leakage channel does not become validation. It becomes a discovery hypothesis

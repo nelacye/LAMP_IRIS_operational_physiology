@@ -1,0 +1,115 @@
+schema_version: lamp.audit_config/v1
+dataset:
+  name: 'Synthetic iPSC molecular-code audit: geometry_only oracle mixture lambda=0.001'
+  task: Early kinase/phosphosignaling dynamics plus early proteostasis buffering predict
+    later folding execution
+  role: LAMP-Bio molecular-code control
+  monitor_id: oracle_mix_geometry_only_lambda_0p00100
+  expected_result: FAIL
+  leakage_lambda: 0.001
+  leakage_percent: 0.1
+  sensitivity_mode: geometry_only
+columns:
+  subject_id: cell_id
+  label: label_later_folding_execution_stable
+  positive_value: 1
+  score: oracle_mix_lambda_0p00100_score
+  anchor_time: anchor_time
+temporal_isolation:
+  anchor: anchor_time
+  valid_features_must_be: 'provenance-blind geometry-only run: score internals are
+    not declared'
+  frozen_before_holdout:
+  - synthetic generator seed
+  - molecular-code biological contract
+  - monitor score family definitions
+  - LAMP thresholds
+  valid_score_features:
+  - name: early_mapk_phospho_slope
+    latest_offset_h: 0
+  - name: early_akt_mtor_pulse
+    latest_offset_h: 0
+  - name: early_gsk3_cdk_balance
+    latest_offset_h: 0
+  - name: early_stress_kinase_persistence
+    latest_offset_h: 0
+  - name: early_chaperone_buffer
+    latest_offset_h: 0
+  - name: early_upr_load
+    latest_offset_h: 0
+  - name: early_autophagy_flux
+    latest_offset_h: 0
+forbidden_features:
+  columns:
+  - protocol_stressor_shortcut_score
+  - protocol_intensity_score
+  - stressor_dose
+  - differentiation_day
+  - protocol_arm
+  - donor_id
+  - batch_id
+  - mass_spec_run_score
+  - future_folding_execution_score
+  - late_aggregate_burden_score
+  - oracle_folding_label_score
+  allowed_metadata_columns:
+  - donor_id
+  - batch_id
+  - protocol_arm
+  - differentiation_day
+  - stressor_dose
+  - protocol_intensity_score
+  - mass_spec_run_score
+  valid_score_features:
+  - early_mapk_phospho_slope
+  - early_akt_mtor_pulse
+  - early_gsk3_cdk_balance
+  - early_stress_kinase_persistence
+  - early_chaperone_buffer
+  - early_upr_load
+  - early_autophagy_flux
+sentinels:
+  protocol_stressor:
+    column: protocol_stressor_shortcut_score
+    role: protocol_shortcut
+    expected_signature: protocol/stressor metadata should not be sufficient evidence
+  donor_batch:
+    column: mass_spec_run_score
+    role: donor_batch_shortcut
+    expected_signature: run or donor/batch structure should remain a sentinel
+  future_folding:
+    column: future_folding_execution_score
+    role: future_folding_execution
+    expected_signature: post-anchor folding state should be a future invalid comparator
+  late_aggregate_burden:
+    column: late_aggregate_burden_score
+    role: future_folding_execution
+    expected_signature: late aggregate burden is endpoint-adjacent future state
+  oracle_endpoint:
+    column: oracle_folding_label_score
+    role: oracle_label
+    expected_signature: endpoint label leakage ceiling
+negative_controls:
+  n_permutations: 100
+  seed: 20260604
+visible_state_matching:
+  columns:
+  - visible_morphology_score
+  - cell_density_score
+  - early_viability_score
+  n_bins: 3
+  min_bin_size: 12
+thresholds:
+  null_auc_max: 0.58
+  valid_auc_min: 0.65
+  oracle_auc_min: 0.95
+  leakage_auc_gap: 0.1
+  matched_delta_min: 0.02
+  matched_collapse_max: 0.01
+  score_thresholds:
+  - -1.0
+  - 0.0
+  - 1.0
+leakage_proximity:
+  baseline_score: clean_hybrid_kinase_folding_score
+  oracle_proximity_alert_min: 0.001
