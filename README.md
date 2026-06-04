@@ -161,6 +161,13 @@ Current artifacts include:
   AUC 1.000, differentiation day AUC 0.771, pseudotime AUC 0.781. This is a
   useful negative result: the easy biology-looking scores are not enough under
   the declared information contract.
+- Cross-dataset LAMP-Bio contrast: `GSE201437` shows a fragile sample-level
+  disjoint calcium/electrophysiology signal (AUC 0.694, bootstrap PASS rate
+  0.503, leave-group min AUC 0.524), while `GSE175634` count-level scRNA
+  collapses under the stricter contract (best allowed disjoint biology AUC
+  0.571; day AUC 0.771; pseudotime AUC 0.781). The interesting question becomes
+  why one dataset admits fragile biology while another is dominated by
+  timepoint and trajectory structure.
 - GEO `GSE201437`: clean disjoint maturation probe PASS (AUC 0.694),
   high-calcium protocol shortcut FAIL (AUC 0.857), oracle leakage FAIL
   (AUC 1.000), with robustness analysis.
@@ -178,6 +185,7 @@ Key reports:
 - `results/lamp_bio_lab_integration/lamp_bio_lab_integration_report.md`
 - `results/lamp_bio_scrna/gse175634_metadata/gse175634_scrna_metadata_lamp_report.md`
 - `results/lamp_bio_scrna/gse175634_counts/gse175634_scrna_counts_lamp_report.md`
+- `results/lamp_bio_cross_dataset_contrast/gse201437_vs_gse175634_contrast_report.md`
 - `results/ipsc_cm_maturation_lamp/gse201437_protocol_shortcut/gse201437_protocol_shortcut_lamp_report.md`
 - `results/ipsc_cm_maturation_lamp/bio_contract_diagnosis/ipsc_cm_bio_contract_diagnosis.md`
 - `results/ipsc_molecular_code/synthetic_kinase_folding/synthetic_ipsc_molecular_code_report.md`
@@ -235,6 +243,9 @@ python scripts/run_gse175634_scrna_metadata_lamp_audit.py --max-cells 60000
 
 # Real hiPSC-CM scRNA count-matrix disjoint-axis audit
 python scripts/run_gse175634_scrna_counts_lamp_bio_audit.py --max-cells 60000
+
+# Compare fragile sample-level biology vs scRNA shortcut-dominated collapse
+python scripts/compare_lamp_bio_cross_dataset_contrast.py
 
 # Run a small bundled audit
 lamp audit --config examples/synthetic/config.yaml --data examples/synthetic/input.csv --output audit_results/
