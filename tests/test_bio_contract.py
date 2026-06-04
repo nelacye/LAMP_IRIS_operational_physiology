@@ -1,4 +1,6 @@
-from lamp.bio import diagnose_biological_claim
+from pathlib import Path
+
+from lamp.bio import diagnose_biological_claim, load_bio_contract
 
 
 def _contract():
@@ -87,3 +89,12 @@ def test_temporal_failure_is_endpoint_adjacent_contamination():
     )
 
     assert diagnosis["diagnosis"] == "endpoint_adjacent_contamination"
+
+
+def test_molecular_code_contract_loads():
+    contract = load_bio_contract(Path("configs/ipsc_molecular_code_contract.yaml"))
+    claim = contract["claim_contracts"]["kinase_dynamics_predicts_folding_execution"]
+
+    assert claim["endpoint_axis"] == "protein_folding_execution_proteostasis"
+    assert "kinase_folding_coupled_signal" in claim["allowed_probe_axes"]
+    assert "future_folding_sentinel" in claim["required_sentinels"]

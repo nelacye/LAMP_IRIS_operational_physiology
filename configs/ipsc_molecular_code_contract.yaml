@@ -1,0 +1,145 @@
+schema_version: lamp.bio_contract/v1
+name: iPSC molecular-code kinase/folding contract
+domain: iPSC signalling, differentiation, and neurodegenerative disease modeling
+description: >
+  Biological interpretation grammar for auditing claims that an AI monitor reads
+  an iPSC molecular code: kinase phosphorylation dynamics as the signalling
+  protocol, and protein folding/proteostasis as execution correctness.
+
+biological_axes:
+  kinase_phosphosignaling_dynamics:
+    interpretation: >
+      Time-resolved phosphorylation dynamics of kinase pathways that coordinate
+      reprogramming, differentiation, stress response, and disease-relevant
+      signalling.
+    marker_panels:
+      mapk_erk:
+        role: signalling_protocol
+        markers: [MAPK1, MAPK3, MAP2K1, MAP2K2, RPS6KA1, ELK1, JUN, FOS]
+      pi3k_akt_mtor:
+        role: signalling_protocol
+        markers: [AKT1, AKT2, MTOR, RPS6KB1, EIF4EBP1, RPS6, GSK3B]
+      jak_stat:
+        role: signalling_protocol
+        markers: [JAK1, JAK2, STAT1, STAT3, STAT5A, STAT5B]
+      stress_energy_kinases:
+        role: signalling_protocol
+        markers: [PRKAA1, PRKAA2, MAPK8, MAPK14, EIF2AK3, CHEK1, CHEK2]
+      neurodegeneration_kinases:
+        role: signalling_protocol
+        markers: [LRRK2, GSK3B, CDK5, MARK2, PRKACA, CAMK2A, MAPK14]
+
+  protein_folding_execution_proteostasis:
+    interpretation: >
+      Correct execution of the molecular program: folding, chaperone buffering,
+      ER stress, ubiquitin-proteasome activity, autophagy, and aggregate-prone
+      effector handling.
+    marker_panels:
+      chaperone_buffering:
+        role: execution_probe
+        markers: [HSPA1A, HSPA1B, HSPA5, HSP90AA1, HSP90AB1, HSPB1, DNAJB1, HSPD1]
+      unfolded_protein_response:
+        role: execution_probe
+        markers: [HSPA5, ATF4, DDIT3, XBP1, ERN1, EIF2AK3, ATF6, PDIA3]
+      proteasome_autophagy:
+        role: execution_probe
+        markers: [PSMA1, PSMB5, PSMC1, UBC, SQSTM1, MAP1LC3B, ATG5, ATG7, LAMP2]
+      neurodegenerative_effectors:
+        role: endpoint_or_oracle
+        markers: [SNCA, MAPT, APP, TARDBP, FUS, SOD1, HTT]
+    contract_note: >
+      Late aggregate burden, endpoint effector-misfolding labels, or post-anchor
+      proteostasis collapse markers are endpoint-adjacent channels unless they
+      are used only as declared sentinels.
+
+  kinase_folding_coupled_signal:
+    interpretation: >
+      A composite early signal requiring both signalling-protocol dynamics and
+      proteostasis execution support. This is the preferred LAMP-KinaseFolding
+      evidence axis.
+    allowed_components:
+      - kinase_phosphosignaling_dynamics
+      - protein_folding_execution_proteostasis
+
+  intervention_protocol_structure:
+    interpretation: >
+      Experimental structure and confounding channels, not evidence that the
+      model read the molecular code.
+    forbidden_features:
+      - differentiation_day
+      - protocol
+      - induction_method
+      - kinase_inhibitor
+      - stressor
+      - treatment
+      - dose
+      - timepoint
+      - donor_id
+      - line_id
+      - clone_id
+      - batch
+      - plate
+      - phospho_enrichment_batch
+      - mass_spec_run
+      - sequencing_lane
+
+claim_contracts:
+  kinase_dynamics_predicts_folding_execution:
+    claim: >
+      Early kinase phosphorylation dynamics plus early proteostasis state predict
+      later protein-folding execution quality.
+    claim_template: Early signalling protocol predicts later execution correctness
+    endpoint_axis: protein_folding_execution_proteostasis
+    endpoint_panel: neurodegenerative_effectors
+    allowed_probe_axes:
+      - kinase_phosphosignaling_dynamics
+      - protein_folding_execution_proteostasis
+      - kinase_folding_coupled_signal
+    allowed_probe_panels:
+      - mapk_erk
+      - pi3k_akt_mtor
+      - stress_energy_kinases
+      - chaperone_buffering
+      - unfolded_protein_response
+      - proteasome_autophagy
+    forbidden_axes: [intervention_protocol_structure]
+    required_sentinels:
+      - protocol_sentinel
+      - timepoint_sentinel
+      - endpoint_effector_oracle
+      - donor_batch_sentinel
+      - future_folding_sentinel
+      - score_direction_sanity
+    disjointness_rule: >
+      Early kinase/proteostasis evidence must be disjoint from later folding or
+      aggregate endpoint features.
+
+diagnosis_rules:
+  thresholds:
+    stable_bootstrap_pass_rate_min: 0.90
+    fragile_bootstrap_pass_rate_min: 0.30
+    stable_leave_group_pass_rate_min: 0.90
+    stable_alt_panel_pass_rate_min: 0.80
+    protocol_sentinel_dominance_auc_gap: 0.00
+    sentinel_comparable_auc_gap: -0.05
+  levels:
+    valid_biological_signal_stable:
+      definition: >
+        Early kinase/folding evidence passes LAMP and remains stable under
+        bootstrap, held-out protocol, and sentinel checks.
+    valid_biological_signal_fragile:
+      definition: >
+        A plausible molecular-code signal exists, but robustness is weak or
+        independent held-out evidence is missing.
+    protocol_confounded_signal:
+      definition: >
+        Performance is driven by protocol, timepoint, treatment, dose, donor,
+        batch, or MS-run structure.
+    endpoint_adjacent_contamination:
+      definition: >
+        The score uses future folding, aggregate burden, endpoint labels, or
+        post-anchor proteostasis collapse channels.
+    not_biologically_interpretable:
+      definition: >
+        Numerical performance exists without a declared disjoint kinase/folding
+        biological axis.

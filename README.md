@@ -90,6 +90,12 @@ window.
   interpretation levels: clean GSE201437 probe -> `valid_biological_signal_fragile`,
   high-calcium shortcut -> `protocol_confounded_signal`, oracle leakage ->
   `endpoint_adjacent_contamination`.
+- A synthetic iPSC molecular-code control adds a hybrid kinase/protein-folding
+  contract: clean early kinase/proteostasis monitor PASS (AUC 0.914), kinase-only
+  probe PASS but `valid_biological_signal_fragile` (AUC 0.906), protocol/stressor
+  shortcut FAIL despite usable AUC 0.663, future folding leakage FAIL (AUC
+  0.957), oracle leakage FAIL (AUC 1.000), and 0.5% oracle contamination changes
+  AUC only from 0.914 to 0.916 while failing the declared information contract.
 - A first LAMP-Pharm public artifact on GEO `GSE114686` asks whether a
   hiPSC-CM cardiotoxicity monitor detects pharmacological response biology or
   experimental structure; drug identity and dose sentinels outperform a modest
@@ -119,6 +125,10 @@ See `configs/ipsc_cm_maturation_contract.yaml`,
 `docs/ipsc_cm_maturation_contract.md`, and
 `results/ipsc_cm_maturation_lamp/bio_contract_diagnosis/ipsc_cm_bio_contract_diagnosis.md`
 for the biological interpretation contract.
+See `configs/ipsc_molecular_code_contract.yaml`,
+`docs/ipsc_molecular_code_contract.md`, and
+`results/ipsc_molecular_code/synthetic_kinase_folding/synthetic_ipsc_molecular_code_report.md`
+for the kinase/phosphosignaling plus protein-folding molecular-code control.
 See
 `results/lamp_pharm/gse114686_tki_cardiotoxicity/gse114686_lamp_pharm_report.md`
 and `results/lamp_pharm/lamp_pharm_summary.md` for the first LAMP-Pharm
@@ -229,6 +239,9 @@ python scripts/run_gse201437_sanity_robustness.py
 
 # Apply the iPSC-CM biological interpretation contract
 python scripts/run_ipsc_cm_bio_contract_diagnosis.py
+
+# Synthetic kinase/protein-folding molecular-code contract
+python scripts/run_synthetic_ipsc_molecular_code_audit.py
 
 # Public LAMP-Pharm cardiotoxicity shortcut audit
 python scripts/run_gse114686_lamp_pharm_audit.py
