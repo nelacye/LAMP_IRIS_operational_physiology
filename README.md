@@ -167,6 +167,17 @@ Current artifacts include:
   (bootstrap pass rate 0.603; leave-individual min AUC 0.542). Forbidden channels
   strengthen more under aggregation: day AUC 0.880, pseudotime AUC 0.942,
   annotation AUC 0.947.
+- LAMP-Bio mechanistic interpretation layer: connects allowed GSE175634
+  pseudo-bulk feature genes to independent mechanistic evidence rather than
+  stopping at feature importance. The current artifact combines three channels:
+  independent GSE201437 regulon/module-expression correlation, motif/target-set
+  enrichment proxy, and virtual cistrome support from public cardiac/iPSC-CM
+  ChIP or footprint datasets. It identifies three calcium/electrophysiology ->
+  TBX5 candidates with 3/3 support (`CACNA1C`, `ATP2A2`, `RYR2`) and keeps
+  metabolic/PGC1A links as 2/3 hypotheses pending direct cistrome validation.
+  The report also records `GSE133833` as the strongest next direct validation
+  target because it contains human iPSC-CM RNA-seq, ATAC-seq, and NKX2-5
+  ChIP-seq in one design.
 - Cross-dataset LAMP-Bio contrast: `GSE201437` shows a fragile sample-level
   disjoint calcium/electrophysiology signal (AUC 0.694, bootstrap PASS rate
   0.503, leave-group min AUC 0.524), `GSE175634` cell-level scRNA collapses
@@ -192,6 +203,7 @@ Key reports:
 - `results/lamp_bio_scrna/gse175634_metadata/gse175634_scrna_metadata_lamp_report.md`
 - `results/lamp_bio_scrna/gse175634_counts/gse175634_scrna_counts_lamp_report.md`
 - `results/lamp_bio_scrna/gse175634_pseudobulk_rescue/gse175634_pseudobulk_rescue_report.md`
+- `results/lamp_bio_mechanistic_interpretation/mechanistic_interpretation_report.md`
 - `results/lamp_bio_cross_dataset_contrast/gse201437_vs_gse175634_contrast_report.md`
 - `results/ipsc_cm_maturation_lamp/gse201437_protocol_shortcut/gse201437_protocol_shortcut_lamp_report.md`
 - `results/ipsc_cm_maturation_lamp/bio_contract_diagnosis/ipsc_cm_bio_contract_diagnosis.md`
@@ -253,6 +265,9 @@ python scripts/run_gse175634_scrna_counts_lamp_bio_audit.py --max-cells 60000
 
 # Pseudo-bulk rescue test for the GSE175634 count-level result
 python scripts/run_gse175634_pseudobulk_rescue_audit.py
+
+# Mechanistic interpretation layer: feature importance -> TF evidence bridges
+python scripts/run_lamp_bio_mechanistic_interpretation.py
 
 # Compare fragile sample-level biology, scRNA collapse, and pseudo-bulk rescue
 python scripts/compare_lamp_bio_cross_dataset_contrast.py

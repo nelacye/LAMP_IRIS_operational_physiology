@@ -1,0 +1,208 @@
+{
+  "feature_source": "GSE175634 pseudo-bulk scRNA count-derived marker genes",
+  "independent_tf_source": "GSE201437 bulk RNA-seq",
+  "tf_activity_definition": "mean z-scored expression of curated TF target/module genes; tested feature removed from module before correlation",
+  "evidence_channels": [
+    "independent_regulon_expression_proxy",
+    "motif_target_enrichment_proxy",
+    "virtual_cistrome_transfer",
+    "direct_chip_atac_validation_inventory"
+  ],
+  "n_gse175634_pseudobulk_groups": 28,
+  "n_gse201437_samples": 14,
+  "tf_modules": {
+    "MEF2_contractile_module": [
+      "MYH6",
+      "MYH7",
+      "TNNT2",
+      "TNNI3",
+      "ACTN2",
+      "MYL2",
+      "MYL7",
+      "TTN",
+      "ATP2A2",
+      "RYR2"
+    ],
+    "SRF_sarcomere_module": [
+      "ACTN2",
+      "TNNT2",
+      "TNNI3",
+      "MYH6",
+      "MYH7",
+      "MYL2",
+      "MYL7",
+      "TTN",
+      "MYBPC3",
+      "TNNC1"
+    ],
+    "NKX2_5_cardiac_identity_module": [
+      "NKX2-5",
+      "GATA4",
+      "TBX5",
+      "HAND2",
+      "ISL1",
+      "TNNT2",
+      "MYH6",
+      "MYH7",
+      "NPPA",
+      "NPPB"
+    ],
+    "GATA4_cardiac_program_module": [
+      "GATA4",
+      "NKX2-5",
+      "TBX5",
+      "HAND2",
+      "TNNT2",
+      "MYH6",
+      "MYH7",
+      "MYL2",
+      "NPPA",
+      "NPPB"
+    ],
+    "TBX5_electrophysiology_module": [
+      "TBX5",
+      "SCN5A",
+      "KCNQ1",
+      "KCNH2",
+      "GJA1",
+      "CACNA1C",
+      "RYR2",
+      "ATP2A2",
+      "PLN"
+    ],
+    "PGC1A_oxidative_metabolism_module": [
+      "PPARGC1A",
+      "CPT1B",
+      "ACADVL",
+      "HADHA",
+      "NDUFA4",
+      "COX5A",
+      "COX6A2",
+      "SLC25A4",
+      "CKMT2",
+      "PDK4"
+    ],
+    "HIF1A_glycolysis_stress_module": [
+      "HIF1A",
+      "SLC2A1",
+      "LDHA",
+      "HK2",
+      "PDK1",
+      "PDK4",
+      "VEGFA",
+      "BNIP3"
+    ],
+    "YAP_TEAD_proliferation_module": [
+      "TEAD1",
+      "TEAD2",
+      "YAP1",
+      "WWTR1",
+      "CTGF",
+      "CYR61",
+      "ANKRD1",
+      "MKI67",
+      "TOP2A",
+      "PCNA"
+    ]
+  },
+  "tf_display_names": {
+    "MEF2_contractile_module": "MEF2",
+    "SRF_sarcomere_module": "SRF",
+    "NKX2_5_cardiac_identity_module": "NKX2-5",
+    "GATA4_cardiac_program_module": "GATA4",
+    "TBX5_electrophysiology_module": "TBX5",
+    "PGC1A_oxidative_metabolism_module": "PPARGC1A/PGC-1A",
+    "HIF1A_glycolysis_stress_module": "HIF1A",
+    "YAP_TEAD_proliferation_module": "YAP/TEAD"
+  },
+  "allowed_feature_panels": {
+    "calcium_electrophysiology": [
+      "RYR2",
+      "ATP2A2",
+      "PLN",
+      "CASQ2",
+      "CACNA1C",
+      "SCN5A",
+      "KCNH2",
+      "KCNQ1",
+      "KCND3",
+      "GJA1"
+    ],
+    "metabolic": [
+      "PPARGC1A",
+      "CPT1B",
+      "ACADVL",
+      "HADHA",
+      "NDUFA4",
+      "COX5A",
+      "COX6A2",
+      "SLC25A4",
+      "CKMT2",
+      "PDK4"
+    ]
+  },
+  "virtual_cistrome_evidence": {
+    "NKX2_5_cardiac_identity_module": [
+      {
+        "dataset": "GSE133833",
+        "assay": "human iPSC-CM NKX2-5 ChIP-seq + RNA-seq + ATAC-seq",
+        "match": "direct_human_ipsc_cm",
+        "support_score": 1.0,
+        "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE133833"
+      },
+      {
+        "dataset": "GSE77548",
+        "assay": "mouse differentiating cardiomyocyte NKX2-5 ChIP-exo footprints",
+        "match": "cross_species_cardiac_footprint",
+        "support_score": 0.7,
+        "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE77548"
+      }
+    ],
+    "GATA4_cardiac_program_module": [
+      {
+        "dataset": "GSE77548",
+        "assay": "mouse differentiating cardiomyocyte GATA4 ChIP-exo footprints",
+        "match": "cross_species_cardiac_footprint",
+        "support_score": 0.7,
+        "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE77548"
+      }
+    ],
+    "TBX5_electrophysiology_module": [
+      {
+        "dataset": "GSE77548",
+        "assay": "mouse differentiating cardiomyocyte TBX5 ChIP-exo footprints",
+        "match": "cross_species_cardiac_footprint",
+        "support_score": 0.7,
+        "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE77548"
+      }
+    ]
+  },
+  "direct_validation_datasets": [
+    {
+      "accession": "GSE133833",
+      "organism": "Homo sapiens",
+      "cell_type": "iPSC-derived cardiomyocyte",
+      "modalities": "RNA-seq; ATAC-seq; NKX2-5 ChIP-seq; H3K27ac ChIP-seq",
+      "use": "validate whether RNA regulon/module proxy tracks direct NKX2-5 occupancy in matched iPSC-CM samples",
+      "access_note": "GEO metadata/public series; raw controlled-access note must be handled before a full validation run",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE133833"
+    },
+    {
+      "accession": "GSE77548",
+      "organism": "Mus musculus",
+      "cell_type": "differentiating cardiac precursor/cardiomyocyte",
+      "modalities": "GATA4; NKX2-5; TBX5 ChIP-exo density and footprint files",
+      "use": "cross-species virtual cistrome support and footprint-method validation target",
+      "access_note": "processed supplementary footprint/density files listed; large raw archive not needed for inventory",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE77548"
+    }
+  ],
+  "limitations": [
+    "TF activity is a module-expression proxy, not direct TF binding or phospho/activity measurement.",
+    "GSE201437 has only 14 bulk RNA-seq samples, so correlations are mechanistic hints, not definitive evidence.",
+    "Motif evidence is a lightweight target-set enrichment proxy over curated modules, not a genome/promoter sequence scan.",
+    "Virtual cistrome evidence records public assay availability and tissue/cell-type match; it does not claim promoter-level binding for a feature gene.",
+    "ATAC footprinting and direct ChIP/RNA validation require importing matched peak/count matrices such as GSE133833 or GSE77548.",
+    "This layer supports hypothesis prioritization; it does not turn a fragile LAMP result into a stable validation."
+  ]
+}
