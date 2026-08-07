@@ -42,5 +42,6 @@ results/*/cache/
 Thumbs.db
 *.tmp
 *.log
+.~lock.*#
 
 # Keep manuscript-ready exported assets only
